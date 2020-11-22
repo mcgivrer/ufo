@@ -13,12 +13,12 @@ class Game {
       this.canvas.height = this.stageConfig.height
       this.scenes = [new DemoScene(this)]
       this.scene = this.scenes[0]
+      this.debug=2
     }
 
     init(){
 
     }
-
   
     update(elapsed) {
       // clear screen
