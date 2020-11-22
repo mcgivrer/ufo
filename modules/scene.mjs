@@ -31,15 +31,14 @@ class Scene{
             o.draw(this.game.ctx)
         });
         if(this.game.debug>0){
-            this.game.ctx.font = '24px serif';
+            var c = this.game.ctx
+            c.font = '16pt sans-serif';
             var debugstr = "debug:"+this.game.debug
-            var dsize = this.game.ctx.measureText(debugstr)
-            
-            this.game.ctx.fillColor='orange'
-            this.game.ctx.fillRect(100-1,100-1,dsize.width+2,24+2)
-            
-            this.game.ctx.fillColor='white'
-            this.game.ctx.fillText(debugstr,100,100)
+            var dsize = c.measureText(debugstr)
+            c.fillStyle='#996600'
+            c.fillRect(4,this.game.stageConfig.height,this.game.stageConfig.width,-24)
+            c.fillStyle='black'
+            c.fillText(debugstr,10,this.game.stageConfig.height-4)
         }
     }
 }
