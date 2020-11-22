@@ -6,6 +6,8 @@ html body {
 
 canvas {
     padding:0px;
-    margin:0px;
+    margin:1%;
     border:1px solid #333;
+    width:98%;
+    height:98%;
 }
