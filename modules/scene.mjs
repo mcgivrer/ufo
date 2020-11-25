@@ -6,6 +6,9 @@ class Scene{
 
     add(o){
         this.objects.push(o)
+        this.objects.sort((o1,o2)=>{
+            return o1.layer>o2.layer?1:-1
+        })
     }
 
     init(){

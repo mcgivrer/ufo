@@ -9,6 +9,9 @@ class GameObject {
     this.isConstrainedToWindow = true
     this.maxWidth = this.size.width
     this.dw = this.velocity.x
+
+    this.layer=1
+    this.priority=1
   }
 
   draw(c) {
