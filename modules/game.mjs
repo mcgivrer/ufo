@@ -57,9 +57,10 @@ class Game {
     }
   
     update(elapsed) {
-      // draw objects
       if(this.scene){
+        // Update Objects from the scene.
         this.scene.update(elapsed)
+        // Draw all objects of the scene.
         this.scene.draw(this.render,elapsed)
       }
     }
