@@ -5,13 +5,18 @@ class GameObject {
     this.position = p
     this.size = s
     this.velocity = v
+    this.acceleration = {x:0,y:0}
     this.color='red'
     this.isConstrainedToWindow = true
-    this.maxWidth = this.size.width
-    this.dw = this.velocity.x
-
     this.layer=1
     this.priority=1
+
+    this.properties = {
+      elasticity: 1.0,
+      rugosity: 1.0,
+      mass:1.0
+    }
+    this.contact=false;
   }
 
   draw(c) {
@@ -26,15 +31,6 @@ class GameObject {
   }
 
   update(elapsed) {
-    this.position.x += this.velocity.x
-    this.position.y += this.velocity.y
-    this.size.width += this.dw
-    this.dw = this.size.width < 1 || this.size.width > this.maxWidth 
-        ? this.dw = - this.dw
-        : this.dw = this.dw
-    if(this.size.width<0){
-      this.size.width = 1
-    }
   }
 }
 
