@@ -1,5 +1,5 @@
 import {Scene} from './scene.mjs';
-import {GameObject} from './gameobject.mjs';
+import {Ball} from './ball.mjs';
 
 class DemoScene extends Scene{
     constructor(g){
@@ -33,11 +33,15 @@ class DemoScene extends Scene{
         // color
         var pc = 'rgb('+Math.random()*255+','+Math.random()*255+','+Math.random()*255+','+'255)'
 
-        var o = new GameObject(name,
+        var o = new Ball(name,
             {x:px,y:py},
             {x:dx,y:dy},
-            {width:ps, height:ps})
+            {width:ps, height:ps},
+            {x:0,y:0})
             o.color=pc
+            o.properties.elasticity = Math.max((Math.random()*0.8)+0.2,1.0)
+            o.properties.rugosity = Math.max((Math.random()*0.5)+0.5,1.0)
+            o.properties.mass = Math.max(Math.random()*5+1,3)
         this.add(o)
     }
 
