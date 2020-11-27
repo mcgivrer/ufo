@@ -9,6 +9,12 @@ class Game {
       window.addEventListener('keydown',this.keyPressed.bind(this),false);
       window.addEventListener('keyup',this.keyReleased.bind(this),false);
       window.addEventListener('resize',this.resizeCanvas.bind(this),false);
+      // experimental
+      window.addEventListener("gamepadconnected", function(e) {
+        console.log("Contrôleur n°%d connecté : %s. %d boutons, %d axes.",
+        e.gamepad.index, e.gamepad.id,
+        e.gamepad.buttons.length, e.gamepad.axes.length);
+      });
 
       this.scenes = [new DemoScene(this)]
       this.scene  = this.scenes[0]
