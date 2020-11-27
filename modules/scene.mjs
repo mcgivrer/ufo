@@ -29,31 +29,10 @@ class Scene{
     }
 
     update(elapsed){
-          this.objects.forEach(o=>{
-            o.update()
-            if(o.isConstrainedToWindow){
-                if( o.position.x > this.game.stageConfig.width-o.size.width){
-                    o.velocity.x =- o.velocity.x
-                    o.position.x = this.game.stageConfig.width-o.size.width
-                }
-                if( o.position.x < o.size.width){
-                    o.velocity.x = -o.velocity.x
-                    o.position.x = o.size.width
-                }
-                if( o.position.y > this.game.stageConfig.height-o.size.height){
-                    o.velocity.y = -o.velocity.y
-                    o.position.y = this.game.stageConfig.height-o.size.height
-                }                
-                if( o.position.y < o.size.height){
-                    o.velocity.y = -o.velocity.y
-                    o.position.y = o.size.height
-                }                
-            }
-        });
     }
 
-    draw(render,elapsed){
-        render.draw(elapsed)
+    draw(render,elapsed,startTime){
+        render.draw(elapsed,startTime)
     }
 }
 

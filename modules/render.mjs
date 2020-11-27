@@ -81,7 +81,11 @@ class Render {
     /**
     * Draw all objects
     */
-    draw(elapsed) {
+    draw(elapsed,startTime) {
+
+        var runForInSec = Math.round(startTime/1000)
+        var frameTime = Math.round(elapsed)
+        var FPS = Math.round(1000/frameTime,2)
         this.clear()
         if(this.layers.length>0){
             this.layers.forEach(layer => {
@@ -93,7 +97,14 @@ class Render {
         if(this.game.debug>0){
             var c = this.ctx
             c.font = '16pt sans-serif';
-            var debugstr = "<|dbg:"+this.game.debug + "|objs:"+this.objects.length+"|>"
+            var debugstr = "["
+                + "fps:"+FPS
+                + "|dbg:"+this.game.debug 
+                + "|objs:"+this.objects.length
+                + "|f:"+frameTime
+                + "|t:"+runForInSec
+                + "|pause:"+(this.game.pause?"on":"off")
+                + "]"
             var dsize = c.measureText(debugstr)
             c.fillStyle='#FFAA00'
             c.fillRect(0,this.canvas.height,this.canvas.width,-24)
