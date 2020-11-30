@@ -5,7 +5,7 @@
 This sample code explain how implement basic classes to create minimal framework for a 2D game.
 
 
-```plantuml
+```plantuml source="classmodel.uml" format="PNG"
 @startuml
 class Game{
     +title:String
@@ -17,7 +17,6 @@ class GameObject{
 }
 class Scene
 class DemoScene extends Scene
-class Ball extends GameObject
 class Render
 class PhysicEngine
 Game *-- Render:render
@@ -27,10 +26,19 @@ Game "1" -- "1" Scene:scene
 Scene "1" -- "n" GameObject:objects
 Render "1" -- "n" GameObject:objects
 GameObject "1" -- "n" GameObject:child
-DemoScene "1" -- "n" Ball:objects
 @enduml
 ```
 _fig. 1 - A Good Class diagram is better than any word ;)_
+
+To be added soon :
+
+```plantuml
+@startuml
+class Ball extends GameObject
+DemoScene "1" -- "n" Ball:objects
+@enduml
+```
+
 
 ## Build
 
