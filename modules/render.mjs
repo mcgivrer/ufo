@@ -48,15 +48,18 @@ class Render {
         if (this.objects.includes(object)) {
             var layerToDelete = [];
             // remove the object
-            this.layers.forEach(layer => {
-                if (layer.objects.includes(object)) {
-                    layer.objects.remove(object)
+            for(var l = 0;l<this.layers.length;l++){
+                var layer = this.layers[l] 
+                for(var i =0;i<layer.objects.length;i++){
+                    if(layer.objects[i]==object){
+                        layer.objects.splice(i,1)
+                    }
                 }
                 // the layer is empty ?
                 if (layer.objects.length == 0) {
-                    layerToDelete = layer
+                    this.layers.splice(layer,1)
                 }
-            })
+            }
             // remove empty layer
             if (layerToDelete.length > 0) {
                 layerToDelete.forEach(ltd => {
@@ -67,6 +70,12 @@ class Render {
                 layerToDelete = []
             }
         }
+    }
+
+    removeAll(){
+        this.objects = []
+        this.layers = []
+        this.layersMap.clear()
     }
 
     /**
@@ -83,9 +92,6 @@ class Render {
     */
     draw(elapsed,startTime) {
 
-        var runForInSec = Math.round(startTime/1000)
-        var frameTime = Math.round(elapsed)
-        var FPS = Math.round(1000/frameTime,2)
         this.clear()
         if(this.layers.length>0){
             this.layers.forEach(layer => {
@@ -95,7 +101,18 @@ class Render {
             })
         }
         if(this.game.debug>0){
-            var c = this.ctx
+            this.drawDebugLineInfo(elapsed,startTime)
+        }
+        if(this.game.pause){
+            this.drawPause()       
+        }
+    }
+
+    drawDebugLineInfo(elapsed,startTime){
+        var runForInSec = Math.round(startTime/1000)
+        var frameTime = Math.round(elapsed)
+        var FPS = Math.round(1000/frameTime,2)
+                    var c = this.ctx
             c.font = '16pt sans-serif';
             var debugstr = "["
                 + "fps:"+FPS
@@ -110,9 +127,19 @@ class Render {
             c.fillRect(0,this.canvas.height,this.canvas.width,-24)
             c.fillStyle='black'
             c.fillText(debugstr,4,this.canvas.height-6)
-        }
-    }
 
+    }
+    
+    drawPause(){
+          var c = this.ctx
+            c.font = '24pt sans-serif';
+            var pauseStr='PAUSE'
+            var psize = c.measureText(pauseStr)
+            c.fillStyle='white'
+            c.fillText(pauseStr,(this.canvas.width-psize.width)/2,3*this.canvas.height/5)
+            c.strokeStyle = 'white'
+            c.strokeRect(0,(3*this.canvas.height/5)+4,this.canvas.width,-32)
+    }
 
     resize(stageConfig){
       this.canvas.width = stageConfig.width

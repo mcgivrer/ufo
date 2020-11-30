@@ -16,7 +16,7 @@ class Ball extends GameObject{
         if(this.size.width<0){
           this.size.width = 1
         }
-      }
+    }
 }
 
 export {Ball}
