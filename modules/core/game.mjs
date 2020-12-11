@@ -1,5 +1,3 @@
-import {GameObject} from './gameobject.mjs';
-import {DemoScene} from './demoscene.mjs'
 import {Render} from './render.mjs'
 import { PhysicEngine } from './physicengine.mjs';
 
@@ -10,8 +8,8 @@ class Game {
       window.addEventListener('keyup',this.keyReleased.bind(this),false);
       window.addEventListener('resize',this.resizeCanvas.bind(this),false);
 
-      this.scenes = [new DemoScene(this)]
-      this.scene  = this.scenes[0]
+      this.scenes = []
+      this.scene  = null
       this.debug  = 0
       this.pause = false
       
@@ -25,11 +23,17 @@ class Game {
       this.render = new Render(this, this.canvas)
       this.physic = new PhysicEngine(this)
       this.lastTime  = 0
-      this.update()
     }
 
     init(){
       this.scene.init(this)
+    }
+
+    add(scene){
+      this.scenes.push(scene)
+      if(this.scenes.length==1){
+        this.scene=this.scenes[0]
+      }
     }
     
     resizeCanvas() {

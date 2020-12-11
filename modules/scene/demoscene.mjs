@@ -1,5 +1,5 @@
-import {Scene} from './scene.mjs';
-import {Ball} from './ball.mjs';
+import {Scene} from './core/scene.mjs';
+import {Ball} from './scene/ball.mjs';
 
 class DemoScene extends Scene{
     constructor(g){
@@ -51,7 +51,8 @@ class DemoScene extends Scene{
         switch(e.keyCode){
             case 40:
                 for(let i=0;i<2;i++){
-                    this.objects.pop()
+                    var o = this.objects.pop()
+                    this.game.render.remove(o)    
                 }                
                 break;
             case 38:
@@ -61,7 +62,8 @@ class DemoScene extends Scene{
 
             case 37:
                 for(let i=0;i<10;i++){
-                    this.objects.pop()
+                    var o = this.objects.pop()
+                    this.game.render.remove(o)    
                 }                
                 break;
             case 39:

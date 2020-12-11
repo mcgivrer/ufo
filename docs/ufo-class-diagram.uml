@@ -1,0 +1,23 @@
+@startuml
+class Game{
+    +title:String
+}
+class GameObject{
+    +position
+    +velocity
+    +acceleration
+}
+class Scene
+class DemoScene extends Scene
+class Ball extends GameObject
+class Render
+class PhysicEngine
+Game *-- Render:render
+Game *-- PhysicEngine:physic
+Game "1" -- "*" Scene:scenes
+Game "1" -- "1" Scene:scene
+Scene "1" -- "n" GameObject:objects
+Render "1" -- "n" GameObject:objects
+GameObject "1" -- "n" GameObject:child
+DemoScene "1" -- "n" Ball:objects
+@enduml
