@@ -11,9 +11,7 @@ class Render {
         this.game    = game
         this.canvas  = canvas
         this.ctx     = canvas.getContext("2d")
-        this.objects = []
-        this.layers  = []
-        this.layersMap = new Map()
+        this.clearAllObjects()
     }
 
     /**
@@ -74,9 +72,15 @@ class Render {
      * @param ctx CanvasRenderingContext to be used 
      */
     clear(){
-        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
+        this.ctx.fillStyle = 'white' 
+        this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height)
     }
 
+    clearAllObjects(){
+        this.objects=[]
+        this.layers=[]
+        this.layersMap = new Map()
+    }
 
     /**
     * Draw all objects
@@ -90,7 +94,10 @@ class Render {
         if(this.layers.length>0){
             this.layers.forEach(layer => {
                 layer.objects.forEach(o => {
-                    o.draw(this.ctx)
+                    if(o.active && o.duration>0){
+                        this.drawDebug(o)
+                        o.draw(this.ctx)
+                    }
                 })
             })
         }
@@ -101,6 +108,7 @@ class Render {
                 + "fps:"+FPS
                 + "|dbg:"+this.game.debug 
                 + "|objs:"+this.objects.length
+                + "|activ:"+this.game.scene.activeNumber
                 + "|f:"+frameTime
                 + "|t:"+runForInSec
                 + "|pause:"+(this.game.pause?"on":"off")
@@ -113,6 +121,52 @@ class Render {
         }
     }
 
+    drawDebug(o){
+        if(this.game.debug>1){
+            var c = this.ctx
+            c.font = '8pt sans-serif';
+            // Prepare debug information for this object
+            let dbg=[]
+            dbg.push({attr:"id",value:o.name})
+            dbg.push({attr:"pos",value:Math.round(o.position.x)
+                + ","   + Math.round(o.position.y)})
+            dbg.push({attr:"size",value:Math.round(o.size.width)
+                + ","   + Math.round(o.size.height)})
+            dbg.push({attr:"vel",value:Math.round(o.velocity.x)
+                + ","   + Math.round(o.velocity.y)})
+            dbg.push({attr:"acc",value:Math.round(o.acceleration.x)
+                + ","   + Math.round(o.acceleration.y)})
+
+            // Prepare shadow
+            c.shadowColor   = 'rgba(0.2,0.2,0.2,0.6)';
+            c.shadowBlur    = 2;
+            c.shadowOffsetX = 4;
+            c.shadowOffsetY = 4;
+            c.strokeStyle = "darkgray"
+
+            // Draw a small line 
+            c.setLineDash([4,4]);
+            c.beginPath();
+            c.moveTo(o.position.x,o.position.y);
+            c.lineTo(o.position.x+40, o.position.y);
+            c.stroke();
+
+            c.setLineDash([]);
+            c.fillStyle='rgba(0.1,0.1,0.1,0.7)'
+            c.fillRect(o.position.x+36,
+                o.position.y,100,12*(dbg.length+1))
+
+            c.fillStyle='white'
+            // Display debug information
+            let dx=0
+            dbg.forEach(ld=>{
+            c.fillText(ld.attr+":"+ld.value,
+                o.position.x+40,
+                o.position.y+((dx+1)*12));
+                dx+=1
+            })
+        }
+    }
 
     resize(stageConfig){
       this.canvas.width = stageConfig.width

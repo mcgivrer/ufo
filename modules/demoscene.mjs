@@ -39,9 +39,10 @@ class DemoScene extends Scene{
             {width:ps, height:ps},
             {x:0,y:0})
             o.color=pc
-            o.properties.elasticity = Math.max((Math.random()*0.8)+0.2,1.0)
-            o.properties.rugosity = Math.max((Math.random()*0.5)+0.5,1.0)
-            o.properties.mass = Math.max(Math.random()*5+1,3)
+            o.properties.elasticity = (Math.random()*0.9)+0.1
+            o.properties.friction = (Math.random()*0.95)+0.05
+            o.properties.mass = (Math.random()*0.8)+0.5
+            o.duration = Math.random()*4000+500
         this.add(o)
     }
 
@@ -68,6 +69,7 @@ class DemoScene extends Scene{
                 break;                
             case 8:
                 this.objects = []
+                this.game.render.clearAllObjects()
                 break;
         }
     }

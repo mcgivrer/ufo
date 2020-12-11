@@ -2,6 +2,7 @@ class Scene{
     constructor(g){
         this.game = g;
         this.objects = []
+        this.activeNumber = 0;
     }
 
     add(o){
@@ -29,6 +30,12 @@ class Scene{
     }
 
     update(elapsed){
+        this.activeNumber = 0;
+        this.objects.forEach(o=>{
+            if(o.active){
+                this.activeNumber++;
+            }
+        })
     }
 
     draw(render,elapsed,startTime){
