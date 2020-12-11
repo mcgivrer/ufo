@@ -129,7 +129,7 @@ class Render {
         var frameTime = Math.round(elapsed)
         var FPS = Math.round(1000/frameTime,2)
                     var c = this.ctx
-            c.font = '16pt sans-serif';
+            c.font = '12pt courier new';
             var debugstr = "["
                 + "fps:"+FPS
                 + "|dbg:"+this.game.debug 
@@ -137,13 +137,13 @@ class Render {
                 + "|activ:"+this.game.scene.activeNumber
                 + "|f:"+frameTime
                 + "|t:"+runForInSec
-                + "|pause:"+(this.game.pause?"on":"off")
+                + "|pause:"+(this.game.pause?"on ":"off")
                 + "]"
 
             var dsize = c.measureText(debugstr)
             c.fillStyle='#FFAA00'
             c.fillRect(0,this.canvas.height,this.canvas.width,-24)
-            c.fillStyle='black'
+            c.fillStyle='white'
             c.fillText(debugstr,4,this.canvas.height-6)
     }
  

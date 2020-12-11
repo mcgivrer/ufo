@@ -1,6 +1,8 @@
 import {Scene} from '../core/scene.mjs';
 import {Ball} from './ball.mjs';
 
+const zeroPad = (num, places) => String(num).padStart(places, '0')
+
 class DemoScene extends Scene{
     constructor(g){
         super(g);
@@ -8,6 +10,10 @@ class DemoScene extends Scene{
         this.index=0
 
         this.score=0
+        this.maxLives = 5
+        this.lives = 5
+        this.coins=0
+        this.mushrooms=2
 
     }
 
@@ -81,22 +87,41 @@ class DemoScene extends Scene{
 
     drawHUD(render){
         var c= render.ctx
-        c.font = '32pt courier new';
-        var scoreStr='000000'
+        c.font = '32pt sans-serif';
+        var scoreStr=zeroPad(this.score,6)
         var psize = c.measureText(scoreStr)
         var x = render.canvas.width/30
         var y = render.canvas.height/20
 
-        c.fillStyle='darkgray'
-        c.shadowColor   = 'rgba(0.2,0.2,0.2,0.6)';
+        c.fillStyle     = 'white'
+        c.shadowColor   = 'rgba(0.7,0.7,0.7,0.9)';
         c.shadowBlur    = 4;
-        c.shadowOffsetX = 1;
-        c.shadowOffsetY = 1;
+        c.shadowOffsetX = 0;
+        c.shadowOffsetY = 0;
         c.fillText(scoreStr,x,y)
-                c.shadowColor   = 'none';
-        c.shadowBlur    = 0;
+
+        c.fillStyle = 'rgba(0.7,0.7,0.7,0.2)'
+        c.fillRect(render.canvas.width-160,8,156,76)
+
+        c.fillStyle     = 'white'
+
+        c.font = '16pt sans-serif';
+        var livesStr  = "❤️".repeat(this.lives)
+                      + "🖤".repeat(this.maxLives-this.lives)
+        var dsise = c.measureText(livesStr)
+        c.fillText(livesStr,render.canvas.width-dsise.width-10,y)
+
+        var moneyStr  = "💰" + zeroPad(this.coins,5)
+        dsise = c.measureText(moneyStr)
+        c.fillText(moneyStr,render.canvas.width-dsise.width-10,y+28)
+
+        var mushroomsStr = "🍄" + zeroPad(this.mushrooms,2) 
+        c.fillText(mushroomsStr,render.canvas.width-150,y+28)
+        
+        c.shadowColor = 'none'; 
     }
 
 }
+
 
 export {DemoScene}

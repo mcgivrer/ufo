@@ -10,7 +10,7 @@ class Game {
 
       this.scenes = []
       this.scene  = null
-      this.debug  = 0
+      this.debug  = 2
       this.pause = false
       
       this.stageConfig = {

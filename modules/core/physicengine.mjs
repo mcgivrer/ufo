@@ -13,7 +13,7 @@ class PhysicEngine {
     constructor(game) {
         this.game = game
         this.properties = {
-            gravity: { x: 0, y: -0.981/3 },
+            gravity: { x: 0, y: 0 },
             forces:[]
         }
     }

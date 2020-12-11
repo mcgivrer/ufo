@@ -57,10 +57,15 @@ class Scene{
         var psize = c.measureText(pauseStr)
         var y = 2*render.canvas.height/5
 
-        c.fillStyle='darkgray'
+        c.fillStyle = 'black'
+        c.fillRect(-10,y+4,render.canvas.width+20,-32)
+        c.fillStyle='white'
+        c.shadowColor   = 'rgba(0.2,0.2,0.2,0.6)';
+        c.shadowBlur    = 4;
+        c.shadowOffsetX = 2;
+        c.shadowOffsetY = 2;
         c.fillText(pauseStr,(render.canvas.width-psize.width)/2,y)
-        c.strokeStyle = 'black'
-        c.strokeRect(-10,y+4,render.canvas.width+20,-32)
+        c.shadowBlur    = 0;
     }
 
     drawHUD(render){
