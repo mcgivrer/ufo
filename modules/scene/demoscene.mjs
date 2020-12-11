@@ -45,11 +45,7 @@ class DemoScene extends Scene{
             o.properties.elasticity = (Math.random()*0.9)+0.1
             o.properties.friction = (Math.random()*0.95)+0.05
             o.properties.mass = (Math.random()*0.8)+0.5
-<<<<<<< HEAD:modules/scene/demoscene.mjs
             o.duration = Math.random()*10000+2000
-=======
-            o.duration = Math.random()*4000+500
->>>>>>> c5f00bf... fix delete object and enhance debug display:modules/demoscene.mjs
         this.add(o)
     }
 

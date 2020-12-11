@@ -79,7 +79,7 @@ class Render {
      * @param ctx CanvasRenderingContext to be used 
      */
     clear(){
-        this.ctx.fillStyle = 'white' 
+        this.ctx.fillStyle = 'navy' 
         this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height)
     }
 
@@ -101,10 +101,6 @@ class Render {
             this.layers.forEach(layer => {
                 layer.objects.forEach(o => {
                     if(o.active && o.duration>0){
-<<<<<<< HEAD:modules/core/render.mjs
-=======
-                        this.drawDebug(o)
->>>>>>> c5f00bf... fix delete object and enhance debug display:modules/render.mjs
                         o.draw(this.ctx)
                     }
                 })
@@ -175,14 +171,8 @@ class Render {
         c.shadowOffsetY = 0;
     }
 
-<<<<<<< HEAD:modules/core/render.mjs
     drawDebugObject(c,o){
         if(this.game.debug>1){
-=======
-    drawDebug(o){
-        if(this.game.debug>1){
-            var c = this.ctx
->>>>>>> c5f00bf... fix delete object and enhance debug display:modules/render.mjs
             c.font = '8pt sans-serif';
             // Prepare debug information for this object
             let dbg=[]
@@ -196,21 +186,9 @@ class Render {
             dbg.push({attr:"acc",value:Math.round(o.acceleration.x)
                 + ","   + Math.round(o.acceleration.y)})
 
-<<<<<<< HEAD:modules/core/render.mjs
             // Draw a small line 
             c.setLineDash([4,4]);
             c.strokeStyle = "darkgray"
-=======
-            // Prepare shadow
-            c.shadowColor   = 'rgba(0.2,0.2,0.2,0.6)';
-            c.shadowBlur    = 2;
-            c.shadowOffsetX = 4;
-            c.shadowOffsetY = 4;
-            c.strokeStyle = "darkgray"
-
-            // Draw a small line 
-            c.setLineDash([4,4]);
->>>>>>> c5f00bf... fix delete object and enhance debug display:modules/render.mjs
             c.beginPath();
             c.moveTo(o.position.x,o.position.y);
             c.lineTo(o.position.x+40, o.position.y);
@@ -221,15 +199,12 @@ class Render {
             c.fillRect(o.position.x+36,
                 o.position.y,100,12*(dbg.length+1))
 
-<<<<<<< HEAD:modules/core/render.mjs
             c.strokeRect(
                 o.position.x-o.size.width,
                 o.position.y-o.size.height,
                 o.size.width*2,
                 o.size.height*2)
 
-=======
->>>>>>> c5f00bf... fix delete object and enhance debug display:modules/render.mjs
             c.fillStyle='white'
             // Display debug information
             let dx=0
@@ -239,10 +214,6 @@ class Render {
                 o.position.y+((dx+1)*12));
                 dx+=1
             })
-<<<<<<< HEAD:modules/core/render.mjs
-
-=======
->>>>>>> c5f00bf... fix delete object and enhance debug display:modules/render.mjs
         }
     }
 
