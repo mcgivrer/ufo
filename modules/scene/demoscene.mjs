@@ -1,5 +1,5 @@
-import {Scene} from './core/scene.mjs';
-import {Ball} from './scene/ball.mjs';
+import {Scene} from '../core/scene.mjs';
+import {Ball} from './ball.mjs';
 
 class DemoScene extends Scene{
     constructor(g){
@@ -7,10 +7,13 @@ class DemoScene extends Scene{
         this.numberObjects=20
         this.index=0
 
+        this.score=0
+
     }
 
     init(game){
         this.objects=[]
+        this.game.render.clearAllObjects()
         this.generateBatch(game,'enemy_',20)
     }
 
@@ -42,7 +45,11 @@ class DemoScene extends Scene{
             o.properties.elasticity = (Math.random()*0.9)+0.1
             o.properties.friction = (Math.random()*0.95)+0.05
             o.properties.mass = (Math.random()*0.8)+0.5
+<<<<<<< HEAD:modules/scene/demoscene.mjs
+            o.duration = Math.random()*10000+2000
+=======
             o.duration = Math.random()*4000+500
+>>>>>>> c5f00bf... fix delete object and enhance debug display:modules/demoscene.mjs
         this.add(o)
     }
 
@@ -75,6 +82,25 @@ class DemoScene extends Scene{
                 break;
         }
     }
+
+    drawHUD(render){
+        var c= render.ctx
+        c.font = '32pt courier new';
+        var scoreStr='000000'
+        var psize = c.measureText(scoreStr)
+        var x = render.canvas.width/30
+        var y = render.canvas.height/20
+
+        c.fillStyle='darkgray'
+        c.shadowColor   = 'rgba(0.2,0.2,0.2,0.6)';
+        c.shadowBlur    = 4;
+        c.shadowOffsetX = 1;
+        c.shadowOffsetY = 1;
+        c.fillText(scoreStr,x,y)
+                c.shadowColor   = 'none';
+        c.shadowBlur    = 0;
+    }
+
 }
 
 export {DemoScene}

@@ -17,6 +17,13 @@ class Scene{
 
     }
 
+    clearAllObjects(){
+        tis.game.render.clearAllObjects()
+        this.objects=[]
+        this.activeNumber=0
+    }
+
+
     keyPressed(e){
   
     }
@@ -40,6 +47,24 @@ class Scene{
 
     draw(render,elapsed,startTime){
         render.draw(elapsed,startTime)
+    }
+
+    drawPause(render){
+        var c = render.ctx
+
+        c.font = '24pt sans-serif';
+        var pauseStr='PAUSE'
+        var psize = c.measureText(pauseStr)
+        var y = 2*render.canvas.height/5
+
+        c.fillStyle='darkgray'
+        c.fillText(pauseStr,(render.canvas.width-psize.width)/2,y)
+        c.strokeStyle = 'black'
+        c.strokeRect(-10,y+4,render.canvas.width+20,-32)
+    }
+
+    drawHUD(render){
+        
     }
 }
 

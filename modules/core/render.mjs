@@ -95,22 +95,37 @@ class Render {
     draw(elapsed,startTime) {
 
         this.clear()
+
+        // Display all objects
         if(this.layers.length>0){
             this.layers.forEach(layer => {
                 layer.objects.forEach(o => {
                     if(o.active && o.duration>0){
+<<<<<<< HEAD:modules/core/render.mjs
+=======
                         this.drawDebug(o)
+>>>>>>> c5f00bf... fix delete object and enhance debug display:modules/render.mjs
                         o.draw(this.ctx)
                     }
                 })
             })
         }
-        if(this.game.debug>0){
-            this.drawDebugLineInfo(elapsed,startTime)
-        }
+
+
+        // Display pause mode if needed.
         if(this.game.pause){
-            this.drawPause()       
+            this.game.scene.drawPause(this)       
         }
+
+        // Draw Head-Up-Display (if exists)
+        this.game.scene.drawHUD(this)
+
+        // Display depbug information if needed.
+        if(this.game.debug>0){
+            this.drawDebugInfo()
+            this.drawDebugLineInfo(elapsed,startTime)    
+        }
+
     }
 
     drawDebugLineInfo(elapsed,startTime){
@@ -128,15 +143,46 @@ class Render {
                 + "|t:"+runForInSec
                 + "|pause:"+(this.game.pause?"on":"off")
                 + "]"
+
             var dsize = c.measureText(debugstr)
             c.fillStyle='#FFAA00'
             c.fillRect(0,this.canvas.height,this.canvas.width,-24)
             c.fillStyle='black'
             c.fillText(debugstr,4,this.canvas.height-6)
     }
+ 
+    drawDebugInfo(){
+
+        var c = this.ctx
+        // Prepare shadow
+        c.shadowColor   = 'rgba(0.2,0.2,0.2,0.6)';
+        c.shadowBlur    = 2;
+        c.shadowOffsetX = 4;
+        c.shadowOffsetY = 4;
+
+        if( this.layers.length > 0){
+            this.layers.forEach(layer => {
+                layer.objects.forEach(o => {
+                    if(o.active && o.duration>0){
+                        this.drawDebugObject(c,o)
+                    }
+                })
+            })
+        }
+        c.shadowColor   = 'none';
+        c.shadowBlur    = 0;
+        c.shadowOffsetX = 0;
+        c.shadowOffsetY = 0;
+    }
+
+<<<<<<< HEAD:modules/core/render.mjs
+    drawDebugObject(c,o){
+        if(this.game.debug>1){
+=======
     drawDebug(o){
         if(this.game.debug>1){
             var c = this.ctx
+>>>>>>> c5f00bf... fix delete object and enhance debug display:modules/render.mjs
             c.font = '8pt sans-serif';
             // Prepare debug information for this object
             let dbg=[]
@@ -150,6 +196,11 @@ class Render {
             dbg.push({attr:"acc",value:Math.round(o.acceleration.x)
                 + ","   + Math.round(o.acceleration.y)})
 
+<<<<<<< HEAD:modules/core/render.mjs
+            // Draw a small line 
+            c.setLineDash([4,4]);
+            c.strokeStyle = "darkgray"
+=======
             // Prepare shadow
             c.shadowColor   = 'rgba(0.2,0.2,0.2,0.6)';
             c.shadowBlur    = 2;
@@ -159,6 +210,7 @@ class Render {
 
             // Draw a small line 
             c.setLineDash([4,4]);
+>>>>>>> c5f00bf... fix delete object and enhance debug display:modules/render.mjs
             c.beginPath();
             c.moveTo(o.position.x,o.position.y);
             c.lineTo(o.position.x+40, o.position.y);
@@ -169,6 +221,15 @@ class Render {
             c.fillRect(o.position.x+36,
                 o.position.y,100,12*(dbg.length+1))
 
+<<<<<<< HEAD:modules/core/render.mjs
+            c.strokeRect(
+                o.position.x-o.size.width,
+                o.position.y-o.size.height,
+                o.size.width*2,
+                o.size.height*2)
+
+=======
+>>>>>>> c5f00bf... fix delete object and enhance debug display:modules/render.mjs
             c.fillStyle='white'
             // Display debug information
             let dx=0
@@ -178,6 +239,10 @@ class Render {
                 o.position.y+((dx+1)*12));
                 dx+=1
             })
+<<<<<<< HEAD:modules/core/render.mjs
+
+=======
+>>>>>>> c5f00bf... fix delete object and enhance debug display:modules/render.mjs
         }
     }
 
