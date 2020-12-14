@@ -15,6 +15,15 @@ description: |
 
 Novembre, 29th 2020, by Frédéric Delorme.
 
+## Preface
+
+this small doc intends to explain what is build there ans what todo with.
+
+Tools and references used to achieve this project
+
+- https://www.planttext.com/
+- https://wiki.developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D
+
 ## Introduction
 
 This is a little overview of what can be a 2D game based on the javascript language. You will find all the code at [https://github.com/mcgivrer/ufo](https://github.com/mcgivrer/ufo).
