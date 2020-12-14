@@ -4,7 +4,6 @@
 
 This sample code explain how implement basic classes to create minimal framework for a 2D game.
 
-
 ```plantuml source="classmodel.uml" format="PNG"
 @startuml
 class Game{
