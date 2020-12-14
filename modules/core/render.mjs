@@ -1,5 +1,3 @@
-import { Game } from './game.mjs'
-import { GameObject } from './gameobject.mjs'
 import {Layer} from './layer.mjs'
 
 /**
@@ -11,9 +9,7 @@ class Render {
         this.game    = game
         this.canvas  = canvas
         this.ctx     = canvas.getContext("2d")
-        this.objects = []
-        this.layers  = []
-        this.layersMap = new Map()
+        this.clearAllObjects()
     }
 
     /**
@@ -83,9 +79,15 @@ class Render {
      * @param ctx CanvasRenderingContext to be used 
      */
     clear(){
-        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
+        this.ctx.fillStyle = 'navy' 
+        this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height)
     }
 
+    clearAllObjects(){
+        this.objects=[]
+        this.layers=[]
+        this.layersMap = new Map()
+    }
 
     /**
     * Draw all objects
@@ -93,19 +95,33 @@ class Render {
     draw(elapsed,startTime) {
 
         this.clear()
+
+        // Display all objects
         if(this.layers.length>0){
             this.layers.forEach(layer => {
                 layer.objects.forEach(o => {
-                    o.draw(this.ctx)
+                    if(o.active && o.duration>0){
+                        o.draw(this.ctx)
+                    }
                 })
             })
         }
-        if(this.game.debug>0){
-            this.drawDebugLineInfo(elapsed,startTime)
-        }
+
+
+        // Display pause mode if needed.
         if(this.game.pause){
-            this.drawPause()       
+            this.game.scene.drawPause(this)       
         }
+
+        // Draw Head-Up-Display (if exists)
+        this.game.scene.drawHUD(this)
+
+        // Display depbug information if needed.
+        if(this.game.debug>0){
+            this.drawDebugInfo()
+            this.drawDebugLineInfo(elapsed,startTime)    
+        }
+
     }
 
     drawDebugLineInfo(elapsed,startTime){
@@ -113,32 +129,92 @@ class Render {
         var frameTime = Math.round(elapsed)
         var FPS = Math.round(1000/frameTime,2)
                     var c = this.ctx
-            c.font = '16pt sans-serif';
+            c.font = '12pt courier new';
             var debugstr = "["
                 + "fps:"+FPS
                 + "|dbg:"+this.game.debug 
                 + "|objs:"+this.objects.length
+                + "|activ:"+this.game.scene.activeNumber
                 + "|f:"+frameTime
                 + "|t:"+runForInSec
-                + "|pause:"+(this.game.pause?"on":"off")
+                + "|pause:"+(this.game.pause?"on ":"off")
                 + "]"
+
             var dsize = c.measureText(debugstr)
             c.fillStyle='#FFAA00'
             c.fillRect(0,this.canvas.height,this.canvas.width,-24)
-            c.fillStyle='black'
-            c.fillText(debugstr,4,this.canvas.height-6)
-
-    }
-    
-    drawPause(){
-          var c = this.ctx
-            c.font = '24pt sans-serif';
-            var pauseStr='PAUSE'
-            var psize = c.measureText(pauseStr)
             c.fillStyle='white'
-            c.fillText(pauseStr,(this.canvas.width-psize.width)/2,3*this.canvas.height/5)
-            c.strokeStyle = 'white'
-            c.strokeRect(0,(3*this.canvas.height/5)+4,this.canvas.width,-32)
+            c.fillText(debugstr,4,this.canvas.height-6)
+    }
+ 
+    drawDebugInfo(){
+
+        var c = this.ctx
+        // Prepare shadow
+        c.shadowColor   = 'rgba(0.2,0.2,0.2,0.6)';
+        c.shadowBlur    = 2;
+        c.shadowOffsetX = 4;
+        c.shadowOffsetY = 4;
+
+        if( this.layers.length > 0){
+            this.layers.forEach(layer => {
+                layer.objects.forEach(o => {
+                    if(o.active && o.duration>0){
+                        this.drawDebugObject(c,o)
+                    }
+                })
+            })
+        }
+        c.shadowColor   = 'none';
+        c.shadowBlur    = 0;
+        c.shadowOffsetX = 0;
+        c.shadowOffsetY = 0;
+    }
+
+    drawDebugObject(c,o){
+        if(this.game.debug>1){
+            c.font = '8pt sans-serif';
+            // Prepare debug information for this object
+            let dbg=[]
+            dbg.push({attr:"id",value:o.name})
+            dbg.push({attr:"pos",value:Math.round(o.position.x)
+                + ","   + Math.round(o.position.y)})
+            dbg.push({attr:"size",value:Math.round(o.size.width)
+                + ","   + Math.round(o.size.height)})
+            dbg.push({attr:"vel",value:Math.round(o.velocity.x)
+                + ","   + Math.round(o.velocity.y)})
+            dbg.push({attr:"acc",value:Math.round(o.acceleration.x)
+                + ","   + Math.round(o.acceleration.y)})
+
+            // Draw a small line 
+            c.setLineDash([4,4]);
+            c.strokeStyle = "darkgray"
+            c.beginPath();
+            c.moveTo(o.position.x,o.position.y);
+            c.lineTo(o.position.x+40, o.position.y);
+            c.stroke();
+
+            c.setLineDash([]);
+            c.fillStyle='rgba(0.1,0.1,0.1,0.7)'
+            c.fillRect(o.position.x+36,
+                o.position.y,100,12*(dbg.length+1))
+
+            c.strokeRect(
+                o.position.x-o.size.width,
+                o.position.y-o.size.height,
+                o.size.width*2,
+                o.size.height*2)
+
+            c.fillStyle='white'
+            // Display debug information
+            let dx=0
+            dbg.forEach(ld=>{
+            c.fillText(ld.attr+":"+ld.value,
+                o.position.x+40,
+                o.position.y+((dx+1)*12));
+                dx+=1
+            })
+        }
     }
 
     resize(stageConfig){

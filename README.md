@@ -18,6 +18,8 @@ class Scene
 class DemoScene extends Scene
 class Render
 class PhysicEngine
+class Ball extends GameObject
+
 Game *-- Render:render
 Game *-- PhysicEngine:physic
 Game "1" -- "*" Scene:scenes
@@ -28,16 +30,6 @@ GameObject "1" -- "n" GameObject:child
 @enduml
 ```
 _fig. 1 - A Good Class diagram is better than any word ;)_
-
-To be added soon :
-
-```plantuml
-@startuml
-class Ball extends GameObject
-DemoScene "1" -- "n" Ball:objects
-@enduml
-```
-
 
 ## Build
 

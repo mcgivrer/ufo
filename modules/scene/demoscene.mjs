@@ -1,5 +1,7 @@
-import {Scene} from './scene.mjs';
+import {Scene} from '../core/scene.mjs';
 import {Ball} from './ball.mjs';
+
+const zeroPad = (num, places) => String(num).padStart(places, '0')
 
 class DemoScene extends Scene{
     constructor(g){
@@ -7,10 +9,17 @@ class DemoScene extends Scene{
         this.numberObjects=20
         this.index=0
 
+        this.score=0
+        this.maxLives = 5
+        this.lives = 5
+        this.coins=0
+        this.mushrooms=2
+
     }
 
     init(game){
         this.objects=[]
+        this.game.render.clearAllObjects()
         this.generateBatch(game,'enemy_',20)
     }
 
@@ -39,9 +48,10 @@ class DemoScene extends Scene{
             {width:ps, height:ps},
             {x:0,y:0})
             o.color=pc
-            o.properties.elasticity = Math.max((Math.random()*0.8)+0.2,1.0)
-            o.properties.rugosity = Math.max((Math.random()*0.5)+0.5,1.0)
-            o.properties.mass = Math.max(Math.random()*5+1,3)
+            o.properties.elasticity = (Math.random()*0.9)+0.1
+            o.properties.friction = (Math.random()*0.95)+0.05
+            o.properties.mass = (Math.random()*0.8)+0.5
+            o.duration = Math.random()*10000+2000
         this.add(o)
     }
 
@@ -70,10 +80,48 @@ class DemoScene extends Scene{
                 break;                
             case 8:
                 this.objects = []
-                this.game.render.removeAll()
+                this.game.render.clearAllObjects()
                 break;
         }
     }
+
+    drawHUD(render){
+        var c= render.ctx
+        c.font = '32pt sans-serif';
+        var scoreStr=zeroPad(this.score,6)
+        var psize = c.measureText(scoreStr)
+        var x = render.canvas.width/30
+        var y = render.canvas.height/20
+
+        c.fillStyle     = 'white'
+        c.shadowColor   = 'rgba(0.7,0.7,0.7,0.9)';
+        c.shadowBlur    = 4;
+        c.shadowOffsetX = 0;
+        c.shadowOffsetY = 0;
+        c.fillText(scoreStr,x,y)
+
+        c.fillStyle = 'rgba(0.7,0.7,0.7,0.2)'
+        c.fillRect(render.canvas.width-160,8,156,76)
+
+        c.fillStyle     = 'white'
+
+        c.font = '16pt sans-serif';
+        var livesStr  = "❤️".repeat(this.lives)
+                      + "🖤".repeat(this.maxLives-this.lives)
+        var dsise = c.measureText(livesStr)
+        c.fillText(livesStr,render.canvas.width-dsise.width-10,y)
+
+        var moneyStr  = "💰" + zeroPad(this.coins,5)
+        dsise = c.measureText(moneyStr)
+        c.fillText(moneyStr,render.canvas.width-dsise.width-10,y+28)
+
+        var mushroomsStr = "🍄" + zeroPad(this.mushrooms,2) 
+        c.fillText(mushroomsStr,render.canvas.width-150,y+28)
+        
+        c.shadowColor = 'none'; 
+    }
+
 }
+
 
 export {DemoScene}

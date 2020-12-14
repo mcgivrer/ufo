@@ -1,4 +1,4 @@
-import {GameObject} from './gameobject.mjs'
+import {GameObject} from '../core/gameobject.mjs'
 
 class Ball extends GameObject{
     constructor(name,p,v,s){

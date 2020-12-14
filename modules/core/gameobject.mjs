@@ -10,10 +10,12 @@ class GameObject {
     this.isConstrainedToWindow = true
     this.layer=1
     this.priority=1
+    this.active=true
+    this.duration=0
 
     this.properties = {
       elasticity: 1.0,
-      rugosity: 1.0,
+      friction: 1.0,
       mass:1.0
     }
     this.contact=false;

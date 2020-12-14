@@ -13,7 +13,7 @@ class PhysicEngine {
     constructor(game) {
         this.game = game
         this.properties = {
-            gravity: { x: 0, y: -0.981 },
+            gravity: { x: 0, y: 0 },
             forces:[]
         }
     }
@@ -26,27 +26,38 @@ class PhysicEngine {
     update(scene, elapsed) {
         var objects = scene.objects
         objects.forEach(o => {
-            
-            var r = (o.contact ? o.properties.rugosity : 1.0)
-            
-            this.properties.forces.forEach(f=>{
-                o.acceleration.x += f.x
-                o.acceleration.y += f.y                
-            })
-            
-            o.acceleration.x = (this.properties.gravity.x)
-            o.acceleration.y = - (this.properties.gravity.y*o.properties.mass)
+            // If object active, update physic for it
+            if(o.active){                
+                var r = (o.contact ? o.properties.friction : 1.0)
 
-            o.velocity.x = (o.velocity.x  + o.acceleration.x)* r
-            o.velocity.y = (o.velocity.y  + o.acceleration.y)* r
-            
-            o.position.x += o.velocity.x
-            o.position.y += o.velocity.y
-            
-            o.update(elapsed)
-            
-            this.constrained(o)
+                this.properties.forces.forEach(f=>{
+                    o.acceleration.x += f.x
+                    o.acceleration.y += f.y                
+                })
+
+                o.acceleration.x = (this.properties.gravity.x)
+                o.acceleration.y = - (this.properties.gravity.y*o.properties.mass)
+
+                o.velocity.x = (o.velocity.x  + o.acceleration.x)* r
+                o.velocity.y = (o.velocity.y  + o.acceleration.y)* r
+
+                o.position.x += o.velocity.x
+                o.position.y += o.velocity.y
+
+                o.update(elapsed)
+
+                this.constrained(o)
+
+                if(o.duration!=-1 && o.duration>0){
+                    o.duration-=elapsed;
+                    if(o.duration<0){
+                        o.duration=-1
+                        o.active=false
+                    }
+                }
+            }
         });
+        // call the specific scene update mechanism
         scene.update(elapsed)
     }
 
