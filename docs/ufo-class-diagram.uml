@@ -3,15 +3,30 @@ class Game{
     +title:String
 }
 class GameObject{
-    +position
-    +velocity
-    +acceleration
+    +position:vec2d
+    +velocity:vec2d
+    +acceleration:vec2d
+    +layer:int
+    +priority:int
 }
-class Scene
+class BoundingBox{
+    +x:double
+    +y:double
+    +w:double
+    +h:double
+    +layer:int
+}
+class Scene{
+    +name:String
+    +game:Game
+}
 class DemoScene extends Scene
-class Ball extends GameObject
-class Render
-class PhysicEngine
+class Render{
+    +game:Game
+}
+class PhysicEngine{
+    +game:Game
+}
 Game *-- Render:render
 Game *-- PhysicEngine:physic
 Game "1" -- "*" Scene:scenes
@@ -19,5 +34,5 @@ Game "1" -- "1" Scene:scene
 Scene "1" -- "n" GameObject:objects
 Render "1" -- "n" GameObject:objects
 GameObject "1" -- "n" GameObject:child
-DemoScene "1" -- "n" Ball:objects
+GameObject "1" -- "1" BoundingBox:bbox
 @enduml
