@@ -8,7 +8,8 @@ class Ball extends GameObject{
     }
 
     update(elapsed) {
-
+        
+        super.update(elapsed)
         this.size.width += this.dw
         this.dw = this.size.width < 1 || this.size.width > this.maxWidth 
             ? this.dw = -this.dw

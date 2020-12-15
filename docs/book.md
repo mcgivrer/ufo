@@ -15,6 +15,15 @@ description: |
 
 Novembre, 29th 2020, by Frédéric Delorme.
 
+## Preface
+
+this small doc intends to explain what is build there ans what todo with.
+
+Tools and references used to achieve this project
+
+- https://www.planttext.com/
+- https://wiki.developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D
+
 ## Introduction
 
 This is a little overview of what can be a 2D game based on the javascript language. You will find all the code at [https://github.com/mcgivrer/ufo](https://github.com/mcgivrer/ufo).
@@ -76,36 +85,15 @@ Here is the screen map of the game, as a development guide to, step by step, bui
 | Settings |
 +----------+
 ```
-
+![illustration 1 - The Game map where all screens appear.](./images/ufo-scene-graph.svg)
 _illustration 1 - The Game map where all screens appear._
 
 All those screens will be developed in this small project.
 But to realize such a game, we need some basic elements, a basement for all the code we need to create.
 Here is a small overview of the classes we will manage in this javascript framework.
 
-```plantuml source="classmodel.uml" format="PNG"
-@startuml
-class Game{
-    +title:String
-}
-class GameObject{
-    +position
-    +velocity
-    +acceleration
-}
-class Scene
-class DemoScene extends Scene
-class Render
-class PhysicEngine
-Game *-- Render:render
-Game *-- PhysicEngine:physic
-Game "1" -- "*" Scene:scenes
-Game "1" -- "1" Scene:scene
-Scene "1" -- "n" GameObject:objects
-Render "1" -- "n" GameObject:objects
-GameObject "1" -- "n" GameObject:child
-@enduml
-```
+
+![class diagram for the UFO project](https://www.planttext.com/api/plantuml/svg/XLAxRiCW5Dtv2kGnLOPqP8gYLXqRDL-0uSgcmX01Jcn5-VVoSWnLep9mTHxt9TXRHuqR1ucOfDRY3ph03M5_Nfnm4iZ96Q4wT2_qp_ORcCkkixR22Qt81TWhJzm5f6R2pIL76GC9XlxsIZg38KAvNCu8RK9gO9Qc1pqgxgSuw2btdGZNOoiXeRb2rmhr5LgxBRLF3DIoiVBBBGj7eWj4MFbXVuD1nnGCamF5Su6iVda6pErPyh6VhM3lgXEFbgKf1BpPRdCPOc9OwJATd2D8OhDhiDURJPEc8JRSjXPtbOZI4ekeck9bYOx1eZJ7FwQLUc9alP3yBviFnSkIjjKJslkM_ZV-0000)
 
 _illustration 3 - The class diagram for our minimalistic game framework._
 
