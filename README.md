@@ -5,31 +5,8 @@
 This sample code explain how implement basic classes to create minimal framework for a 2D game.
 
 
-```plantuml source="classmodel.uml" format="PNG"
-@startuml
-class Game{
-    +title:String
-}
-class GameObject{
-    +position
-    +velocity
-    +acceleration
-}
-class Scene
-class DemoScene extends Scene
-class Render
-class PhysicEngine
-class Ball extends GameObject
+![Class diagram of the javascript game engine](https://www.planttext.com/api/plantuml/img/XP5D3i8W48Ntd8AmhEcYMrQDqRZKs1CWdRGO2WsCniPuTsdfxyB80kRDD_Fo4dAFmk6ZqKHguJqzYGRUX8QpGuKQU85EcOfyLlnykuF4SQgrNg6o9gedQ2iLTb49AK634mEV70e91iRw08qTD8KNWYctz1ewu4PngJklvD5KQkPxeVMyk0GZfAzfagQZ0tVHQ6wllNWxY0XPncZWB64n2FVzxRSmsq0Iyq_Gi5KIReV7avZZpz3I-Z4eQwLBaWUly5zV)
 
-Game *-- Render:render
-Game *-- PhysicEngine:physic
-Game "1" -- "*" Scene:scenes
-Game "1" -- "1" Scene:scene
-Scene "1" -- "n" GameObject:objects
-Render "1" -- "n" GameObject:objects
-GameObject "1" -- "n" GameObject:child
-@enduml
-```
 _fig. 1 - A Good Class diagram is better than any word ;)_
 
 ## Build

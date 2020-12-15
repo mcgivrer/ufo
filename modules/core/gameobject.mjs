@@ -1,4 +1,5 @@
 /* UFO*/
+import {BoundingBox} from './boundingbox.mjs'
 class GameObject {
   constructor(name,p,v,s) {
     this.name=name
@@ -18,6 +19,7 @@ class GameObject {
       friction: 1.0,
       mass:1.0
     }
+    this.bbox = new BoundingBox(this)
     this.contact=false;
   }
 
@@ -33,6 +35,7 @@ class GameObject {
   }
 
   update(elapsed) {
+    this.bbox.update(this)
   }
 }
 
