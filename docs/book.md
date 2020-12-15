@@ -15,6 +15,15 @@ description: |
 
 Novembre, 29th 2020, by Frédéric Delorme.
 
+## Preface
+
+this small doc intends to explain what is build there ans what todo with.
+
+Tools and references used to achieve this project
+
+- https://www.planttext.com/
+- https://wiki.developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D
+
 ## Introduction
 
 This is a little overview of what can be a 2D game based on the javascript language. You will find all the code at [https://github.com/mcgivrer/ufo](https://github.com/mcgivrer/ufo).
@@ -83,29 +92,8 @@ All those screens will be developed in this small project.
 But to realize such a game, we need some basic elements, a basement for all the code we need to create.
 Here is a small overview of the classes we will manage in this javascript framework.
 
-```plantuml source="classmodel.uml" format="PNG"
-@startuml
-class Game{
-    +title:String
-}
-class GameObject{
-    +position
-    +velocity
-    +acceleration
-}
-class Scene
-class DemoScene extends Scene
-class Render
-class PhysicEngine
-Game *-- Render:render
-Game *-- PhysicEngine:physic
-Game "1" -- "*" Scene:scenes
-Game "1" -- "1" Scene:scene
-Scene "1" -- "n" GameObject:objects
-Render "1" -- "n" GameObject:objects
-GameObject "1" -- "n" GameObject:child
-@enduml
-```
+
+![class diagram for the UFO project](https://www.planttext.com/api/plantuml/svg/XP6n3i8W48Ptde8mrdHmPUgWSTJO9q1wQJ4K6ZYDZV7TfK2r7OmCSFzzVuu_K7aK3c-z9b8Bx-b1zF0aDAmDAjJ0QtJAjEIruCVB5IHcrs2zGcLDKdVGLYeSan9IWWOd8fydr18Cv7e7lOsQmWF1D6jw3XrmMPowqIkvDwqAV4f1YxBC5kwIyzDUclaGHO9iosZWh63f9kwdtQ_XTWL92ZX3mnPlm6qyF4av_fY-hHz6sIdTa2hC2X_o1W00)
 
 _illustration 3 - The class diagram for our minimalistic game framework._
 
