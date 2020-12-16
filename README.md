@@ -1,5 +1,7 @@
 # README
 
+![](https://badgen.net/github/license/micromatch/micromatch) 
+
 ## A Javascript Project
 
 This sample code explain how implement basic classes to create minimal framework for a 2D game.
