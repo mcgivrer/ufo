@@ -93,7 +93,7 @@ But to realize such a game, we need some basic elements, a basement for all the 
 Here is a small overview of the classes we will manage in this javascript framework.
 
 
-![class diagram for the UFO project](https://www.planttext.com/api/plantuml/svg/XLAxRiCW5Dtv2kGnLOPqP8gYLXqRDL-0uSgcmX01Jcn5-VVoSWnLep9mTHxt9TXRHuqR1ucOfDRY3ph03M5_Nfnm4iZ96Q4wT2_qp_ORcCkkixR22Qt81TWhJzm5f6R2pIL76GC9XlxsIZg38KAvNCu8RK9gO9Qc1pqgxgSuw2btdGZNOoiXeRb2rmhr5LgxBRLF3DIoiVBBBGj7eWj4MFbXVuD1nnGCamF5Su6iVda6pErPyh6VhM3lgXEFbgKf1BpPRdCPOc9OwJATd2D8OhDhiDURJPEc8JRSjXPtbOZI4ekeck9bYOx1eZJ7FwQLUc9alP3yBviFnSkIjjKJslkM_ZV-0000)
+![class diagram for the UFO project](https://planttext.com/api/plantuml/svg/XLAzRiCW4Dvv2einLOPqP8gYLXrRDK-0ySccmbm4EBKLvTq31c9SDGe3f-_d_WHxwxXnGw-8KDpQweFtS26LFozEEWNiw8pKBRaM-cVz0y8brmcjT18rEuDuRI9t1eL2kgdak12WmF2_NiKdC4ngbyePYIQa1YOtFU2W6p_50SVKTMGD3hM2YAOL-bsXReMMRhdsKO3E6sk_N5vu9jf0X9NlzZVeSKwfO7IWcrGWgT-U0NDvbFpLJLQATztAUylI54ArsMvJ6MRciD1bEZlD88fqHoklqmsDqp0RRhiMTokHn2Mog6dniWpdO4cSuucfdEg9TQ4U64KdLVEVpOVY4x2wnf7i_NJXuzu0)
 
 _illustration 3 - The class diagram for our minimalistic game framework._
 
