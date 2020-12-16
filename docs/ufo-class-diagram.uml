@@ -33,6 +33,7 @@ Game "1" -- "*" Scene:scenes
 Game "1" -- "1" Scene:scene
 Scene "1" -- "n" GameObject:objects
 Render "1" -- "n" GameObject:objects
+PhysicEngine "1" -- "n" GameObject:objects
 GameObject "1" -- "n" GameObject:child
 GameObject "1" -- "1" BoundingBox:bbox
 @enduml
