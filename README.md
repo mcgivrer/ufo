@@ -17,19 +17,26 @@ $> npm build
 
 ## Run
 
-Two options:
-
-1. just open your favorite web browser on the index.html file, and enjoy
-
-```shell
-$> firefox ./index.html
-```
-
-2. run the project into a dev server with interactive reload:
+1. run the project into a dev server with interactive reload:
 
 ```shell
 $> npm run dev
 ```
+
+2. just open your favorite web browser on the index.html file, and enjoy
+
+```shell
+$> firefox http://localhost:1234
+```
+
+3. Right now, only some basic tests for the internal framework/engine are possible:
+
+- <kbd>Up</kbd>,<kbd>Down</kbd>,<kbd>Left</kbd>,<kbd>Right</kbd> to move the Player object (rectangle),
+- <kbd>D</kbd> debug mode from 0, nodebug to 6 max level debug visual info (default set to 2),
+- <kbd>PageUp</kbd> add 10 balls to the display,
+- <kbd>PageDown</kbd> remove 10 balls from the display,
+- <kbd>Backspace</kbd> remove all objects but player,
+- <kbd>R</kbd> reset all displayed ball to a random position with random velocity and phyusic attributes (mass, friction, elasticity).
 
 That's All
 
