@@ -1,5 +1,3 @@
-import { Game } from './game.mjs'
-
 /**
  * This PhysicEngine is a service to compute physic effects on all scene objects.
  * usage consists in giving the scene instance to be computed.
