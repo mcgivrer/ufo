@@ -85,8 +85,8 @@ Here is the screen map of the game, as a development guide to, step by step, bui
 | Settings |
 +----------+
 ```
-![illustration 1 - The Game map where all screens appear.](./images/ufo-scene-graph.svg)
-_illustration 1 - The Game map where all screens appear._
+
+_illustration 2 - The Game map where all screens appear._
 
 All those screens will be developed in this small project.
 But to realize such a game, we need some basic elements, a basement for all the code we need to create.

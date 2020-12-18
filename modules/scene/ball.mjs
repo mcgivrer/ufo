@@ -1,10 +1,11 @@
-import { GameObject } from '../core/gameobject.mjs'
+import {GameObject,GO_TYPE_CIRCLE} from '../core/gameobject.mjs'
 
 class Ball extends GameObject {
     constructor(name, p, v, s) {
         super(name, p, v, s)
         this.maxWidth = this.size.width
         this.dw = this.velocity.x
+        this.type = GO_TYPE_CIRCLE
     }
 
     update(elapsed) {
