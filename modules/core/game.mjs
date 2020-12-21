@@ -65,7 +65,7 @@ class Game {
         console.log("event key released code:" + code + " key:" + e.key);
         break;
     }
-    this.scene.keyReleased(e);
+    this.scene.keyReleased(e)
   }
 
   update(elapsed) {
