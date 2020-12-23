@@ -188,70 +188,72 @@ class Render {
                 + ","   + Math.round(o.velocity.y)})
             dbg.push({attr:"acc",value:Math.round(o.acceleration.x)
                 + ","   + Math.round(o.acceleration.y)})
-
+            
             // Display debug information
-            let dx=0
-            if(o.position.x>this.game.canvas.width -140){
-                // Draw a small line 
-                c.setLineDash([4,4]);
-                c.strokeStyle = dashColor
-                c.beginPath();
-                c.moveTo(o.position.x,o.position.y);
-                c.lineTo(o.position.x-40, o.position.y);
-                c.stroke();
 
-                c.setLineDash([1,2,1,3]);
-                c.fillStyle=bgColor
-                c.fillRect(o.position.x-36,
-                    o.position.y,-100,12*(dbg.length+1))
-
-                // draw BoundingBox
-                c.strokeRect(
-                    o.position.x-o.size.width/2,
-                    o.position.y-o.size.height/2,
-                    o.size.width,
-                    o.size.height)
-                // draw text information
-                c.fillStyle=dbgTxtColor
-                dbg.forEach(ld=>{
-                    c.fillText(ld.attr+":"+ld.value,
-                        o.position.x-130,
-                        o.position.y+((dx+1)*12));
-                        dx+=1
-                })
-
+            var props = {
+                    px:-100-o.size.width,
+                    py:-20,
+                    dx:4,
+                    dy:8,
+                    dbgTxtColor:dbgTxtColor,
+                    dashColor:dashColor,
+                    bgColor:bgColor,
+                    text:dbg
+                }
+            if( o.position.x > (this.game.canvas.width - o.size.width)/2 ){
+                props = {...props, px:-100-o.size.width  }
             }else{
-                // Draw a small line 
-                c.setLineDash([4,4]);
-                c.strokeStyle = dashColor
-                c.beginPath();
-                c.moveTo(o.position.x,o.position.y);
-                c.lineTo(o.position.x+40, o.position.y);
-                c.stroke();
-
-                c.setLineDash([1,2,1,3]);
-                c.fillStyle=bgColor
-                c.fillRect(o.position.x+36,
-                    o.position.y,100,12*(dbg.length+1))
-
-                c.strokeRect(
-                    o.position.x-o.size.width/2,
-                    o.position.y-o.size.height/2,
-                    o.size.width,
-                    o.size.height)
-
-                c.fillStyle=dbgTxtColor
-                dbg.forEach(ld=>{
-                    c.fillText(ld.attr+":"+ld.value,
-                        o.position.x+40,
-                        o.position.y+((dx+1)*12));
-                        dx+=1
-                })
-
+                props = {...props, px:40 }
             }
+            if( o.position.y > (this.game.canvas.height - o.size.height - 12*dbg.length)/2){
+                props = {...props, py:- (12*dbg.length)-20  }
+            }else{
+                props = {...props, py:-20 }
+            }
+            this.renderDebugInfoForGO(c,o,props)
         }
     }
 
+
+   renderDebugInfoForGO(c,o,props){
+
+        // Draw a small line 
+        c.setLineDash([4,4]);
+        c.strokeStyle = props.dashColor
+        c.beginPath();
+        c.moveTo(o.position.x,o.position.y);
+        c.lineTo(
+            o.position.x+props.px, 
+            o.position.y+props.py);
+        c.stroke();
+
+        // draw background
+        c.setLineDash([1,2,1,3]);
+        c.fillStyle=props.bgColor
+        c.fillRect(
+            o.position.x+props.px-4,
+            o.position.y+props.py,
+            100,
+            12*(props.text.length+1))
+
+        // draw BoundingBox
+        c.strokeRect(
+            o.position.x-o.size.width/2,
+            o.position.y-o.size.height/2,
+            o.size.width,
+            o.size.height)
+
+        // draw text information
+        c.fillStyle=props.dbgTxtColor
+        var dx = 0
+        props.text.forEach(ld=>{
+            c.fillText(ld.attr+":"+ld.value,
+                o.position.x+props.px,
+                o.position.y+props.py+((dx+1)*12));
+                dx+=1
+        })
+    }
     resize(stageConfig){
       this.canvas.width = stageConfig.width
       this.canvas.height = stageConfig.height
