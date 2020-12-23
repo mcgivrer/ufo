@@ -1,8 +1,18 @@
+import { Camera } from "../core/camera.mjs"
+
 class Scene {
     constructor(g) {
         this.game = g;
         this.objects = []
         this.activeNumber = 0;
+        this.keys = {
+            up:false,
+            down:false,
+            left:false,
+            right:false
+        }
+        this.cameras=[]
+        this.camera={}
     }
 
     add(o) {
@@ -25,19 +35,55 @@ class Scene {
 
 
     keyPressed(e) {
-
-    }
-
-    keyReleased(e) {
         switch (e.keyCode) {
-            case 82:
-                this.init(this.game)
+            case 37:
+                this.keys.left = true;
+                break;
+            case 38:
+                this.keys.up = true;
+                break;
+            case 39:
+                this.keys.right = true;
+                break;
+            case 40:
+                this.keys.down = true;
                 break;
             default:
                 break;
         }
     }
 
+    keyReleased(e) {
+        switch (e.keyCode) {
+            case 37:
+                this.keys.left = false;
+                break;
+            case 38:
+                this.keys.up = false;
+                break;
+            case 39:
+                this.keys.right = false;
+                break;
+            case 40:
+                this.keys.down = false;
+                break;
+
+
+            case 82:
+                this.reset(this.game)
+                break;
+            default:
+                break;
+        }
+    }
+
+    reset(g){
+        
+    }
+
+    input(){
+
+    }
     update(elapsed) {
         this.activeNumber = 0;
         this.objects.forEach(o => {

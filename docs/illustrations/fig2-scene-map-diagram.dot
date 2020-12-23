@@ -1,0 +1,26 @@
+graph Scene Map {
+    style="solid, rounded";
+    orientation="landscape";
+    colorscheme="svg";
+    fontname="sans-serif";
+    label="Scene Map";
+    fontsize="10";
+    landscape="true";
+    edge [comment="Wildcard node added automatic in EG.", 
+          arrowsize="0.5", 
+          penwidth="0.5"];
+    node [comment="Wildcard node added automatic in EG.", 
+          shape="box", 
+          fontsize="10", 
+          fontname="sans-serif"];
+    Title -- Menu;
+    Menu -- Title;
+    Menu -- Settings;
+    Settings -- Menu;
+    Menu -- "Mission Board";
+    "Mission Board" -- "Star Map";
+    "Star Map" -- "Mission Board";
+    "Star Map" -- "Asteroids field";
+    "Asteroids field" -- "Planet Flight";
+    "Planet Flight" -- "Star Map";
+}

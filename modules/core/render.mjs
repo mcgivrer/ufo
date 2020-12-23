@@ -100,7 +100,7 @@ class Render {
         if(this.layers.length>0){
             this.layers.forEach(layer => {
                 layer.objects.forEach(o => {
-                    if(o.active && o.duration>0){
+                    if(o.active && (o.duration>0||o.duration==-999)){
                         o.draw(this.ctx)
                     }
                 })
@@ -159,7 +159,7 @@ class Render {
         if( this.layers.length > 0){
             this.layers.forEach(layer => {
                 layer.objects.forEach(o => {
-                    if(o.active && o.duration>0){
+                    if(o.active && (o.duration>0||o.duration==-999)){
                         this.drawDebugObject(c,o)
                     }
                 })
@@ -173,6 +173,9 @@ class Render {
 
     drawDebugObject(c,o){
         if(this.game.debug>1){
+            var bgColor='rgba(0.1,0.1,0.1,0.3)'
+            var dashColor='darkgray'
+            var dbgTxtColor='orange'
             c.font = '8pt sans-serif';
             // Prepare debug information for this object
             let dbg=[]
@@ -186,34 +189,66 @@ class Render {
             dbg.push({attr:"acc",value:Math.round(o.acceleration.x)
                 + ","   + Math.round(o.acceleration.y)})
 
-            // Draw a small line 
-            c.setLineDash([4,4]);
-            c.strokeStyle = "darkgray"
-            c.beginPath();
-            c.moveTo(o.position.x,o.position.y);
-            c.lineTo(o.position.x+40, o.position.y);
-            c.stroke();
-
-            c.setLineDash([]);
-            c.fillStyle='rgba(0.1,0.1,0.1,0.7)'
-            c.fillRect(o.position.x+36,
-                o.position.y,100,12*(dbg.length+1))
-
-            c.strokeRect(
-                o.position.x-o.size.width,
-                o.position.y-o.size.height,
-                o.size.width*2,
-                o.size.height*2)
-
-            c.fillStyle='white'
             // Display debug information
             let dx=0
-            dbg.forEach(ld=>{
-            c.fillText(ld.attr+":"+ld.value,
-                o.position.x+40,
-                o.position.y+((dx+1)*12));
-                dx+=1
-            })
+            if(o.position.x>this.game.canvas.width -140){
+                // Draw a small line 
+                c.setLineDash([4,4]);
+                c.strokeStyle = dashColor
+                c.beginPath();
+                c.moveTo(o.position.x,o.position.y);
+                c.lineTo(o.position.x-40, o.position.y);
+                c.stroke();
+
+                c.setLineDash([1,2,1,3]);
+                c.fillStyle=bgColor
+                c.fillRect(o.position.x-36,
+                    o.position.y,-100,12*(dbg.length+1))
+
+                // draw BoundingBox
+                c.strokeRect(
+                    o.position.x-o.size.width/2,
+                    o.position.y-o.size.height/2,
+                    o.size.width,
+                    o.size.height)
+                // draw text information
+                c.fillStyle=dbgTxtColor
+                dbg.forEach(ld=>{
+                    c.fillText(ld.attr+":"+ld.value,
+                        o.position.x-130,
+                        o.position.y+((dx+1)*12));
+                        dx+=1
+                })
+
+            }else{
+                // Draw a small line 
+                c.setLineDash([4,4]);
+                c.strokeStyle = dashColor
+                c.beginPath();
+                c.moveTo(o.position.x,o.position.y);
+                c.lineTo(o.position.x+40, o.position.y);
+                c.stroke();
+
+                c.setLineDash([1,2,1,3]);
+                c.fillStyle=bgColor
+                c.fillRect(o.position.x+36,
+                    o.position.y,100,12*(dbg.length+1))
+
+                c.strokeRect(
+                    o.position.x-o.size.width/2,
+                    o.position.y-o.size.height/2,
+                    o.size.width,
+                    o.size.height)
+
+                c.fillStyle=dbgTxtColor
+                dbg.forEach(ld=>{
+                    c.fillText(ld.attr+":"+ld.value,
+                        o.position.x+40,
+                        o.position.y+((dx+1)*12));
+                        dx+=1
+                })
+
+            }
         }
     }
 
