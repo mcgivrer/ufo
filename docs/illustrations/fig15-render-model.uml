@@ -1,0 +1,5 @@
+@startuml Render Model
+Render "1" -- "n" GameObject:objects
+Render "1" -- "n" Layer:layers
+Render "1" -- "1" MachineStereotypeFontColor:layersMap
+@enduml

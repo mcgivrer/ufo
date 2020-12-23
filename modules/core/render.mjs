@@ -9,7 +9,7 @@ class Render {
         this.game    = game
         this.canvas  = canvas
         this.ctx     = canvas.getContext("2d")
-        this.clearAllObjects()
+        this.removeAll()
     }
 
     /**
@@ -69,9 +69,9 @@ class Render {
     }
 
     removeAll(){
-        this.objects = []
-        this.layers = []
-        this.layersMap.clear()
+        this.objects=[]
+        this.layers=[]
+        this.layersMap = new Map()
     }
 
     /**
@@ -81,12 +81,6 @@ class Render {
     clear(){
         this.ctx.fillStyle = 'navy' 
         this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height)
-    }
-
-    clearAllObjects(){
-        this.objects=[]
-        this.layers=[]
-        this.layersMap = new Map()
     }
 
     /**

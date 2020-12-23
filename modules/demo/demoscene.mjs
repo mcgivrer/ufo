@@ -22,7 +22,7 @@ class DemoScene extends Scene {
 
   init(game) {
     this.objects = []
-    this.game.render.clearAllObjects()
+    this.game.render.removeAll()
     this.generateBatch(game, "enemy_", 20,true)
     this.player = new Player(
       "player",
@@ -117,7 +117,7 @@ class DemoScene extends Scene {
   }
 
   reset(g){
-    this.randomAll(g,"player") 
+    this.randomAll(g,"enemy_") 
   }
 
   clearGameObjects(excludes) {

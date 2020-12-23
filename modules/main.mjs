@@ -1,5 +1,5 @@
 import { Game } from './core/game.mjs';
-import { DemoScene } from './scene/demoscene.mjs';
+import { DemoScene } from './demo/demoscene.mjs';
 
 let start = 0;
 let canvas = document.createElement("canvas")

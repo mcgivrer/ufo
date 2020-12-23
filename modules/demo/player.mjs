@@ -12,7 +12,7 @@ class Player extends GameObject{
         this.priority=1
         this.color = 'rgba(100,100,50,100)'
         this.properties = {
-            elasticity:0.2,
+            elasticity:0.98,
             mass:2.0,
             friction:0.6,
             maxSpeed:{ x: 12,y: 12},

@@ -16,6 +16,14 @@ class BoundingBox{
     +h:double
     +layer:int
 }
+class Asteroid extends GameObject{
+    +energy:int
+}
+class Ship extends GameObject{
+    +energy:int
+    +lifes:int
+    +fuel:int
+}
 class Scene{
     +name:String
     +game:Game
