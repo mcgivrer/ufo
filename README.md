@@ -1,6 +1,7 @@
 # README
 
-![](https://badgen.net/github/license/micromatch/micromatch) 
+![](https://badgen.net/github/license/micromatch/micromatch "MIT license") 
+![]()
 
 ## A Javascript Project
 
