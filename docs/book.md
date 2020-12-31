@@ -17,12 +17,25 @@ Novembre, 29th 2020, by Frédéric Delorme.
 
 ## Preface
 
-this small doc intends to explain what is build there ans what todo with.
-
+This small doc intends to explain what is build there ans what todo with.
 Tools and references used to achieve this project
 
 - https://www.planttext.com/
 - https://wiki.developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D
+
+
+- [UFO](#ufo)
+  - [A 2D Javascript game](#a-2d-javascript-game)
+  - [Preface](#preface)
+  - [Introduction](#introduction)
+  - [Basic javascript framework](#basic-javascript-framework)
+  - [Entry point index.html](#entry-point-indexhtml)
+  - [The Javascript main.mjs](#the-javascript-mainmjs)
+  - [The classes of the game](#the-classes-of-the-game)
+    - [The Game LOOP](#the-game-loop)
+- [Some Scene](#some-scene)
+  - [A GameObject to play with](#a-gameobject-to-play-with)
+- [Rendering all of them](#rendering-all-of-them)
 
 ## Introduction
 
@@ -93,7 +106,7 @@ But to realize such a game, we need some basic elements, a basement for all the 
 Here is a small overview of the classes we will manage in this javascript framework.
 
 
-![class diagram for the UFO project](https://www.planttext.com/api/plantuml/svg/XP6n3i8W48Ptde8mrdHmPUgWSTJO9q1wQJ4K6ZYDZV7TfK2r7OmCSFzzVuu_K7aK3c-z9b8Bx-b1zF0aDAmDAjJ0QtJAjEIruCVB5IHcrs2zGcLDKdVGLYeSan9IWWOd8fydr18Cv7e7lOsQmWF1D6jw3XrmMPowqIkvDwqAV4f1YxBC5kwIyzDUclaGHO9iosZWh63f9kwdtQ_XTWL92ZX3mnPlm6qyF4av_fY-hHz6sIdTa2hC2X_o1W00)
+![class diagram for the UFO project](images/ufo-class-diagram.png)
 
 _illustration 3 - The class diagram for our minimalistic game framework._
 
