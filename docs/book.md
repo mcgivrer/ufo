@@ -15,19 +15,22 @@ description: |
 
 Novembre, 29th 2020, by Frédéric Delorme.
 
-## Preface
+## Introduction
 
 This small doc intends to explain what is build there ans what todo with.
+
 Tools and references used to achieve this project
 
 - https://www.planttext.com/
 - https://wiki.developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D
 
+## Table of content
 
 - [UFO](#ufo)
   - [A 2D Javascript game](#a-2d-javascript-game)
-  - [Preface](#preface)
   - [Introduction](#introduction)
+  - [Table of content](#table-of-content)
+  - [Introduction](#introduction-1)
   - [Basic javascript framework](#basic-javascript-framework)
   - [Entry point index.html](#entry-point-indexhtml)
   - [The Javascript main.mjs](#the-javascript-mainmjs)
@@ -36,6 +39,9 @@ Tools and references used to achieve this project
 - [Some Scene](#some-scene)
   - [A GameObject to play with](#a-gameobject-to-play-with)
 - [Rendering all of them](#rendering-all-of-them)
+    - [Layer](#layer)
+    - [Managing objects](#managing-objects)
+    - [draw !](#draw-)
 
 ## Introduction
 
@@ -44,6 +50,8 @@ The project is developed by myself, and you could contact me for any question at
 
 >**NOTE**
 >You will need to know how to code classes and modules with javascript, but you won’t need to know anything about game development.
+
+
 
 ## Basic javascript framework
 
@@ -85,16 +93,17 @@ But you will have to add something to your mission: collect fuel to keep your sp
 Here is the screen map of the game, as a development guide to, step by step, build the game.
 
 ```dotaa
-+----------+
-|  Title   |
-+----+-----+
-     |
-+----v-----+    +---------+    +----------+    +------------+    +------------+
-|  Menu    +--->| Mission +--->|  Star    +--->| Asteroid   +--->| Planet     |
-|          |    |   Board |    |    Map   |    |    Field   |    |    Flight  |
-+----+-----+    +---------+    +----------+    +------------+    +------------+
-     |
-+----v-----+
++----------+                   +----------+
+|  Title   |                   | Game     |
++--+---^---+        +----------+    O^er  <----------+-----------------+
+   |   | +----------+          +----------+          |                 |
+   |   | |                                           |                 |
++--v---+-v-+    +---------+    +----------+    +-----+------+    +-----+------+
+|  Menu    +----> Mission +---->  Star    +----> Asteroid   +----> Planet     |
+|          <----+   Board <----+    Map   <----+    Field   <----+    Flight  |
++--+---^---+    +---------+    +----------+    +------------+    +------------+
+   |   |
++--v---+---+
 | Settings |
 +----------+
 ```
@@ -105,8 +114,7 @@ All those screens will be developed in this small project.
 But to realize such a game, we need some basic elements, a basement for all the code we need to create.
 Here is a small overview of the classes we will manage in this javascript framework.
 
-
-![class diagram for the UFO project](images/ufo-class-diagram.png)
+![class diagram for the UFO project](https://www.planttext.com/api/plantuml/svg/ZLFBReCm4Bpp5OXZgXpIeqzfrAh7LCqNWDd0LiP6jab1KV-zVW5sbIZbm6fcPtR75koLBgKUEfPHLYgLlvSTNBFSF4yQDGDoqX9va_r4_MFr1LG7LIyKQXISN80-rvwx01CKzHHp9QN0G9P_jQoSG1BaEeoJAAIrMcPUUX03hqsAWnZ3rf7KOgWOU3Gbw3j1ROBMRVFi5wL12gnp63Nm-iO9WODiqa2d5lj_6VnIF8DQuNa0bawZnX6yt0oRxzmHZINiYaN-2frmbYM1Gw7xQHYGrtlcZtPIIDzuWylAM6HBljbkmnWYNLdfs4vw1tops1MvwHURmgSXohvLsjmbpSmVOcxo8hf98bnHcS_nG1IdUY1TgJj2sYAhRybCYRv3KbLYpFOcdVrtVW40)
 
 _illustration 3 - The class diagram for our minimalistic game framework._
 
@@ -477,4 +485,78 @@ this.layers  = []
 this.layersMap = new Map()
 ```
 
-`objects` and `layers` are the rendering object pipeline.
+`objects`, `layers` and layersMap are the rendering object pipeline.
+
+- while `objects` maintains the list of known objects, layers and layersMap are the collection used to render all object in a sort manner to manage depth of rendering order athrough some `Layer`.
+
+A layer has an index order and a list of sorted objects.
+
+### Layer
+
+The class Layer is a useful piece of POJO (where POJO=Plain Old Javascript Object) to be easily managed into the pipeline:
+
+```javascript
+class Layer {
+    constructor(index) {
+        this.index = index
+        this.objects = []
+    }
+    sort() {
+        this.objects.sort((o1, o2) => {
+            return (o1.priority > o2.priority ? 1 : -1)
+        })
+    }
+}
+```
+As described just before, this class has 2 attributes, a index, a number in the rendering pipeline and an identifier used into all GameObject (see layer attribute) to be displayed on the same plane, and the resulting  object list.
+
+### Managing objects
+
+The Render class propose some helpers to add or remove objects into/frol the pipeline. 
+
+- `add(GameObject)` will add a gameobject to the objects list and into the right Layer. Is no layer with the requestinindex exists, it will be created and added to the layer map and the layer list.
+- `remove(GameObject)` will remove the corresponding object from the objects list, and from the layer.  If the corresponding layer is empty, it will be destroyed.
+- `removeAll()` will remove all objects from the rendering pipeline by reseting objects and layer list and renewing the layer map.
+
+![The Render model](https://www.planttext.com/api/plantuml/svg/SoWkIImgAStDKGXApKj9BLBmpKz9pU62SfGCbHHqTHMKj9GKt1DpK_sJibAJIwpomLGn5aK-YPMfHLOv818k3PJoJIo02W9PN0v0SQ250000)
+
+_illustration 16 - The Render model_
+### draw !
+
+If we go into the draw() details, the processing of all the GmaeoJect to rendereder is a quick and fast loop:
+
+```javascript
+draw(elapsed,startTime) {
+
+  this.clear()
+
+  // Display all objects
+  if(this.layers.length>0){
+    this.layers.forEach(layer => {
+        layer.objects.forEach(o => {
+            if(o.active && (o.duration>0||o.duration==-999)){
+                o.draw(this.ctx)
+            }
+        })
+    })
+}
+  ...
+}
+```
+
+First, a fULL clear of the rendering area before drawing all. Then, looping on all the layers to draw all their contained objects with the `GameObject.draw(context)` method.
+
+> _**NOTE**_
+> A little trick here is used to know if the object must be rendered: test if object is active, and if its life duration is upper than `0`, or render it is the duration is `-999`.
+
+There is also a large part of the code we wil not explored, because it is only dedicated to the debug display, and in a normal use of this framework, it is not taking part in the rendering process.
+
+You just need to know that, if debug mode is activated globaly on the game class (see attribute `Game.debug`), and `debug > 2`, some attributes of each objects are displayed during the rendering, reducing drastically global rendergin performance(particularly on the firefox browser, having a clear issue on the usage of 2D Canvas `strokeText` method [^1].
+
+If `debug > 0`, a simple line at bottom of screen show some basic debug information.
+
+
+
+
+
+[^1]: see [mozilla bugtracker](https://bugzilla.mozilla.org/show_bug.cgi?id=527386) for details 
