@@ -95,7 +95,9 @@ class Render {
     draw(elapsed,startTime) {
 
         this.clear()
-
+        if(this.camera !== undefined){
+            this.ctx.translate(-camera.position.x,-camera.position.y)
+        }
         // Display all objects
         if(this.layers.length>0){
             this.layers.forEach(layer => {
@@ -105,6 +107,9 @@ class Render {
                     }
                 })
             })
+        }
+        if(this.camera !== undefined){
+            this.ctx.translate(camera.position.x,camera.position.y)
         }
 
 

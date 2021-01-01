@@ -28,7 +28,7 @@ class DemoScene extends Scene {
         this.generateBatch(game, "enemy_", 20, true);
         this.player = new Player("player",game.stageConfig.width / 2,game.stageConfig.height / 2);
         this.add(this.player);
-        this.camera = new Camera("cam01",0.002,this.player);
+        this.camera = new Camera("cam01",0.002,this.player, game.stageConfig);
     }
 
     generateBatch(game, name="entity_", number=10, create=false) {

@@ -1,15 +1,17 @@
 import {GameObject} from './gameobject.mjs'
 
 class Camera extends GameObject{
-    constructor(name,tween,target){
+    constructor(name, tween, target, viewport){
         super(name)
         this.tween = tween
         this.target = target
+        this.viewport = viewport
+        this.size = viewport
     }
 
     update(elapsed){
-        this.position.x += (this.position.x -this.target.position.x) * this.tween
-        this.position.y += (this.position.y -this.target.position.y) * this.tween
+        this.position.x += ((target.position.x + target.size.width - viewport.width * 0.5) - this.position.x) * this.tween * elapsed;
+        this.position.y += ((target.position.y + target.size.height - viewport.height * 0.5) - this.position.y) * this.tween * elapsed;
     }
 
     draw(c){

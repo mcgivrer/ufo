@@ -42,6 +42,8 @@ Tools and references used to achieve this project
     - [Layer](#layer)
     - [Managing objects](#managing-objects)
     - [draw !](#draw-)
+- [Another point of view](#another-point-of-view)
+  - [Camera and Viewport](#camera-and-viewport)
 
 ## Introduction
 
@@ -555,8 +557,20 @@ You just need to know that, if debug mode is activated globaly on the game class
 
 If `debug > 0`, a simple line at bottom of screen show some basic debug information.
 
+# Another point of view
 
+As in many game, you certainly seen that the screen display follow the main character, or some specific action needing the player focus. To achieve such mechanism, developers use a common trick, like in movie, it's a `Camera` !
 
+## Camera and Viewport
 
+The magic mechanism consists in having a new `GameObject`, following a target, another `GameObject`, with a small delay on the following action.
+
+A simple formula to produce the required effect: the position of the camera if following the target, centered in the viewport, and with a little delay trough the `tween` factor.
+
+```javascript
+    this.x += ((target.x + target.width - viewport.width * 0.5f) - x) * tween * elapsed;
+    this.y += ((target.y + target.height - viewport.height * 0.5f) - y) * tween * elapsed;
+```
+_illustration 17 - The secret computation of camera position_
 
 [^1]: see [mozilla bugtracker](https://bugzilla.mozilla.org/show_bug.cgi?id=527386) for details 
