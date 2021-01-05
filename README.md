@@ -1,7 +1,6 @@
 # README
 
-![](https://badgen.net/github/license/micromatch/micromatch "MIT license") 
-![]()
+[![MIT License](https://badgen.net/github/license/micromatch/micromatch "MIT license")](https://choosealicense.com/licenses/mit/) [![Gitter](https://img.shields.io/gitter/room/SnapGames/ufo)](https://gitter.im/SnapGames/ufo)
 
 ## A Javascript Project
 
