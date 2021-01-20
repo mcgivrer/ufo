@@ -1,29 +1,39 @@
-import { Render } from "./render.mjs"
-import { PhysicEngine } from "./physicengine.mjs"
-import { Collider } from "./collider.mjs"
+import { Render } from "./render.mjs";
+import { PhysicEngine } from "./physicengine.mjs";
+import { Collider } from "./collider.mjs";
 
 class Game {
   constructor(canvasId) {
-    this.canvas = document.getElementById(canvasId)
-    window.addEventListener("keydown", this.keyPressed.bind(this), false)
-    window.addEventListener("keyup", this.keyReleased.bind(this), false)
-    window.addEventListener("resize", this.resizeCanvas.bind(this), false)
-
-    this.scenes = []
-    this.scene = null
-    this.debug = 2
-    this.pause = false
+    this.canvas = document.getElementById(canvasId);
+    window.addEventListener("keydown", this.keyPressed.bind(this), false);
+    window.addEventListener("keyup", this.keyReleased.bind(this), false);
+    window.addEventListener("resize", this.resizeCanvas.bind(this), false);
+    // experimental
+    window.addEventListener("gamepadconnected", function (e) {
+      console.log(
+        "Contrôleur n°%d connecté : %s. %d boutons, %d axes.",
+        e.gamepad.index,
+        e.gamepad.id,
+        e.gamepad.buttons.length,
+        e.gamepad.axes.length
+      );
+    });
+    
+    this.scenes = [];
+    this.scene = null;
+    this.debug = 2;
+    this.pause = false;
 
     this.stageConfig = {
       width: window.innerWidth,
       height: window.innerHeight,
     };
-    this.canvas.width = this.stageConfig.width
-    this.canvas.height = this.stageConfig.height
+    this.canvas.width = this.stageConfig.width;
+    this.canvas.height = this.stageConfig.height;
 
-    this.render = new Render(this, this.canvas)
-    this.physic = new PhysicEngine(this)
-    this.collider = new Collider(this)
+    this.render = new Render(this, this.canvas);
+    this.physic = new PhysicEngine(this);
+    this.collider = new Collider(this);
     this.lastTime = 0;
   }
 
@@ -43,7 +53,7 @@ class Game {
       width: window.innerWidth,
       height: window.innerHeight,
     };
-    this.render.resize(this.stageConfig)
+    this.render.resize(this.stageConfig);
     this.update();
   }
 
@@ -65,7 +75,7 @@ class Game {
         console.log("event key released code:" + code + " key:" + e.key);
         break;
     }
-    this.scene.keyReleased(e)
+    this.scene.keyReleased(e);
   }
 
   update(elapsed) {
@@ -74,7 +84,7 @@ class Game {
     if (this.scene) {
       // Update Objects from the scene.
       if (!this.pause) {
-        this.scene.input()
+        this.scene.input();
         this.physic.update(this.scene, this.frameTime);
       }
       // Draw all objects of the scene.
