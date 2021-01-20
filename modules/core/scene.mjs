@@ -11,7 +11,7 @@ class Scene {
             left:false,
             right:false
         }
-        this.cameras=[]
+        this.cameras= new Map()
         this.camera={}
     }
 
@@ -25,6 +25,16 @@ class Scene {
 
     init() {
 
+    }
+
+    addCamera(camera){
+        this.cameras.set(camera.name,camera)
+    }
+
+    setCamera(camName){
+        var c = this.cameras.get(camName)
+        this.camera = c
+        this.game.render.setCamera(this.camera)
     }
 
     clearAllObjects() {
@@ -91,6 +101,9 @@ class Scene {
                 this.activeNumber++;
             }
         })
+        if (this.camera){
+            this.camera.update(elapsed)
+        }
     }
 
     draw(render, elapsed, startTime) {

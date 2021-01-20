@@ -16,6 +16,7 @@
   "author": "Frederic Delorme",
   "license": "MIT",
   "dependencies": {
+    "entity": "^0.0.0",
     "parcel": "^1.12.4",
     "yarn": "^1.22.10"
   },
