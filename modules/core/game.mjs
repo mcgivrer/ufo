@@ -5,20 +5,38 @@ import { Collider } from "./collider.mjs";
 class Game {
   constructor(canvasId) {
     this.canvas = document.getElementById(canvasId);
+    this.gamepads = {};
     window.addEventListener("keydown", this.keyPressed.bind(this), false);
     window.addEventListener("keyup", this.keyReleased.bind(this), false);
     window.addEventListener("resize", this.resizeCanvas.bind(this), false);
     // experimental
-    window.addEventListener("gamepadconnected", function (e) {
-      console.log(
-        "Contrôleur n°%d connecté : %s. %d boutons, %d axes.",
-        e.gamepad.index,
-        e.gamepad.id,
-        e.gamepad.buttons.length,
-        e.gamepad.axes.length
-      );
-    });
-    
+    window.addEventListener(
+      "gamepadconnected",
+      function (e) {
+        console.log(
+          "Contrôleur n°%d connecté : %s. %d boutons, %d axes.",
+          e.gamepad.index,
+          e.gamepad.id,
+          e.gamepad.buttons.length,
+          e.gamepad.axes.length
+        );
+        gamepadHandler(e, true);
+      },
+      false
+    );
+    window.addEventListener(
+      "gamepaddisconnected",
+      function (e) {
+        console.log(
+          "Contrôleur n°%d déconnecté : %s",
+          e.gamepad.index,
+          e.gamepad.id
+        );
+        gamepadHandler(e, false);
+      },
+      false
+    );
+
     this.scenes = [];
     this.scene = null;
     this.debug = 2;
@@ -35,6 +53,18 @@ class Game {
     this.physic = new PhysicEngine(this);
     this.collider = new Collider(this);
     this.lastTime = 0;
+  }
+
+  gamepadHandler(event, connecting) {
+    var gamepad = event.gamepad;
+    // Note :
+    // gamepad === navigator.getGamepads()[gamepad.index]
+
+    if (connecting) {
+      this.gamepads[gamepad.index] = gamepad;
+    } else {
+      delete this.gamepads[gamepad.index];
+    }
   }
 
   init() {
