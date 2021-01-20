@@ -1,4 +1,4 @@
-import {GameObject,GO_TYPE_CIRCLE} from '../core/gameobject.mjs'
+import {GameObject,GO_TYPE_CIRCLE} from '/modules/core/gameobject.mjs'
 
 class Ball extends GameObject {
     constructor(name, p, v, s) {

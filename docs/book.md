@@ -36,12 +36,16 @@ Tools and references used to achieve this project
   - [The Javascript main.mjs](#the-javascript-mainmjs)
   - [The classes of the game](#the-classes-of-the-game)
     - [The Game LOOP](#the-game-loop)
-- [Some Scene](#some-scene)
+  - [Some Scene](#some-scene)
   - [A GameObject to play with](#a-gameobject-to-play-with)
-- [Rendering all of them](#rendering-all-of-them)
+  - [Rendering all of them](#rendering-all-of-them)
     - [Layer](#layer)
     - [Managing objects](#managing-objects)
     - [draw !](#draw-)
+  - [Another point of view](#another-point-of-view)
+    - [Camera and Viewport](#camera-and-viewport)
+    - [Scene](#scene)
+    - [Render with Camera](#render-with-camera)
 
 ## Introduction
 
@@ -269,7 +273,7 @@ Then a first call to `update()` will start the game mechanics.
 
 Now we know how to start, we need to understand what is this Scene class ?
 
-# Some Scene
+## Some Scene
 
 The `Scene` is a way for the `Game` where some behaviors are defined. Let’s explain this.
 
@@ -443,7 +447,7 @@ The last ones are for collision management.
 
 These attributes will be also used for `PhysicsEngine` mechanics computation and collision reaction.
 
-# Rendering all of them
+## Rendering all of them
 
 The draw of the `objects` is delegated to the `Render` class. Let's have a look at this class.
 
@@ -543,6 +547,7 @@ draw(elapsed,startTime) {
   ...
 }
 ```
+_illustration xx - The drawing operation for all those `GameObjects`'s_
 
 First, a fULL clear of the rendering area before drawing all. Then, looping on all the layers to draw all their contained objects with the `GameObject.draw(context)` method.
 
@@ -555,8 +560,159 @@ You just need to know that, if debug mode is activated globaly on the game class
 
 If `debug > 0`, a simple line at bottom of screen show some basic debug information.
 
+## Another point of view
 
+As in many game, you certainly seen that the screen display follow the main character, or some specific action needing the player focus. To achieve such mechanism, developers use a common trick, like in movie, it's a `Camera` !
 
+### Camera and Viewport
 
+The magic mechanism consists in having a new `GameObject`, following a target, another `GameObject`, with a small delay on the following action.
 
-[^1]: see [mozilla bugtracker](https://bugzilla.mozilla.org/show_bug.cgi?id=527386) for details 
+A simple formula to produce the required effect: the position of the camera if following a target `GameObject`, centered in the viewport, and with a little delay trough the `tween` factor.
+
+```javascript
+    x += ((target.x + target.width - viewport.width * 0.5f) - x) * tween * elapsed;
+    y += ((target.y + target.height - viewport.height * 0.5f) - y) * tween * elapsed;
+```
+_illustration 17 - The secret computation of camera position_
+
+The Camera object will be very simple with draw and update overloaded :
+
+```javascript
+class Camera extends GameObject{
+    constructor(name, tween, target, viewport){
+        super(name)
+        this.tween = tween
+        this.target = target
+        this.viewport = viewport
+        this.size = viewport
+    }
+
+    update(elapsed){
+        this.position.x += 
+          ((target.position.x + target.size.width - this.viewport.width * 0.5) 
+          - this.position.x) * this.tween * elapsed;
+        this.position.y += 
+          ((target.position.y + target.size.height - this.viewport.height * 0.5) 
+          - this.position.y) * this.tween * elapsed;
+    }
+
+    draw(c){
+        c.strokeColor = 'yellow'
+        c.rect(
+          this.position.x,
+          this.position.y,
+          this.size.width,
+          this.size.height)
+    }
+}
+```
+_illustration 18 - `Camera` object inheriting from `GameObject`_
+
+Without any surprise, the `update()` method compute the camera position according to the target position and the size of the viewport, while the `draw()` method will draw a simple rectangle according to the camera size property.
+### Scene
+
+OK, that we know having a camera, maybe we need to integrate it into our Scene class to make it work fine, but beyond all, draw scene from the camera point of view.
+
+```javascript
+class Scene {
+    constructor(g) {
+        ...
+        this.cameras= new Map()
+        this.camera={}
+    }
+    ...
+```
+_illustration xx - Make Scene know camera_
+
+and then let develop make adding camera:
+
+```javascript
+    addCamera(camera){
+        this.cameras.set(camera.name,camera)
+    }
+
+    setCamera(camName){
+        var c = this.cameras.get(camName)
+        this.camera = c
+        this.game.render.setCamera(this.camera)
+    }
+```
+
+And also, we need to update the current camera
+
+```javascript
+    update(elapsed) {
+        this.activeNumber = 0;
+        this.objects.forEach(o => {
+            if (o.active) {
+                this.activeNumber++;
+            }
+        })
+        if (this.camera){
+            this.camera.update(elapsed)
+        }
+    }
+```
+
+And afterall, let's draw all `GameObject` from the point of view of the activa camera:
+
+```javascript
+    draw(render, elapsed, startTime) {
+        render.draw(elapsed, startTime)
+    }
+```
+
+Ok, now, we know that all rendering is delegated to the `Render` class!
+
+### Render with Camera
+
+First, add a new attribute to the `Render` to let it manage the `Camera`.
+
+```javascript
+class Render {
+  constructor(game, canvas) {
+    ...
+    this.camera = undefined
+  }
+  ...
+  setCamera(camera) {
+    this.camera = camera
+  }
+  ...
+}
+```
+
+In a second step, let's take it in account at draw time.
+So first, we move the point of view to the camera position, corresponding to move the scene at the opposite vector of the camera position:
+
+```javascript
+  if (this.camera !== undefined) {
+      this.ctx.translate(-this.camera.position.x, -this.camera.position.y)
+  }
+```
+
+and then draw all objects:
+
+```javascript
+  // Display all objects
+  if (this.objects.includes(object)) {
+    var layerToDelete = [];
+    // remove the object
+    for (var l = 0; l < this.layers.length; l++) {
+      ...
+    }
+  }
+```
+
+and finaly, move back to initial position.
+
+```javascript
+  if (this.camera !== undefined) {
+      this.ctx.translate(this.camera.position.x, this.camera.position.y)
+  }
+```
+
+Let's operate the magic !
+
+[^1]: see [mozilla bugtracker](https://bugzilla.mozilla.org/show_bug.cgi?id=527386) for details

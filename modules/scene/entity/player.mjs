@@ -1,4 +1,4 @@
-import {GameObject,GO_NODURATION,GO_TYPE_RECTANGLE} from '../core/gameobject.mjs'
+import {GameObject,GO_NODURATION,GO_TYPE_RECTANGLE} from '/modules/core/gameobject.mjs'
 class Player extends GameObject{
     constructor(name,x,y){
         super(
@@ -11,14 +11,15 @@ class Player extends GameObject{
         this.layer=2
         this.priority=1
         this.color = 'rgba(100,100,50,100)'
+        this.debug=2
+        
         this.properties = {
             elasticity:0.2,
             mass:2.0,
             friction:0.6,
-            maxSpeed:{ x: 12,y: 12},
-            dacc:{ x: 2,y: 2}
+            maxSpeed:{ x: 4 ,y: 4},
+            dacc:{ x: 1.4,y: 1.4}
         }
-        
         this.update()
     }
 
