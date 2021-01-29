@@ -1,0 +1,40 @@
+graph TB
+
+gs([START])
+subgraph Scene
+    A[Title]
+    Me[Menu]
+    Mb[Mission Board]
+    St[Star Map]
+    As[Asteroid Navigation]
+    P[Pause]
+end
+subgraph Game 
+    Lo[Load Game]
+    Sa[Save Game]
+end
+subgraph Services
+    S[Settings]
+end
+gs-->A
+A -- Ok -->Me
+Me -- Start new game --> Mb
+Me -- Load game --> Lo
+Me -- Edit Settings --> S
+Mb -- Selected --> St
+Mb -- Pause --> P
+St -- Move --> As
+St -- Pause --> P
+
+Me -- Back --> A
+P  ----> St
+P  -- Back --> As
+P  -- Edit Settings --> S
+P  -- Save Game --> Sa
+P  -- Load Game --> Lo
+S  -- Back to Menu --> Me
+As -- Back --> P
+Sa -- Game Saved --> P
+Lo -- Game loaded--> Mb 
+S  -- Back --> P
+P  -- Quit to Menu --> Me 

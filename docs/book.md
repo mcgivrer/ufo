@@ -1,5 +1,5 @@
 ---
-title: UFO | A 2D Javascript game
+title: UFO | A Javascript 2D game oriented framework
 author: Frédéric Delorme
 createdat: 2020-11-28
 tags: |
@@ -10,28 +10,22 @@ tags: |
 description: |
     This project is a tutorial on how to develop javascript game with minimalistic framework. 
 ---
-# UFO: Unknown Framework Object
-## A 2D Javascript game
-
+# UFO, Unknown Framework Object | A JavaScript 2D game oriented framework
 2020-2021, by Frédéric Delorme.
 
-Revision
-
-
-
-1.0
+## Revision
 
 | Version | Date        | Author           | What’s new ?      |
 | ------- | ----------- | ---------------- | ----------------- |
-| 0.0.1   | 29-Nov-2020 | Frédéric Delorme | Document Creation |
-| 0.0.2   | 14-Dec_2020 | Frédéric Delorme | Add               |
-|         |             |                  |                   |
+| 0.0.1   | 28-NOV-2020 | Frédéric Delorme | Document Creation |
+| 0.0.2   | 14-DEC-2020 | Frédéric Delorme | Add               |
+| 0.0.3   | 29-JAN-2021 | Frédéric Delorme |                   |
 
 
 
 ## Introduction
 
-This small doc intends to explain what is build there ans what todo with.
+This small doc intends to explain what is build there and what todo with.
 
 Tools and references used to achieve this project
 
@@ -113,35 +107,21 @@ But you will have to add something to your mission: collect fuel to keep your sp
 
 Here is the screen map of the game, as a development guide to, step by step, build the game.
 
-```dotaa
-+----------+                   +----------+
-|  Title   |                   | Game     |
-+--+---^---+        +----------+    O^er  <----------+-----------------+
-   |   | +----------+          +----------+          |                 |
-   |   | |                                           |                 |
-+--v---+-v-+    +---------+    +----------+    +-----+------+    +-----+------+
-|  Menu    +----> Mission +---->  Star    +----> Asteroid   +----> Planet     |
-|          <----+   Board <----+    Map   <----+    Field   <----+    Flight  |
-+--+---^---+    +---------+    +----------+    +------------+    +------------+
-   |   |
-+--v---+---+
-| Settings |
-+----------+
-```
+![Game Scene Map](images/ufo-0001-map-diagram.svg)
 
-_illustration 2 - The Game map where all screens appear._
+*illustration 2 - The Game map where all screens appear.*
 
 All those screens will be developed in this small project.
 But to realize such a game, we need some basic elements, a basement for all the code we need to create.
 Here is a small overview of the classes we will manage in this javascript framework.
 
-![class diagram for the UFO project](https://www.planttext.com/api/plantuml/svg/ZLFBReCm4Bpp5OXZgXpIeqzfrAh7LCqNWDd0LiP6jab1KV-zVW5sbIZbm6fcPtR75koLBgKUEfPHLYgLlvSTNBFSF4yQDGDoqX9va_r4_MFr1LG7LIyKQXISN80-rvwx01CKzHHp9QN0G9P_jQoSG1BaEeoJAAIrMcPUUX03hqsAWnZ3rf7KOgWOU3Gbw3j1ROBMRVFi5wL12gnp63Nm-iO9WODiqa2d5lj_6VnIF8DQuNa0bawZnX6yt0oRxzmHZINiYaN-2frmbYM1Gw7xQHYGrtlcZtPIIDzuWylAM6HBljbkmnWYNLdfs4vw1tops1MvwHURmgSXohvLsjmbpSmVOcxo8hf98bnHcS_nG1IdUY1TgJj2sYAhRybCYRv3KbLYpFOcdVrtVW40)
+![class diagram for the UFO project](images/ufo-0002-class-diagram.svg)
 
 _illustration 3 - The class diagram for our minimalistic game framework._
 
-## Entry point index.html
+## The Main page
 
-So first, to display things in a javascript game, we first need a basic HTML page where to host our javascript.
+So first, to display things in a JavaScript game, we first need a basic HTML page where to host our code.
 Let’s go to basic a create a good old `index.html` page:
 
 ```html
@@ -168,9 +148,9 @@ A little bit of structure explanation. The `index.html` page, is a brave default
 The header will contain all not displayed information, let’s talk about metadata about the page, and the body will describe the visible part. from title to text and images in a standard page.
 The header in our index page will define the title of the page with the `<title\>` tag, and set a default CSS file where to define global styles of rendering for any text or other visual tag in our page. this file will be the `styles/main.css` file. it will reset some default  behaviors of the browser and set some values for our own needs. we will dig with detail those css commands later.
 
-## The Javascript main.mjs
+## The JavaScript main.mjs
 
-The `main.mjs` file is a javascript module to start the `Game` object and request a frame update to the browser to call with constant frequency to update the game. This will call our game loop, through the `Game#update()` method.
+The `main.mjs` file is a JavaScript module to start the `Game` object and request a frame update to the browser to call with constant frequency to update the game. This will call our game loop, through the `Game#update()` method.
 
 ```javascript
 import {Game} from './game.mjs';
@@ -195,14 +175,14 @@ So the main class `Game` is where all the things happened.
 
 ### The Game LOOP
 
-As we’ve just touched 2 words about in the previous section, the game loop is where all things happened in a game. It will analyse user (gamer) input on keyboard, mouse or, why not gamepad, and compute corresponding action and changes on all the game, and finally, render all the game screen.
+As we’ve just touched 2 words about in the previous section, the game loop is where all things happened in a game. It will analyze user (gamer) input on keyboard, mouse or, why not gamepad, and compute corresponding action and changes on all the game, and finally, render all the game screen.
 
-In our case, playing with a javascript program, we are forced to interact with a web browser and all the web entropy. the screen will be an HTML component where our program will intercept user interaction and display objects and colors into it.
+In our case, playing with a JavaScript program, we are forced to interact with a web browser and all the web entropy. the screen will be an HTML component where our program will intercept user interaction and display objects and colors into it.
 
 The `<canvas/>` tag is the open door to all the needed technology we need to detect user or environment action, display 2D or 3D graphics, with some fancy tricks to draw with WebGL, a power interface to advanced graphics capabilities.
 
 But the `Game` class itself only needs to manage the main loop.
-The only way to request the browser to integrate the draw of our game with the web page rendering.  This will be achieved by calling the requestAnimationFrame function.
+The only way to request the browser to integrate the draw of our game with the web page rendering.  This will be achieved by calling the `requestAnimationFrame` function.
 
 In the `main.mjs` file:
 
@@ -269,7 +249,7 @@ constructor(canvasId) {
 _illustration 5 - The constructor to rule them all._
 
 First, we retrieve the canvas in the index.html page by its tag identifier.
-Then, we link some javascript events to our code: `keydown`, `keyup` and `resize`. These events are, by apparition order, keyboard keys events, keyup and keydown,  and the window resize event.
+Then, we link some JavaScript events to our code: `keydown`, `keyup` and `resize`. These events are, by apparition order, keyboard keys events, `keyup` and `keydown`,  and the window resize event.
 
 And then, initialize some class internal attributes, we will go deeper in those attributes later, and we set the canvas size.
 
@@ -290,7 +270,7 @@ Then a first call to `update()` will start the game mechanics.
 
 Now we know how to start, we need to understand what is this Scene class ?
 
-# Some Scene
+## Some Scene
 
 The `Scene` is a way for the `Game` where some behaviors are defined. Let’s explain this.
 
@@ -382,7 +362,7 @@ The render parameter is this instance, elapsed and startTime are some time value
 
 Now that we know all about the Scene, we must go and dive into the GameObject.
 
-## A GameObject to play with
+### A GameObject to play with
 
 The `GameObject`, is an object for the game (sic). This component is for example a sprite, a displayed text, bullet, a bouncing ball, a map, so, you understand, all this kind of visual things.
 
@@ -464,7 +444,7 @@ The last ones are for collision management.
 
 These attributes will be also used for `PhysicsEngine` mechanics computation and collision reaction.
 
-# Rendering all of them
+## Rendering all of them
 
 The draw of the `objects` is delegated to the `Render` class. Let's have a look at this class.
 
@@ -565,18 +545,48 @@ draw(elapsed,startTime) {
 }
 ```
 
-First, a fULL clear of the rendering area before drawing all. Then, looping on all the layers to draw all their contained objects with the `GameObject.draw(context)` method.
+First, a full clear of the rendering area before drawing all. Then, looping on all the layers to draw all their contained objects with the `GameObject.draw(context)` method.
 
 > _**NOTE**_<br/>
 > A little trick here is used to know if the object must be rendered: test if object is active, and if its life duration is upper than `0`, or render it is the duration is `-999`.
 
-There is also a large part of the code we wil not explored, because it is only dedicated to the debug display, and in a normal use of this framework, it is not taking part in the rendering process.
+There is also a large part of the code we will not explored, because it is only dedicated to the debug display, and in a normal use of this framework, it is not taking part in the rendering process.
 
-You just need to know that, if debug mode is activated globaly on the game class (see attribute `Game.debug`), and `debug > 2`, some attributes of each objects are displayed during the rendering, reducing drastically global rendergin performance(particularly on the firefox browser, having a clear issue on the usage of 2D Canvas `strokeText` method [^1].
+You just need to know that, if debug mode is activated globally on the game class (see attribute `Game.debug`), and `debug > 2`, some attributes of each objects are displayed during the rendering, reducing drastically global rendering performance(particularly on the Firefox browser, having a clear issue on the usage of 2D Canvas `strokeText` method [^1].
 
 If `debug > 0`, a simple line at bottom of screen show some basic debug information.
 
 
+
+## Annexes
+
+### Gamepad API integration
+
+To be able to listen to gamepads when some are connected to your computer where the game is running, we need to use the brand new [Gamepad API define by the W3C](https://www.w3.org/TR/gamepad/) and capture some new events. To help us implements such usage, we will rely on the very good online [gamepad mozilla documentation](https://developer.mozilla.org/en-US/docs/Web/API/Gamepad_API/Using_the_Gamepad_API).
+
+First, detecting connected Gamepads, Second listen to events and call corresponding implemented code in game to act on button pressed/released or stick moves.
+
+#### Detect devices
+
+To use the gamepads to our game, we need to make our code aware of there connection: 
+
+*TODO*
+
+#### Detect button events
+
+*TODO*
+
+#### Identify `UserPlayer`
+
+*TODO*
+
+#### Connect `Game`
+
+*TODO*
+
+#### Connect `Scene`
+
+*TODO*
 
 
 
