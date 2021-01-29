@@ -5,7 +5,7 @@ let GO_TYPE_RECTANGLE=1
 let GO_TYPE_CIRCLE=2
 class GameObject {
 
-  constructor(name,p = {x:0,y:0},v = {x:0,y:0},s = {x:0,y:0}, a = {x:0,y:0}) {
+  constructor(name,p = {x:0,y:0},v = {x:0,y:0},s = {width:0,height:0}, a = {x:0,y:0}) {
     this.name=name
     this.position = p
     this.size = s

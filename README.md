@@ -1,21 +1,31 @@
 # README
 
-![](https://badgen.net/github/license/micromatch/micromatch "MIT license") 
-![]()
+![github release](https://flat.badgen.net/github/release/mcgivrer/ufo)
+![github opened issues](https://flat.badgen.net/github/open-issues/mcgivrer/ufo)
+![github commits](https://flat.badgen.net/github/commits/mcgivrer/ufo)
+![gitter](https://flat.badgen.net/badge/icon/gitter?icon=gitter&label)
+![MIT License](https://badgen.net/github/license/micromatch/micromatch "MIT license")
 
 ## A Javascript Project
 
 This sample code explain how implement basic classes to create minimal framework for a 2D game.
 
-![Class diagram of the javascript game engine](https://planttext.com/api/plantuml/img/XLDDRuCm3BtpAn37JZrqnvmwf7MdgjNO7mY91PxI12Mc0rNxxqluA32DZaCil_Vy75jXxuXRgYyg4eex5x_n2zoYs7zFXAI0PMHH5z7tZ3_bdo1eK5N68Q7Hx0hYMVRO5PGHIEqSuqA00ij_QnLlmJBKDDXPD3QK1cHicffQIt-Br3H3ruP9K-SA-gnTP5-Bh5naKxVHEnEWnucr7suSk0EA08IHx_AFi9Ik9eQ6GCl1OQ2FeEjrDWCYx-qUrADpVa6fuLO-yAcuW2ElrXKlZi0Qb0S4zS3ehBW6EYWiIbfNlNi4x6rj9UUoTIXUTO7tHSv58SIRxNQmOROB4pmlPrMNz6IoIsBF9vkalmrpuNHBShSWetw8aTJ9xBqoqmKNzVVuHpH1Aq9Hef9_oNoOlLUMvwQ9zhwb_yT-0000)
+![Class diagram of the javascript game engine](docs/images/ufo-0002-class-diagram.svg)
+
 _fig. 1 - A Good Class diagram is better than any word ;)_
+
+And the target Scene game diagram, containing all futur Scene implmentation for all screen in the game, from title to play scene.
+
+![Class diagram of the javascript game engine](docs/images/ufo-0001-map-diagram.svg)
+
+_fig. 2 - The Scene game diagram where all the secret target is exposed_
 
 ## Build
 
 To build this sample:
 
 ```shell
-$> npm build
+$> yarn build
 ```
 
 ## Run
@@ -23,7 +33,7 @@ $> npm build
 1. run the project into a dev server with interactive reload:
 
 ```shell
-$> npm run dev
+$> yarn start
 ```
 
 2. just open your favorite web browser on the index.html file, and enjoy
