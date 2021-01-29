@@ -128,25 +128,7 @@ But you will have to add something to your mission: collect fuel to keep your sp
 
 Here is the screen map of the game, as a development guide to, step by step, build the game.
 
-<<<<<<< HEAD
-```dotaa
-+----------+                   +----------+
-|  Title   |                   | Game     |
-+--+---^---+        +----------+    O^er  <----------+-----------------+
-   |   | +----------+          +----------+          |                 |
-   |   | |                                           |                 |
-+--v---+-v-+    +---------+    +----------+    +-----+------+    +-----+------+
-|  Menu    +----> Mission +---->  Star    +----> Asteroid   +----> Planet     |
-|          <----+   Board <----+    Map   <----+    Field   <----+    Flight  |
-+--+---^---+    +---------+    +----------+    +------------+    +------------+
-   |   |
-+--v---+---+
-| Settings |
-+----------+
-```
-=======
 ![Game Scene Map](images/ufo-0001-map-diagram.svg)
->>>>>>> feature/update-render-game-demo
 
 *illustration 2 - The Game map where all screens appear.*
 
@@ -154,11 +136,7 @@ All those screens will be developed in this small project.
 But to realize such a game, we need some basic elements, a basement for all the code we need to create.
 Here is a small overview of the classes we will manage in this javascript framework.
 
-<<<<<<< HEAD
-![class diagram for the UFO project](https://www.planttext.com/api/plantuml/svg/ZLFBReCm4Bpp5OXZgXpIeqzfrAh7LCqNWDd0LiP6jab1KV-zVW5sbIZbm6fcPtR75koLBgKUEfPHLYgLlvSTNBFSF4yQDGDoqX9va_r4_MFr1LG7LIyKQXISN80-rvwx01CKzHHp9QN0G9P_jQoSG1BaEeoJAAIrMcPUUX03hqsAWnZ3rf7KOgWOU3Gbw3j1ROBMRVFi5wL12gnp63Nm-iO9WODiqa2d5lj_6VnIF8DQuNa0bawZnX6yt0oRxzmHZINiYaN-2frmbYM1Gw7xQHYGrtlcZtPIIDzuWylAM6HBljbkmnWYNLdfs4vw1tops1MvwHURmgSXohvLsjmbpSmVOcxo8hf98bnHcS_nG1IdUY1TgJj2sYAhRybCYRv3KbLYpFOcdVrtVW40)
-=======
 ![class diagram for the UFO project](images/ufo-0002-class-diagram.svg)
->>>>>>> feature/update-render-game-demo
 
 _illustration 3 - The class diagram for our minimalistic game framework._
 
@@ -587,10 +565,9 @@ draw(elapsed,startTime) {
   ...
 }
 ```
-<<<<<<< HEAD
 _illustration xx - The drawing operation for all those `GameObjects`'s_
 
-First, a fULL clear of the rendering area before drawing all. Then, looping on all the layers to draw all their contained objects with the `GameObject.draw(context)` method.
+First, a full clear of the rendering area before drawing all. Then, looping on all the layers to draw all their contained objects with the `GameObject.draw(context)` method.
 
 > _**NOTE**_
 > A little trick here is used to know if the object must be rendered: test if object is active, and if its life duration is upper than `0`, or render it is the duration is `-999`.
@@ -756,22 +733,6 @@ and finaly, move back to initial position.
 
 Let's operate the magic !
 
-[^1]: see [mozilla bugtracker](https://bugzilla.mozilla.org/show_bug.cgi?id=527386) for details
-=======
-
-First, a full clear of the rendering area before drawing all. Then, looping on all the layers to draw all their contained objects with the `GameObject.draw(context)` method.
-
-> _**NOTE**_<br/>
-> A little trick here is used to know if the object must be rendered: test if object is active, and if its life duration is upper than `0`, or render it is the duration is `-999`.
-
-There is also a large part of the code we will not explored, because it is only dedicated to the debug display, and in a normal use of this framework, it is not taking part in the rendering process.
-
-You just need to know that, if debug mode is activated globally on the game class (see attribute `Game.debug`), and `debug > 2`, some attributes of each objects are displayed during the rendering, reducing drastically global rendering performance(particularly on the Firefox browser, having a clear issue on the usage of 2D Canvas `strokeText` method [^1].
-
-If `debug > 0`, a simple line at bottom of screen show some basic debug information.
-
-
-
 ## Annexes
 
 ### Gamepad API integration
@@ -779,6 +740,12 @@ If `debug > 0`, a simple line at bottom of screen show some basic debug informat
 To be able to listen to gamepads when some are connected to your computer where the game is running, we need to use the brand new [Gamepad API define by the W3C](https://www.w3.org/TR/gamepad/) and capture some new events. To help us implements such usage, we will rely on the very good online [gamepad mozilla documentation](https://developer.mozilla.org/en-US/docs/Web/API/Gamepad_API/Using_the_Gamepad_API).
 
 First, detecting connected Gamepads, Second listen to events and call corresponding implemented code in game to act on button pressed/released or stick moves.
+
+![the W3C Gamepad API buttons and sticks standard mapping proposal](https://www.w3.org/TR/gamepad/standard_gamepad.svg)
+
+_illusration XX - The W3C Gamepad API buttons and sticks standard mapping proposal [^2]_
+
+
 
 #### Detect devices
 
@@ -802,7 +769,6 @@ To use the gamepads to our game, we need to make our code aware of there connect
 
 *TODO*
 
+[^1]: see mozilla bugtracker[https://bugzilla.mozilla.org/show_bug.cgi?id=527386](https://bugzilla.mozilla.org/show_bug.cgi?id=527386) for details 
 
-
-[^1]: see [mozilla bugtracker](https://bugzilla.mozilla.org/show_bug.cgi?id=527386) for details 
->>>>>>> feature/update-render-game-demo
+[^2]: W3C illustration from the official W3C spec [https://www.w3.org/TR/gamepad/](https://www.w3.org/TR/gamepad/)
