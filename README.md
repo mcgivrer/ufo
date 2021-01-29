@@ -3,8 +3,8 @@
 ![github release](https://flat.badgen.net/github/release/mcgivrer/ufo)
 ![github opened issues](https://flat.badgen.net/github/open-issues/mcgivrer/ufo)
 ![github commits](https://flat.badgen.net/github/commits/mcgivrer/ufo)
-![gitter](https://flat.badgen.net/badge/icon/gitter?icon=gitter&label)
 ![MIT License](https://badgen.net/github/license/micromatch/micromatch "MIT license")
+[![Gitter](https://img.shields.io/gitter/room/SnapGames/ufo)](https://gitter.im/SnapGames/ufo)
 
 ## A Javascript Project
 
