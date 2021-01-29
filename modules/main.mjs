@@ -1,12 +1,12 @@
-import {Game} from './game.mjs';
+import { Game } from './core/game.mjs';
+import { DemoScene } from './demo/demoscene.mjs';
 
-let start=0;
-
+let start = 0;
+let canvas = document.createElement("canvas")
 let game = new Game("ufo");
-
+game.add(new DemoScene(game))
 game.run();
 requestAnimationFrame(step);
-
 
 function step(timestamp) {
   var progress;

@@ -1,3 +1,7 @@
 node_modules/
 .cache/
 dist/
+yarn.lock
+UFO.sublime-project
+.gitignore
+UFO.sublime-workspace

@@ -3,12 +3,9 @@
   "version": "1.0.0",
   "description": "a small 2d game with javascript classes and modules",
   "main": "index.html",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
   "repository": {
     "type": "git",
-    "url": "git@gitlab.raspbuntu.me:frederic/ufo.git"
+    "url": "git@github.com:mcgivrer/ufo.git"
   },
   "keywords": [
     "gamedev",
@@ -19,13 +16,16 @@
   "author": "Frederic Delorme",
   "license": "MIT",
   "dependencies": {
-    "parcel": "^1.12.4"
+    "entity": "^0.0.0",
+    "parcel": "^1.12.4",
+    "yarn": "^1.22.10"
   },
   "devDependencies": {
     "parcel-bundler": "^1.12.4"
   },
   "scripts": {
     "dev": "parcel index.html",
-    "build": "parcel build index.html"
+    "build": "parcel build ./index.html",
+    "start": "parcel serve ./index.html"
   }
 }

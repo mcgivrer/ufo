@@ -1,0 +1,41 @@
+# edited at https://mermaid-js.github.io/mermaid-live-editor/#/edit/eyJjb2RlIjoiZ3JhcGggVEJcblxuZ3MoW1NUQVJUXSlcbnN1YmdyYXBoIFNjZW5lXG4gICAgQVtUaXRsZV1cbiAgICBNZVtNZW51XVxuICAgIE1iW01pc3Npb24gQm9hcmRdXG4gICAgU3RbU3RhciBNYXBdXG4gICAgQXNbQXN0ZXJvaWQgTmF2aWdhdGlvbl1cbiAgICBQW1BhdXNlXVxuZW5kXG5zdWJncmFwaCBHYW1lIFxuICAgIExvW0xvYWQgR2FtZV1cbiAgICBTYVtTYXZlIEdhbWVdXG5lbmRcbnN1YmdyYXBoIFNlcnZpY2VzXG4gICAgU1tTZXR0aW5nc11cbmVuZFxuZ3MtLT5BXG5BIC0tIE9rIC0tPk1lXG5NZSAtLSBTdGFydCBuZXcgZ2FtZSAtLT4gTWJcbk1lIC0tIExvYWQgZ2FtZSAtLT4gTG9cbk1lIC0tIEVkaXQgU2V0dGluZ3MgLS0-IFNcbk1iIC0tIFNlbGVjdGVkIC0tPiBTdFxuTWIgLS0gUGF1c2UgLS0-IFBcblN0IC0tIE1vdmUgLS0-IEFzXG5TdCAtLSBQYXVzZSAtLT4gUFxuXG5NZSAtLSBCYWNrIC0tPiBBXG5QICAtLS0tPiBTdFxuUCAgLS0gQmFjayAtLT4gQXNcblAgIC0tIEVkaXQgU2V0dGluZ3MgLS0-IFNcblAgIC0tIFNhdmUgR2FtZSAtLT4gU2FcblAgIC0tIExvYWQgR2FtZSAtLT4gTG9cblMgIC0tIEJhY2sgdG8gTWVudSAtLT4gTWVcbkFzIC0tIEJhY2sgLS0-IFBcblNhIC0tIEdhbWUgU2F2ZWQgLS0-IFBcbkxvIC0tIEdhbWUgbG9hZGVkLS0-IE1iIFxuUyAgLS0gQmFjayAtLT4gUFxuUCAgLS0gUXVpdCB0byBNZW51IC0tPiBNZSBcbiIsIm1lcm1haWQiOnsidGhlbWUiOiJkZWZhdWx0In0sInVwZGF0ZUVkaXRvciI6ZmFsc2V9
+graph TB
+
+gs([START])
+subgraph Scene
+    A[Title]
+    Me[Menu]
+    Mb[Mission Board]
+    St[Star Map]
+    As[Asteroid Navigation]
+    P[Pause]
+end
+subgraph Game 
+    Lo[Load Game]
+    Sa[Save Game]
+end
+subgraph Services
+    S[Settings]
+end
+gs-->A
+A -- Ok -->Me
+Me -- Start new game --> Mb
+Me -- Load game --> Lo
+Me -- Edit Settings --> S
+Mb -- Selected --> St
+Mb -- Pause --> P
+St -- Move --> As
+St -- Pause --> P
+
+Me -- Back --> A
+P  ----> St
+P  -- Back --> As
+P  -- Edit Settings --> S
+P  -- Save Game --> Sa
+P  -- Load Game --> Lo
+S  -- Back to Menu --> Me
+As -- Back --> P
+Sa -- Game Saved --> P
+Lo -- Game loaded--> Mb 
+S  -- Back --> P
+P  -- Quit to Menu --> Me 
