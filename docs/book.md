@@ -8,12 +8,26 @@ tags: |
   - 2d
   - arcade
 description: |
-  This project is a tutorial on how to develop javascript game with minimalistic framework. 
---- 
-# UFO
+    This project is a tutorial on how to develop javascript game with minimalistic framework. 
+---
+# UFO: Unknown Framework Object
 ## A 2D Javascript game
 
-Novembre, 29th 2020, by Frédéric Delorme.
+2020-2021, by Frédéric Delorme.
+
+Revision
+
+
+
+1.0
+
+| Version | Date        | Author           | What’s new ?      |
+| ------- | ----------- | ---------------- | ----------------- |
+| 0.0.1   | 29-Nov-2020 | Frédéric Delorme | Document Creation |
+| 0.0.2   | 14-Dec_2020 | Frédéric Delorme | Add               |
+|         |             |                  |                   |
+
+
 
 ## Introduction
 
@@ -53,7 +67,7 @@ The project is developed by myself, and you could contact me for any question at
 
 
 
-## Basic javascript framework
+## Basic Javascript framework
 
 To start with our new javascript game, we will need some basic knowledge about how to interface UI and input with our game. With some clearer purposes, how to interact between the gamer and the screen.
 
@@ -61,8 +75,15 @@ Some information about this small project. The structure of the project is as be
 
 ```text
 ufo/
-|_ modules
-|_ styles
+|_ docs/
+|  |_ illustrations/
+|  |_ images/
+|_ modules/
+|  |_ core/
+|  |_ demo/
+|  |_ game/
+|  |_ utils/
+|_ styles/
 |_ index.html
 |_ README.md
 |_ LICENSE
