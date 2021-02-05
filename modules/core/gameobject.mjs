@@ -1,8 +1,7 @@
 import {BoundingBox} from "./boundingbox.mjs"
+import {GameObjectType} from './gameobjecttype.mjs'
 
 let GO_NODURATION=-999
-let GO_TYPE_RECTANGLE=1
-let GO_TYPE_CIRCLE=2
 class GameObject {
 
   constructor(name,p = {x:0,y:0},v = {x:0,y:0},s = {width:0,height:0}, a = {x:0,y:0}) {
@@ -18,7 +17,7 @@ class GameObject {
     this.priority = 1
     this.active = true
     this.duration = 0
-    this.type = GO_TYPE_RECTANGLE
+    this.type = GameObjectType.RECTANGLE
 
     this.properties = {
       elasticity: 1.0,
@@ -31,20 +30,9 @@ class GameObject {
     this.contact = false;
   }
 
-  draw(c) {
-    c.save()
-    c.beginPath()
-    c.arc(this.position.x, this.position.y, 
-      this.size.width/2, 0, Math.PI * 2, false)
-    c.fillStyle = this.color
-    c.fill()
-    c.closePath()
-    c.restore()
-  }
-
   update(elapsed) {
     this.bbox.update(this)
   }
 }
 
-export {GameObject,GO_NODURATION,GO_TYPE_RECTANGLE,GO_TYPE_CIRCLE};
+export {GameObject,GO_NODURATION};
