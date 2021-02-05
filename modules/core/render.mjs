@@ -1,5 +1,5 @@
 import { Layer } from "./layer.mjs";
-import GameObjectType from "gameobjecttype.mj";
+import GameObjectType from "./gameobjecttype.mjs";
 
 /**
  * A Rendering service to produce a rendering pipeline for all
@@ -67,7 +67,6 @@ class Render {
           this.layersMap.remove(ltd.index);
           this.layers.remove(ltd);
         });
-        layerToDelete = [];
       }
     }
   }
@@ -185,7 +184,7 @@ class Render {
 
     var dsize = c.measureText(debugstr);
     c.fillStyle = "#FFAA00";
-    c.fillRect(0, this.canvas.height, this.canvas.width, -24);
+    c.fillRect(0, this.canvas.height, this.canvas.width, -(dsize.height+4));
     c.fillStyle = "white";
     c.fillText(debugstr, 4, this.canvas.height - 6);
   }

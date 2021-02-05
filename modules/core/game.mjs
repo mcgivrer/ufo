@@ -52,6 +52,18 @@ class Game {
     delete this.gamepads[gamepad.index];
   }
 
+  gamepadHandler(event, connecting) {
+    var gamepad = event.gamepad;
+    // Note :
+    // gamepad === navigator.getGamepads()[gamepad.index]
+
+    if (connecting) {
+      this.gamepads[gamepad.index] = gamepad;
+    } else {
+      delete this.gamepads[gamepad.index];
+    }
+  }
+
   init() {
     this.scene.init(this);
   }

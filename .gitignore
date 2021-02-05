@@ -5,3 +5,5 @@ yarn.lock
 UFO.sublime-project
 .gitignore
 UFO.sublime-workspace
+
+ufo.code-workspace
