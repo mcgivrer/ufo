@@ -20,4 +20,4 @@ class Ball extends GameObject {
     }
 }
 
-export { Ball }
+export default  Ball;

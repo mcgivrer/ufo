@@ -87,6 +87,41 @@ class Scene {
         }
     }
 
+    gamepadButtonPressed(button){
+        console.log("button "+button.index + " has been pressed and detected from scene")
+        switch (button.index) {
+            case 15:
+                this.keys.left = true;
+                break;
+            case 13:
+                this.keys.up = true;
+                break;
+            case 16:
+                this.keys.right = true;
+                break;
+            case 15:
+                this.keys.down = true;
+                break;
+        }
+    }
+    gamepadButtonReleased(button){
+        console.log("button "+button.index + " has been released and detected from scene")
+        switch (button.index) {
+            case 15:
+                this.keys.left = false;
+                break;
+            case 13:
+                this.keys.up = false;
+                break;
+            case 16:
+                this.keys.right = false;
+                break;
+            case 15:
+                this.keys.down = false;
+                break;
+        }
+    }
+
     reset(g){
         
     }

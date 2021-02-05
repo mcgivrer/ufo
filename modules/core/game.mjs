@@ -1,11 +1,12 @@
 import { Render } from "./render.mjs";
-import { PhysicEngine } from "./physicengine.mjs";
+import { PhysicEngine } from "./math/physicengine.mjs";
 import { Collider } from "./collider.mjs";
 
 class Game {
   constructor(canvasId) {
     this.canvas = document.getElementById(canvasId);
     this.gamepads = {};
+    this.buttonsOldState = {};
 
     window.addEventListener("keydown", this.keyPressed.bind(this), false);
     window.addEventListener("keyup", this.keyReleased.bind(this), false);
@@ -14,28 +15,12 @@ class Game {
     // experimental
     window.addEventListener(
       "gamepadconnected",
-      function (e) {
-        console.log(
-          "Contrôleur n°%d connecté : %s. %d boutons, %d axes.",
-          e.gamepad.index,
-          e.gamepad.id,
-          e.gamepad.buttons.length,
-          e.gamepad.axes.length
-        );
-        gamepadHandler(e, true);
-      },
+      this.gamepadHandlerConnected.bind(this),
       false
     );
     window.addEventListener(
       "gamepaddisconnected",
-      function (e) {
-        console.log(
-          "Contrôleur n°%d déconnecté : %s",
-          e.gamepad.index,
-          e.gamepad.id
-        );
-        gamepadHandler(e, false);
-      },
+      this.gamepadHandlerDisconnected.bind(this),
       false
     );
 
@@ -56,17 +41,15 @@ class Game {
     this.collider = new Collider(this);
     this.lastTime = 0;
   }
-
-  gamepadHandler(event, connecting) {
-    var gamepad = event.gamepad;
-    // Note :
-    // gamepad === navigator.getGamepads()[gamepad.index]
-
-    if (connecting) {
-      this.gamepads[gamepad.index] = gamepad;
-    } else {
-      delete this.gamepads[gamepad.index];
-    }
+  gamepadHandlerConnected(e) {
+    var gamepad = e.gamepad;
+    console.log("✅ 🎮 A gamepad was connected:", e.gamepad);
+    this.gamepads[gamepad.index] = gamepad;
+  }
+  gamepadHandlerDisconnected(e) {
+    var gamepad = e.gamepad;
+    console.log("❌ 🎮 A gamepad was disconnected:", e.gamepad);
+    delete this.gamepads[gamepad.index];
   }
 
   init() {
@@ -112,7 +95,7 @@ class Game {
 
   update(elapsed) {
     this.frameTime = elapsed - this.lastTime;
-
+    this.handleGamepads(this);
     if (this.scene) {
       // Update Objects from the scene.
       if (!this.pause) {
@@ -123,6 +106,42 @@ class Game {
       this.scene.draw(this.render, this.frameTime, elapsed);
     }
     this.lastTime = elapsed;
+  }
+
+  handleGamepads(game) {
+    const gamepads = navigator.getGamepads();
+
+    for (const gamepad of gamepads) {
+      // Disregard empty slots.
+      if (!gamepad) {
+        continue;
+      }
+      gamepad.buttons.forEach((v, k) => {
+        var s = v.pressed;
+        if (s && !game.buttonsOldState[k]) {
+          v.index=k
+          this.gamepadButtonPressed(v);
+        } else if (
+          !s &&
+          game.buttonsOldState[k] !== undefined &&
+          game.buttonsOldState[k]
+        ) {
+          v.index=k
+          this.gamepadButtonReleased(v);
+        }
+        game.buttonsOldState[k] = v.pressed;
+      });
+    }
+  }
+
+  gamepadButtonPressed(button){
+    this.scene.gamepadButtonPressed(button)
+    console.log("btn:" + button.index + "=" + "pressed");
+    
+  }
+  gamepadButtonReleased(button){
+    this.scene.gamepadButtonReleased(button)
+    console.log("btn:" + button.index + "=" + "released");    
   }
 
   run() {
