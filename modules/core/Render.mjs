@@ -1,4 +1,4 @@
-import {Layer} from './layer.mjs'
+import {Layer} from '/modules/core/Layer.mjs'
 
 /**
  * A Rendering service to produce a rendering pipeline for all
@@ -101,7 +101,7 @@ class Render {
 
         this.clear()
         if (this.camera !== undefined) {
-            this.ctx.translate(-this.camera.position.x, -this.camera.position.y)
+            this.ctx.translate(this.camera.position.x, this.camera.position.y)
         }
         // Display all objects
         if (this.layers.length > 0) {
@@ -116,7 +116,7 @@ class Render {
             )
         }
         if (this.camera !== undefined) {
-            this.ctx.translate(this.camera.position.x, this.camera.position.y)
+            this.ctx.translate(-this.camera.position.x, -this.camera.position.y)
         }
 
         // Display pause mode if needed.

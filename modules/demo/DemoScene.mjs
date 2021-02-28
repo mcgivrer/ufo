@@ -1,8 +1,9 @@
-import { Scene } from "/modules/core/scene.mjs";
-import { GO_NODURATION } from "/modules/core/gameobject.mjs";
-import { Ball } from "/modules/scene/entity/ball.mjs";
-import { Player } from "/modules/scene/entity/player.mjs";
-import { Camera } from "/modules/core/camera.mjs";
+import { Scene } from "/modules/core/Scene.mjs";
+import { GO_NODURATION } from "/modules/core/GameObject.mjs";
+import { Camera } from "/modules/core/Camera.mjs";
+
+import { Ball } from "/modules/demo/entity/Ball.mjs";
+import { Player } from "/modules/demo/entity/Player.mjs";
 
 const zeroPad = (num, places) => String(num).padStart(places, "0");
 
@@ -33,10 +34,7 @@ class DemoScene extends Scene {
     );
     this.add(this.player);
     this.addCamera(
-      new Camera("cam01", 
-        0.002, 
-        this.player, 
-        { width: 2000, height: 1000 })
+      new Camera("cam01", 0.002, this.player, { width: 2000, height: 1000 })
     );
     this.setCamera("cam01");
   }

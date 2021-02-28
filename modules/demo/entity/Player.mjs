@@ -1,4 +1,4 @@
-import {GameObject,GO_NODURATION,GO_TYPE_RECTANGLE} from '/modules/core/gameobject.mjs'
+import {GameObject,GO_NODURATION,GO_TYPE_RECTANGLE} from '/modules/core/GameObject.mjs'
 class Player extends GameObject{
     constructor(name,x,y){
         super(

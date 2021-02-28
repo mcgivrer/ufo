@@ -21,15 +21,9 @@ description: |
 | 0.0.2   | 14-DEC-2020 | Frédéric Delorme | Add               |
 | 0.0.3   | 29-JAN-2021 | Frédéric Delorme |                   |
 
-
-
 ## Introduction
 
-<<<<<<< HEAD
 This small doc intends to explain what is build there ans what todo with.
-=======
-This small doc intends to explain what is build there and what todo with.
->>>>>>> feature/update-render-game-demo
 
 Tools and references used to achieve this project
 
@@ -38,19 +32,18 @@ Tools and references used to achieve this project
 
 ## Table of content
 
-- [UFO](#ufo)
-  - [A 2D Javascript game](#a-2d-javascript-game)
+- [UFO, Unknown Framework Object | A JavaScript 2D game oriented framework](#ufo-unknown-framework-object--a-javascript-2d-game-oriented-framework)
+  - [Revision](#revision)
   - [Introduction](#introduction)
   - [Table of content](#table-of-content)
   - [Introduction](#introduction-1)
-  - [Basic javascript framework](#basic-javascript-framework)
-  - [Entry point index.html](#entry-point-indexhtml)
-  - [The Javascript main.mjs](#the-javascript-mainmjs)
+  - [Basic Javascript framework](#basic-javascript-framework)
+  - [The Main page](#the-main-page)
+  - [The JavaScript main.mjs](#the-javascript-mainmjs)
   - [The classes of the game](#the-classes-of-the-game)
     - [The Game LOOP](#the-game-loop)
-<<<<<<< HEAD
   - [Some Scene](#some-scene)
-  - [A GameObject to play with](#a-gameobject-to-play-with)
+    - [A GameObject to play with](#a-gameobject-to-play-with)
   - [Rendering all of them](#rendering-all-of-them)
     - [Layer](#layer)
     - [Managing objects](#managing-objects)
@@ -59,14 +52,13 @@ Tools and references used to achieve this project
     - [Camera and Viewport](#camera-and-viewport)
     - [Scene](#scene)
     - [Render with Camera](#render-with-camera)
-=======
-- [Some Scene](#some-scene)
-  - [A GameObject to play with](#a-gameobject-to-play-with)
-- [Rendering all of them](#rendering-all-of-them)
-    - [Layer](#layer)
-    - [Managing objects](#managing-objects)
-    - [draw !](#draw-)
->>>>>>> feature/update-render-game-demo
+  - [Annexes](#annexes)
+    - [Gamepad API integration](#gamepad-api-integration)
+      - [Detect devices](#detect-devices)
+      - [Detect button events](#detect-button-events)
+      - [Identify `UserPlayer`](#identify-userplayer)
+      - [Connect `Game`](#connect-game)
+      - [Connect `Scene`](#connect-scene)
 
 ## Introduction
 
@@ -78,11 +70,7 @@ The project is developed by myself, and you could contact me for any question at
 
 
 
-<<<<<<< HEAD
-## Basic javascript framework
-=======
 ## Basic Javascript framework
->>>>>>> feature/update-render-game-demo
 
 To start with our new javascript game, we will need some basic knowledge about how to interface UI and input with our game. With some clearer purposes, how to interact between the gamer and the screen.
 
@@ -543,6 +531,7 @@ The Render class propose some helpers to add or remove objects into/frol the pip
 ![The Render model](https://www.planttext.com/api/plantuml/svg/SoWkIImgAStDKGXApKj9BLBmpKz9pU62SfGCbHHqTHMKj9GKt1DpK_sJibAJIwpomLGn5aK-YPMfHLOv818k3PJoJIo02W9PN0v0SQ250000)
 
 _illustration 16 - The Render model_
+
 ### draw !
 
 If we go into the draw() details, the processing of all the GmaeoJect to rendereder is a quick and fast loop:
@@ -561,10 +550,11 @@ draw(elapsed,startTime) {
             }
         })
     })
-}
+  }
   ...
 }
 ```
+
 _illustration xx - The drawing operation for all those `GameObjects`'s_
 
 First, a full clear of the rendering area before drawing all. Then, looping on all the layers to draw all their contained objects with the `GameObject.draw(context)` method.

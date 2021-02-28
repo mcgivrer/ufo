@@ -1,4 +1,4 @@
-import {BoundingBox} from "./boundingbox.mjs"
+import {BoundingBox} from "/modules/core/BoundingBox.mjs"
 
 let GO_NODURATION=-999
 let GO_TYPE_RECTANGLE=1
@@ -34,8 +34,10 @@ class GameObject {
   draw(c) {
     c.save()
     c.beginPath()
-    c.arc(this.position.x, this.position.y, 
-      this.size.width/2, 0, Math.PI * 2, false)
+    c.arc(
+      this.position.x, this.position.y, 
+      this.size.width/2, 0, Math.PI * 2, 
+      false)
     c.fillStyle = this.color
     c.fill()
     c.closePath()

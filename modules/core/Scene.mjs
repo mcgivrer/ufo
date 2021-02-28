@@ -1,4 +1,4 @@
-import { Camera } from "../core/camera.mjs"
+import { Camera } from "/modules/core/Camera.mjs"
 
 class Scene {
     constructor(g) {
@@ -29,6 +29,9 @@ class Scene {
 
     addCamera(camera){
         this.cameras.set(camera.name,camera)
+        if(this.camera == undefined){
+            this.setCamera(camera.name)
+        }
     }
 
     setCamera(camName){

@@ -1,6 +1,6 @@
-import { Render } from "./render.mjs";
-import { PhysicEngine } from "./physicengine.mjs";
-import { Collider } from "./collider.mjs";
+import { Render } from "/modules/core/Render.mjs";
+import { PhysicEngine } from "/modules/core/PhysicEngine.mjs";
+import { Collider } from "/modules/core/Collider.mjs";
 
 class Game {
   constructor(canvasId) {
@@ -118,6 +118,7 @@ class Game {
       if (!this.pause) {
         this.scene.input();
         this.physic.update(this.scene, this.frameTime);
+        this.scene.update(elapsed)
       }
       // Draw all objects of the scene.
       this.scene.draw(this.render, this.frameTime, elapsed);
