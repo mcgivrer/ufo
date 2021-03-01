@@ -50,6 +50,14 @@ $> firefox http://localhost:1234
 - <kbd>PageDown</kbd> remove 10 balls from the display,
 - <kbd>Backspace</kbd> remove all objects but player,
 - <kbd>R</kbd> reset all displayed ball to a random position with random velocity and phyusic attributes (mass, friction, elasticity).
+- <kbd>M</kbd> switch between weather particle effects (Rain, Snow, Fog(soon))
+
+
+4. Coming soon
+
+- Tile map, Tiles, and TileSet to create platforms
+- Collision with Tiemap to manage partialy physics through the tiles
+- GameObject behaviors to attach specific "replayable" process to any GameObject, like the Enemy tracking behavior, or the "Player Input" behavior.
 
 That's All
 
