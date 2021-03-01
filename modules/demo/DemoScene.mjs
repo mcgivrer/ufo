@@ -33,7 +33,8 @@ class DemoScene extends Scene {
     this.rain = {};
     this.fog = {};
 
-    this.meteo = 1;
+    this.currentWeather = 0;
+    this.weatherConditions = new Map();
   }
 
   init(game) {
@@ -46,18 +47,20 @@ class DemoScene extends Scene {
     );
     this.add(this.player);
 
-    this.fog = new FogPS(game, "fog", 300);
+    this.rain = new RainPS(game, "rain", 300);
+    this.rain.active = false;
+    this.add(this.rain);
+    this.weatherConditions.set(this.rain.name, this.rain);
+
+    this.fog = new FogPS(game, "fog");
     this.fog.active = false;
     this.add(this.fog);
-
+    this.weatherConditions.set(this.fog.name, this.fog);
 
     this.snow = new SnowPS(game, "snow", 300);
     this.snow.active = false;
     this.add(this.snow);
-
-    this.rain = new RainPS(game, "rain", 300);
-    this.rain.active = false;
-    this.add(this.rain);
+    this.weatherConditions.set(this.snow.name, this.snow);
 
     this.generateBatch(game, "enemy_", 20, true);
 
@@ -128,11 +131,11 @@ class DemoScene extends Scene {
       case 34:
         this.removeGameObject(10, "player");
         break;
-      
+
       case 33:
         this.generateBatch(this.game, "enemy_", 10);
         break;
-      
+
       case 8:
         this.clearGameObjects("player");
         break;
@@ -142,41 +145,31 @@ class DemoScene extends Scene {
         break;
 
       case 71:
-        this.game.physic.properties.gravity.y = -this.game.physic.properties.gravity.y;
+        this.game.physic.properties.gravity.y = -this.game.physic.properties
+          .gravity.y;
     }
   }
 
+  /**
+   * Switch between all Weather condition
+   */
   changeEffect() {
-    this.meteo += 1;
+    this.currentWeather =
+      this.currentWeather + 1 < this.weatherConditions.size
+        ? this.currentWeather + 1
+        : -1;
 
-    if (this.meteo > 3) {
-      this.meteo = 0;
+    this.weatherConditions.forEach((v, k) => {
+      v.active = false;
+    });
+    if (this.currentWeather != -1) {
+      var keys = Array.from(this.weatherConditions.keys());
+      var k = this.weatherConditions.get(keys[this.currentWeather]);
+      this.game.attributes.weatherKey = keys[this.currentWeather];
+      this.weatherConditions.get(keys[this.currentWeather]).active = true;
+    } else {
+      this.game.attributes.weatherKey = "none";
     }
-
-
-
-    if (this.meteo == 0) {
-      this.snow.active = false;
-      this.rain.active = false;
-      this.fog.active = false;
-    }
-    if (this.meteo == 1) {
-      this.snow.active = false;
-      this.rain.active = true;
-      this.fog.active = false;
-    }
-
-    if (this.meteo == 2) {
-      this.snow.active = true;
-      this.rain.active = false;
-      this.fog.active = false;
-    }
-    if (this.meteo == 3) {
-      this.snow.active = false;
-      this.rain.active = false;
-      this.fog.true = true;
-    }
-
   }
 
   randomAll(game, excludes) {

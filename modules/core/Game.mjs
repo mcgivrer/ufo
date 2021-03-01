@@ -6,6 +6,9 @@ class Game {
   constructor(canvasId) {
     this.canvas = document.getElementById(canvasId);
     this.gamepads = {};
+    this.attributes = {
+      weatherKey:"none"
+    };
 
     window.addEventListener("keydown", this.keyPressed.bind(this), false);
     window.addEventListener("keyup", this.keyReleased.bind(this), false);
@@ -118,7 +121,7 @@ class Game {
       if (!this.pause) {
         this.scene.input();
         this.physic.update(this.scene, this.frameTime);
-        this.scene.update(elapsed)
+        this.scene.update(elapsed);
       }
       // Draw all objects of the scene.
       this.scene.draw(this.render, this.frameTime, elapsed);

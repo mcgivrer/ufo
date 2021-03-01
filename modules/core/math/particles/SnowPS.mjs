@@ -4,7 +4,7 @@ import { Particle } from "/modules/core/math/particles/Particle.mjs";
 class SnowPS extends ParticleSystem {
   constructor(game, name, nbParticules) {
     super(game, name, nbParticules);
-    this.color = "#fff";
+    this.color = "#ffffff";
   }
 
   createParticle() {
