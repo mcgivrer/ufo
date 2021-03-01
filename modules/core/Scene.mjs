@@ -86,7 +86,16 @@ class Scene {
 
   reset(g) {}
 
-  input() {}
+  input() {
+    if (this.game.gamepadAPI.gamepads[0]) {
+      var gamepad = this.game.gamepadAPI.gamepads[0];
+      this.keys.left = gamepad.buttons[14].pressed;
+      this.keys.right = gamepad.buttons[15].pressed;
+      this.keys.up = gamepad.buttons[12].pressed;
+      this.keys.down = gamepad.buttons[13].pressed;
+    }
+  }
+
   update(elapsed) {
     this.activeNumber = 0;
     this.objects.forEach((o) => {

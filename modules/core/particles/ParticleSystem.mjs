@@ -1,5 +1,4 @@
 import { GameObject, GO_NODURATION } from "/modules/core/GameObject.mjs";
-import { Particle } from "/modules/core/math/particles/Particle.mjs";
 
 class ParticleSystem extends GameObject {
   constructor(game, name, nbDrops) {
@@ -11,16 +10,14 @@ class ParticleSystem extends GameObject {
     this.duration = GO_NODURATION;
     this.create();
     this.renewParticle = true;
-    this.size={
+    this.size = {
       width: game.canvas.width,
-      height: game.canvas.height
-    }
+      height: game.canvas.height,
+    };
   }
-  
-  createParticle() {
 
-  }
-  
+  createParticle() {}
+
   create() {
     for (var i = 0; i < this.drops.length; i++) {
       var p = this.createParticle();
@@ -28,10 +25,7 @@ class ParticleSystem extends GameObject {
     }
   }
 
-
-  updateParticle(p,elapsed){
-
-  }
+  updateParticle(p, elapsed) {}
 
   update(elapsed) {
     this.drops.forEach((d) => {
@@ -45,16 +39,15 @@ class ParticleSystem extends GameObject {
         if (d.duration == 0) {
           d.active = false;
         }
-        if(this.renewParticle){
-          this.updateParticle(d,elapsed);
+        if (this.renewParticle) {
+          this.updateParticle(d, elapsed);
         }
         if (d.duration != -1) {
           d.duration -= 1;
         }
       }
     });
-    super.update(elapsed)
-
+    super.update(elapsed);
   }
 
   draw(c) {

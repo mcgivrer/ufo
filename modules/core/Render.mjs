@@ -11,6 +11,7 @@ class Render {
         this.ctx = canvas.getContext("2d")
         this.clearAllObjects()
         this.camera = undefined
+        this.backgroundColor = "#39E"
     }
 
     /**
@@ -32,6 +33,9 @@ class Render {
             }
             layer.objects.push(object)
             layer.sort()
+            if(object.initRendering){
+                object.initRendering(this.ctx)
+            }
         }
     }
     setCamera(camera) {
@@ -84,7 +88,8 @@ class Render {
      * @param ctx CanvasRenderingContext to be used 
      */
     clear() {
-        this.ctx.fillStyle = 'navy'
+        this.ctx.fillStyle = this.backgroundColor;
+        this.ctx.shadowColor = 'none';
         this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height)
     }
 
@@ -141,7 +146,14 @@ class Render {
         var FPS = Math.round(1000 / frameTime, 2)
         var c = this.ctx
         c.font = '12pt courier new';
-        var debugstr = "[" + "fps:" + FPS + "|dbg:" + this.game.debug + "|objs:" + this.objects.length + "|activ:" + this.game.scene.activeNumber + "|f:" + frameTime + "|t:" + runForInSec + "|pause:" + (this.game.pause ? "on " : "off") + "]"
+        var debugstr = "[" + "fps:" + FPS 
+        + "|dbg:" + this.game.debug 
+        + "|objs:" + this.objects.length 
+        + "|activ:" + this.game.scene.activeNumber 
+        + "|f:" + frameTime 
+        + "|weather:" + this.game.attributes.weatherKey 
+        + "|t(s):" + runForInSec 
+        + "|pause:" + (this.game.pause ? "on " : "off") + "]"
 
         var dsize = c.measureText(debugstr)
         c.fillStyle = '#FFAA00'

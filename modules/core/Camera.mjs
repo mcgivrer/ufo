@@ -14,8 +14,9 @@ class Camera extends GameObject {
     }
 
     update(elapsed) {
-        this.position.x = ((this.target.position.x + this.target.size.width - this.viewport.width * 0.5) - this.position.x) * this.tween * elapsed;
-        this.position.y = ((this.target.position.y + this.target.size.height - this.viewport.height * 0.5) - this.position.y) * this.tween * elapsed;
+        elapsed = (elapsed>20?20:elapsed)
+        this.position.x = (((this.target.position.x + this.target.size.width - this.viewport.width) * 0.5) - this.position.x) * this.tween * elapsed;
+        this.position.y = (((this.target.position.y + this.target.size.height - this.viewport.height) * 0.5) - this.position.y) * this.tween * elapsed;
     }
 
     draw(c) {
