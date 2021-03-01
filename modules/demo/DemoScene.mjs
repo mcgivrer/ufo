@@ -1,5 +1,10 @@
 import { Scene } from "/modules/core/Scene.mjs";
 import { GO_NODURATION } from "/modules/core/GameObject.mjs";
+
+import { RainPS } from "/modules/core/math/particles/RainPS.mjs";
+import { SnowPS } from "/modules/core/math/particles/SnowPS.mjs";
+import { FogPS } from "/modules/core/math/particles/FogPS.mjs";
+
 import { Camera } from "/modules/core/Camera.mjs";
 
 import { Ball } from "/modules/demo/entity/Ball.mjs";
@@ -12,6 +17,7 @@ class DemoScene extends Scene {
     super(g);
     this.numberObjects = 20;
     this.index = 0;
+    this.viewport = { width: 2000, height: 1000 };
 
     this.properties = {
       score: 0,
@@ -21,21 +27,43 @@ class DemoScene extends Scene {
       mushrooms: 2,
     };
     this.player = {};
+    this.camera = {};
+
+    this.snow = {};
+    this.rain = {};
+    this.fog = {};
+
+    this.meteo = 1;
   }
 
   init(game) {
     this.objects = [];
     this.game.render.clearAllObjects();
-    this.generateBatch(game, "enemy_", 20, true);
     this.player = new Player(
       "player",
       game.stageConfig.width / 2,
       game.stageConfig.height / 2
     );
     this.add(this.player);
-    this.addCamera(
-      new Camera("cam01", 0.002, this.player, { width: 2000, height: 1000 })
-    );
+
+    this.fog = new FogPS(game, "fog", 300);
+    this.fog.active = false;
+    this.add(this.fog);
+
+
+    this.snow = new SnowPS(game, "snow", 300);
+    this.snow.active = false;
+    this.add(this.snow);
+
+    this.rain = new RainPS(game, "rain", 300);
+    this.rain.active = false;
+    this.add(this.rain);
+
+    this.generateBatch(game, "enemy_", 20, true);
+
+    this.camera = new Camera("cam01", 0.002, this.player, this.viewport);
+    this.addCamera(this.camera);
+
     this.setCamera("cam01");
   }
 
@@ -100,16 +128,55 @@ class DemoScene extends Scene {
       case 34:
         this.removeGameObject(10, "player");
         break;
+      
       case 33:
         this.generateBatch(this.game, "enemy_", 10);
         break;
+      
       case 8:
         this.clearGameObjects("player");
         break;
+
+      case 77:
+        this.changeEffect();
+        break;
+
       case 71:
-        this.game.physic.properties.gravity.y = -this.game.physic.properties
-          .gravity.y;
+        this.game.physic.properties.gravity.y = -this.game.physic.properties.gravity.y;
     }
+  }
+
+  changeEffect() {
+    this.meteo += 1;
+
+    if (this.meteo > 3) {
+      this.meteo = 0;
+    }
+
+
+
+    if (this.meteo == 0) {
+      this.snow.active = false;
+      this.rain.active = false;
+      this.fog.active = false;
+    }
+    if (this.meteo == 1) {
+      this.snow.active = false;
+      this.rain.active = true;
+      this.fog.active = false;
+    }
+
+    if (this.meteo == 2) {
+      this.snow.active = true;
+      this.rain.active = false;
+      this.fog.active = false;
+    }
+    if (this.meteo == 3) {
+      this.snow.active = false;
+      this.rain.active = false;
+      this.fog.true = true;
+    }
+
   }
 
   randomAll(game, excludes) {

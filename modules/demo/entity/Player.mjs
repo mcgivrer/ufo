@@ -14,6 +14,7 @@ class Player extends GameObject{
         this.debug=2
         
         this.properties = {
+            physicType:'DYNAMIC',
             elasticity:0.98,
             mass:2.0,
             friction:0.6,

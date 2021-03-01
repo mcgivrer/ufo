@@ -1,5 +1,5 @@
 import { Render } from "/modules/core/Render.mjs";
-import { PhysicEngine } from "/modules/core/PhysicEngine.mjs";
+import { PhysicEngine } from "/modules/core/math/PhysicEngine.mjs";
 import { Collider } from "/modules/core/Collider.mjs";
 
 class Game {
