@@ -25,7 +25,9 @@ class ParticleSystem extends GameObject {
     }
   }
 
-  updateParticle(p, elapsed) {}
+  updateParticle(p, elapsed) {
+    
+  }
 
   update(elapsed) {
     this.drops.forEach((d) => {

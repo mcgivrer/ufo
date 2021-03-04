@@ -52,11 +52,6 @@ class DemoScene extends Scene {
     this.add(this.rain);
     this.weatherConditions.set(this.rain.name, this.rain);
 
-    this.fog = new FogPS(game, "fog");
-    this.fog.active = false;
-    this.add(this.fog);
-    this.weatherConditions.set(this.fog.name, this.fog);
-
     this.snow = new SnowPS(game, "snow", 300);
     this.snow.active = false;
     this.add(this.snow);

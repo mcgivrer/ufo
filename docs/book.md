@@ -41,6 +41,7 @@ Tools and references used to achieve this project
   - [The Main page](#the-main-page)
   - [The JavaScript main.mjs](#the-javascript-mainmjs)
   - [The classes of the game](#the-classes-of-the-game)
+    - [A bit of History](#a-bit-of-history)
     - [The Game LOOP](#the-game-loop)
   - [Some Scene](#some-scene)
     - [A GameObject to play with](#a-gameobject-to-play-with)
@@ -52,6 +53,14 @@ Tools and references used to achieve this project
     - [Camera and Viewport](#camera-and-viewport)
     - [Scene](#scene)
     - [Render with Camera](#render-with-camera)
+  - [Fun with Particles](#fun-with-particles)
+    - [Goal](#goal)
+    - [An elementary Particle](#an-elementary-particle)
+    - [Particle System](#particle-system)
+      - [Initialization](#initialization)
+      - [Create and update](#create-and-update)
+      - [Update](#update)
+    - [Draw particles](#draw-particles)
   - [Annexes](#annexes)
     - [Gamepad API integration](#gamepad-api-integration)
       - [Detect devices](#detect-devices)
@@ -181,6 +190,54 @@ _illustration 2 - code extract from file main.mjs_
 So the main class `Game` is where all the things happened.
 
 ## The classes of the game
+
+### A bit of History
+
+Before diving in the Game development, we need to know some foundation of game development, and particularly on how to let graphical objects interact with humans !
+
+In any game, there is a central process, inherited from ancestral games (maybe I am exaggerating a little bit ?) : The Game Loop.
+in some very old video game, the manner to build the gale was directly linked to the involved display hardware !
+
+The display screen, in those old times, was relying on the CRT electronic process to produce images.
+an electron beam was electromagnetically controlled to irradiate a phosphorescent material to illuminate screen pixels, all of this in a bubble glass.
+
+<a href="http://csis.pace.edu/~marchese/CG/Lect2/Lecture_2a.html" title="Go to visit diagram original page">
+<img src="http://csis.pace.edu/~marchese/CG/Lect2/Lecture_2a_files/image002.jpg" width="100%" alt="The CRT electron beam swept mechanism" title="The CRT electron beam swept mechanism"></a>
+
+_This is a Electron Beam into a CRT screen_
+
+<a href="https://www.wired.com/2016/03/a-hackers-guide-to-bending-the-universe/"><img src="https://www.wired.com/wp-content/uploads/2016/03/1iLFX204DWcFS3KXZW1EF4w.jpeg" width="100%" alt="A CRT Bubble armed glass" title="A CRT Bubble armed glass"></a>
+
+_A bubble armed glass of a CRT_
+
+
+The electron beam swiped the entire phosphorescent screen to draw all lines of an image, and I won’t go through the different image size standard (PAL, SECAM, NTSC, etc…) but during the time the beam back to upper top screen, the electron gun is disabled, and this time, between each image (25/s or 30/s, depending on those standards) is the one used by a computer to redraw all the image before display. so, 1s/25 images results of 40ms to compute and draw everything (in the best case).
+So, the Game loop frequency is based on those 40 ms cycles.
+
+And during this cycle, not only drawing operations are performed, all moves, input red, are done.
+
+[![The basics of Game Loop](https://gameprogrammingpatterns.com/images/game-loop-simple.png)](https://gameprogrammingpatterns.com/game-loop.html "Go to read the fantastic book on Game development pattern !")
+_The most basic game loop diagram_
+
+And to keep animation pace at a constant level, we will wait a little bit at the end of cycle to start redrawing at the exact right time, during the end of beam back move.
+
+So the game loop is like the following simplified algorithm:
+
+```java
+loop(){
+  while(!exit()){
+    time = currentTimeMillis()
+    elapsed = time - previous 
+    input()
+    update(elapsed)
+    draw()
+    wait(40-elapsed)
+    previous = time
+  }
+}
+```
+
+But as we are on the javascript platform, the default web browser API provides a good part of this loop through the requestAnimationFrame() method.
 
 ### The Game LOOP
 
@@ -722,6 +779,230 @@ and finaly, move back to initial position.
 ```
 
 Let's operate the magic !
+
+## Fun with Particles
+
+### Goal
+
+One of the most fun parts in the video game is the way to simulate things. How to create great visual effects with a minimal footprint ?
+
+One of the best known ways to produce visual effects in video games (and before that, on movies with computer build images) consists in using Particles.
+
+A Particle is the minimum animated graphical element in a system composed of numerous (but limited) other of this basic element.
+Let's dive into an example.
+
+You want to simulate rain in your game. particles are the exact artifact to use to produce such effect. A drop is the particle. Each separate drop has the same visual rendering, but have separate animation needs, obeying to its own physics. 
+
+The graphic part is shared between all the drops, and also the algorithm animating those drops, even if each drop has its own visual behavior, it is computed through the same animation logic.
+
+A Particle system will provide a finite number of Particles, and the common animation algorithm to be applied to each of those particles.
+
+Weather is one of the best examples to be simulated in video games with Particles; rain, snow, wind and fog are subjects for such an approach.
+
+But not only weather, you can also create great fire effects, burning torches, explosions, etc...
+
+<img src="images/ufo-particlesystem-diagram.png" alt="A ParticleSystem and its particles" title="A ParticleSystem and its particles">
+
+_A ParticleSystem and its own articles_
+
+If you want to define a ParticleSystem, like a GameObject, you will need to set a position for this object, an optional object speed, for the particle system move, and a number of particles for this system, and a common update process for this bunch of particles.
+
+
+Start the `Particle`'s adventure with the rain effect.
+
+### An elementary Particle
+
+Let’s go back to one of our cases, the rain. In this simplest case, a drop is a particle, the rain behavior simulating the path of all the drops will be performed by a particle system.
+Starting with a simple point for rain, the particle can be summarised by its position:
+
+```javascript
+class Particle {
+  constructor(px, py) {
+    this.position = { x: px | 0, y: py | 0 };
+    this.speed = { x: 0, y: 0 };
+    this.duration = -1;
+    this.active = true;
+    this.color = "rgb(255,255,255,1)";
+  }
+}
+export { Particle };
+```
+
+The `Particle` object will handle some basic necessary attributes to make the particle exist:
+
+- the `position` is a 2D vector
+- the `speed` of the particle to compute next move and position,
+- `duration` is a lifetime element, we will see this in details when we will have to animate the particles,
+- `active`, a flag to know if this particle need to be computed or not,
+- and finally, a `color` animation when this will be mandatory for some reason.
+
+### Particle System
+
+And to animate those particles, we need a `ParticleSystem` that will contain an array of particles, assimilated to drops, and defining the simple algorithm to compute the drop’s moves, falling from the sky to the ground.
+
+This particle system will be managed by our `Game`, as a particles container, it will also be a standard `GameObject`:
+
+```javascript
+class ParticleSystem extends GameObject {
+  constructor(game, name, nbDrops) {
+    super(name);
+    this.game = game;
+    this.drops = new Array(nbDrops);
+    this.color = "#aaa";
+    this.properties.physicType = "STATIC";
+    this.duration = GO_NODURATION;
+    this.create();
+    this.renewParticle = true;
+    this.size = {
+      width: game.canvas.width,
+      height: game.canvas.height,
+    };
+  }
+  ...
+}
+export { ParticleSystem };
+```
+
+#### Initialization
+
+In this constructor, you can notice that an Array initialization with a defined number of particles. This array will maintain the finite number of particles. And when a particle is no longer needed by the system, it will be returned as an inactive one (active=false).
+
+#### Create and update
+
+To create the drops and animate them, we need to define 2 more methods:
+- `createParticle()` will define how to create the particle at array initialization,
+- `updateParticle()` wil define how to update a particle on a normal game loop.
+
+The `createParticle()` is dedicated to the creation and the initialization of a particle in the array.:
+
+```javascript
+createParticle() {
+  // define one particle on the screen as a raindrop
+  p =  new Particle();
+  ...
+  return p;
+}
+```
+
+The `create()` method is an internal called in the constructor to initialize all the particles according to its visual initialization:
+
+```javascript
+create() {
+  for (var i = 0; i < this.drops.length; i++) {
+    var p = this.createParticle();
+    this.drops[i] = p;
+  }
+}
+```
+
+#### Update
+
+The update process for all particles in the system will be driven by this method, renewing the initial drop position each time this drop reaches the bottom of the canvas window.
+
+```javascript
+ updateParticle(p, elapsed) {
+   if (d.position.y > this.game.canvas.height) {
+     d.position.x = (Math.random() * this.game.canvas.width + 200) - 200;
+     d.position.y = 0;
+     d.speed.y = Math.random() * 10 + 15;
+   }
+  }
+```
+
+And the `ParticleSystem` dedicated update for all particles in the array, the elapsed time is provided by the game loop mechanism:
+
+```javascript
+  update(elapsed) {
+    this.drops.forEach((d) => {
+      if (d.active) {
+        d.position.x += d.speed.x;
+        d.position.y += d.speed.y;
+        if (d.duration == 0) {
+          d.active = false;
+        }
+        if (this.renewParticle) {
+          this.updateParticle(d, elapsed);
+        }
+        if (d.duration != -1) {
+          d.duration -= 1;
+        }
+      }
+    });
+    super.update(elapsed); // call back the GameObject update process
+  }
+```
+
+### Draw particles
+
+Finally, after updating all particles, there will be drawn. But we need one more trick to draw a more realistic drop than a simple 2D point, we need to draw some line, to simulate drop speed. For this specific purpose, the previous drop position will be kept at particle level (by adding a new attribute), and draw the line between the previous position and the latest calculated one.
+
+So let’s add this attribute to the particle:
+
+```javascript
+class Particle {
+  constructor(px, py) {
+    this.position = {
+      x: px | 0,
+      y: py | 0,
+    };
+    this.oldPos = {
+      x: px | 0,
+      y: py | 0,
+    };
+    ...
+  }
+}
+```
+
+We must add the old position update into the update process:
+
+```javascript
+  createParticle() {
+    var p = new Particle(
+      (Math.random() * this.game.canvas.width + 200) - 200,
+      Math.random() * this.game.canvas.height
+    );
+    p.oldPos.x = p.position.x;
+    p.oldPos.y = p.position.y;
+
+    p.speed.x = 1;
+    p.speed.y = Math.random() * 10 + 15;
+    return p;
+  }
+
+  updateParticle(d, elapsed) {
+    if (d.position.y > this.game.canvas.height) {
+      d.position.x = (Math.random() * this.game.canvas.width + 200) - 200;
+      d.position.y = 0;
+      d.oldPos.x = d.position.x;
+      d.oldPos.y = d.position.y;
+
+      d.speed.y = Math.random() * 10 + 15;
+    }
+  }
+```
+
+And now, we can write the draw code:
+
+```javascript
+  draw(c) {
+    c.fillStyle = this.color;
+
+    this.drops.forEach((p) => {
+      c.beginPath();
+      c.moveTo(p.oldPos.x, p.oldPos.y);
+      c.lineTo(p.position.x, p.position.y);
+      c.stroke();
+    });
+  }
+```
+
+So, drawing a line from the previous old position, to the latest one, with the `ParticleSystem` preferred color. You certainly noticed the `beginPath()` and `stroke()` method call, there are defining the start and the end of the draw process.
+
+If you restart your browser with this updated piece of code, you will seen such thing:
+
+<img src="images/ufo-particles-rainps-screenshot.png" alt="Rain Particle Effect" title="the Rain particle effect results of the RainPS class" />
+
 
 ## Annexes
 
