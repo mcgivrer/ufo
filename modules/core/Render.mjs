@@ -11,7 +11,7 @@ class Render {
         this.ctx = canvas.getContext("2d")
         this.clearAllObjects()
         this.camera = undefined
-        this.backgroundColor = "#39E"
+        this.backgroundColor = "#3DF"
     }
 
     /**

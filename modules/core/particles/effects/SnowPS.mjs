@@ -16,7 +16,7 @@ class SnowPS extends ParticleSystem {
     p.oldPos.y = p.position.y;
 
     p.speed.x = 1;
-    p.speed.y = Math.random() * 4 + 1;
+    p.speed.y = Math.random() * 2 + 1;
     return p;
   }
 
@@ -27,7 +27,7 @@ class SnowPS extends ParticleSystem {
       d.oldPos.x = d.position.x;
       d.oldPos.y = d.position.y;
 
-      d.speed.y = Math.random() * 4 + 1;
+      d.speed.y = Math.random() * 2 + 1;
     } else {
       d.speed.x = Math.cos(Math.random() * elapsed) * 2;
     }

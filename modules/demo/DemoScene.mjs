@@ -3,6 +3,7 @@ import { GO_NODURATION } from "/modules/core/GameObject.mjs";
 
 import { RainPS } from "/modules/core/particles/effects/RainPS.mjs";
 import { SnowPS } from "/modules/core/particles/effects/SnowPS.mjs";
+import { FogPS } from "/modules/core/particles/effects/FogPS.mjs";
 
 import { Camera } from "/modules/core/Camera.mjs";
 
@@ -50,6 +51,11 @@ class DemoScene extends Scene {
     this.rain.active = false;
     this.add(this.rain);
     this.weatherConditions.set(this.rain.name, this.rain);
+
+    this.fog = new FogPS(game, "fog");
+    this.fog.active = false;
+    this.add(this.fog);
+    this.weatherConditions.set(this.fog.name, this.fog);
 
     this.snow = new SnowPS(game, "snow", 300);
     this.snow.active = false;
