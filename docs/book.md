@@ -1,5 +1,5 @@
 ---
-title: UFO | A Javascript 2D game oriented framework
+title: UFO, Unknown Framework Object | A JavaScript 2D game oriented framework
 author: Frédéric Delorme
 createdat: 2020-11-28
 tags: |
@@ -8,18 +8,17 @@ tags: |
   - 2d
   - arcade
 description: |
-    This project is a tutorial on how to develop javascript game with minimalistic framework. 
+  This project is a tutorial on how to develop javascript game with minimalistic and useful framework.
 ---
-# UFO, Unknown Framework Object | A JavaScript 2D game oriented framework
-2020-2021, by Frédéric Delorme.
 
 ## Revision
 
-| Version | Date        | Author           | What’s new ?      |
-| ------- | ----------- | ---------------- | ----------------- |
-| 0.0.1   | 28-NOV-2020 | Frédéric Delorme | Document Creation |
-| 0.0.2   | 14-DEC-2020 | Frédéric Delorme | Add               |
-| 0.0.3   | 29-JAN-2021 | Frédéric Delorme |                   |
+| Version | Date        | Author           | What’s new ?        | Issues             |
+| ------- | ----------- | ---------------- | ------------------- | ------------------ |
+| 0.0.1   | 25-NOV-2020 | Frédéric Delorme | Document Creation   | #1,#2,#3,#4, #8,#9 |
+| 0.0.2   | 27-NOV-2020 | Frédéric Delorme | Add Rendering class | #5                 |
+| 0.0.3   | 30-NOV-2021 | Frédéric Delorme | Add Book doc        | #11                |
+| 0.0.4   | 04-MAR-2021 | Frédéric Delorme | Add Particle System | #21,#22,#23        |
 
 ## Introduction
 
@@ -32,52 +31,49 @@ Tools and references used to achieve this project
 
 ## Table of content
 
-- [UFO, Unknown Framework Object | A JavaScript 2D game oriented framework](#ufo-unknown-framework-object--a-javascript-2d-game-oriented-framework)
-  - [Revision](#revision)
-  - [Introduction](#introduction)
-  - [Table of content](#table-of-content)
-  - [Introduction](#introduction-1)
-  - [Basic Javascript framework](#basic-javascript-framework)
-  - [The Main page](#the-main-page)
-  - [The JavaScript main.mjs](#the-javascript-mainmjs)
-  - [The classes of the game](#the-classes-of-the-game)
-    - [A bit of History](#a-bit-of-history)
-    - [The Game LOOP](#the-game-loop)
-  - [Some Scene](#some-scene)
-    - [A GameObject to play with](#a-gameobject-to-play-with)
-  - [Rendering all of them](#rendering-all-of-them)
-    - [Layer](#layer)
-    - [Managing objects](#managing-objects)
-    - [draw !](#draw-)
-  - [Another point of view](#another-point-of-view)
-    - [Camera and Viewport](#camera-and-viewport)
-    - [Scene](#scene)
-    - [Render with Camera](#render-with-camera)
-  - [Fun with Particles](#fun-with-particles)
-    - [Goal](#goal)
-    - [An elementary Particle](#an-elementary-particle)
-    - [Particle System](#particle-system)
-      - [Initialization](#initialization)
-      - [Create and update](#create-and-update)
-      - [Update](#update)
-    - [Draw particles](#draw-particles)
-  - [Annexes](#annexes)
-    - [Gamepad API integration](#gamepad-api-integration)
-      - [Detect devices](#detect-devices)
-      - [Detect button events](#detect-button-events)
-      - [Identify `UserPlayer`](#identify-userplayer)
-      - [Connect `Game`](#connect-game)
-      - [Connect `Scene`](#connect-scene)
+- [Revision](#revision)
+- [Introduction](#introduction)
+- [Table of content](#table-of-content)
+- [Introduction](#introduction-1)
+- [Basic Javascript framework](#basic-javascript-framework)
+- [The Main page](#the-main-page)
+- [The JavaScript main.mjs](#the-javascript-mainmjs)
+- [The classes of the game](#the-classes-of-the-game)
+  - [A bit of History](#a-bit-of-history)
+  - [The Game LOOP](#the-game-loop)
+- [Some Scene](#some-scene)
+  - [A GameObject to play with](#a-gameobject-to-play-with)
+- [Rendering all of them](#rendering-all-of-them)
+  - [Layer](#layer)
+  - [Managing objects](#managing-objects)
+  - [draw !](#draw-)
+- [Another point of view](#another-point-of-view)
+  - [Camera and Viewport](#camera-and-viewport)
+  - [Scene](#scene)
+  - [Render with Camera](#render-with-camera)
+- [Fun with Particles](#fun-with-particles)
+  - [Goal](#goal)
+  - [An elementary Particle](#an-elementary-particle)
+  - [Particle System](#particle-system)
+    - [Initialization](#initialization)
+    - [Create and update](#create-and-update)
+    - [Update](#update)
+  - [Draw particles](#draw-particles)
+- [Annexes](#annexes)
+  - [Gamepad API integration](#gamepad-api-integration)
+    - [Detect devices](#detect-devices)
+    - [Detect button events](#detect-button-events)
+    - [Identify `UserPlayer`](#identify-userplayer)
+    - [Connect `Game`](#connect-game)
+    - [Connect `Scene`](#connect-scene)
 
 ## Introduction
 
 This is a little overview of what can be a 2D game based on the javascript language. You will find all the code at [https://github.com/mcgivrer/ufo](https://github.com/mcgivrer/ufo).
 The project is developed by myself, and you could contact me for any question at [https://gitter.im/SnapGames/ufo](https://gitter.im/SnapGames/ufo).
 
->**NOTE**
->You will need to know how to code classes and modules with javascript, but you won’t need to know anything about game development.
-
-
+> **NOTE**
+> You will need to know how to code classes and modules with javascript, but you won’t need to know anything about game development.
 
 ## Basic Javascript framework
 
@@ -127,7 +123,7 @@ Here is the screen map of the game, as a development guide to, step by step, bui
 
 ![Game Scene Map](images/ufo-0001-map-diagram.svg)
 
-*illustration 2 - The Game map where all screens appear.*
+_illustration 2 - The Game map where all screens appear._
 
 All those screens will be developed in this small project.
 But to realize such a game, we need some basic elements, a basement for all the code we need to create.
@@ -145,12 +141,9 @@ Let’s go to basic a create a good old `index.html` page:
 ```html
 <html lang="en">
   <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" 
-          content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" 
-          type="text/css" 
-          href="styles/main.css">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="styles/main.css" />
     <title>UFO</title>
   </head>
   <body>
@@ -164,23 +157,23 @@ _illustration 1 - the entry point: index.html_
 
 A little bit of structure explanation. The `index.html` page, is a brave default piece of HTML.
 The header will contain all not displayed information, let’s talk about metadata about the page, and the body will describe the visible part. from title to text and images in a standard page.
-The header in our index page will define the title of the page with the `<title\>` tag, and set a default CSS file where to define global styles of rendering for any text or other visual tag in our page. this file will be the `styles/main.css` file. it will reset some default  behaviors of the browser and set some values for our own needs. we will dig with detail those css commands later.
+The header in our index page will define the title of the page with the `<title\>` tag, and set a default CSS file where to define global styles of rendering for any text or other visual tag in our page. this file will be the `styles/main.css` file. it will reset some default behaviors of the browser and set some values for our own needs. we will dig with detail those css commands later.
 
 ## The JavaScript main.mjs
 
 The `main.mjs` file is a JavaScript module to start the `Game` object and request a frame update to the browser to call with constant frequency to update the game. This will call our game loop, through the `Game#update()` method.
 
 ```javascript
-import {Game} from './game.mjs';
-let start=0;
+import { Game } from "./game.mjs";
+let start = 0;
 let game = new Game("ufo");
 game.run();
 requestAnimationFrame(step);
- function step(timestamp) {
+function step(timestamp) {
   var progress;
   if (start === null) start = timestamp;
   progress = timestamp - start;
-  game.update(progress)
+  game.update(progress);
   requestAnimationFrame(step);
 }
 ```
@@ -210,7 +203,6 @@ _This is a Electron Beam into a CRT screen_
 
 _A bubble armed glass of a CRT_
 
-
 The electron beam swiped the entire phosphorescent screen to draw all lines of an image, and I won’t go through the different image size standard (PAL, SECAM, NTSC, etc…) but during the time the beam back to upper top screen, the electron gun is disabled, and this time, between each image (25/s or 30/s, depending on those standards) is the one used by a computer to redraw all the image before display. so, 1s/25 images results of 40ms to compute and draw everything (in the best case).
 So, the Game loop frequency is based on those 40 ms cycles.
 
@@ -227,7 +219,7 @@ So the game loop is like the following simplified algorithm:
 loop(){
   while(!exit()){
     time = currentTimeMillis()
-    elapsed = time - previous 
+    elapsed = time - previous
     input()
     update(elapsed)
     draw()
@@ -248,7 +240,7 @@ In our case, playing with a JavaScript program, we are forced to interact with a
 The `<canvas/>` tag is the open door to all the needed technology we need to detect user or environment action, display 2D or 3D graphics, with some fancy tricks to draw with WebGL, a power interface to advanced graphics capabilities.
 
 But the `Game` class itself only needs to manage the main loop.
-The only way to request the browser to integrate the draw of our game with the web page rendering.  This will be achieved by calling the `requestAnimationFrame` function.
+The only way to request the browser to integrate the draw of our game with the web page rendering. This will be achieved by calling the `requestAnimationFrame` function.
 
 In the `main.mjs` file:
 
@@ -257,7 +249,7 @@ function step(timestamp) {
   var progress;
   if (start === null) start = timestamp;
   progress = timestamp - start;
-  game.update(progress)
+  game.update(progress);
   requestAnimationFrame(step);
 }
 ```
@@ -268,15 +260,15 @@ The step function links the `Game#update()` with the `requestAnimationFrame()`. 
 
 ```javascript
 class Game {
-    constructor(canvasId) { }
-    init(){ }
-    resizeCanvas() { }
-    keyPressed(e){ }
-    keyReleased(e){ }  
-    update(elapsed) { }
-    run() { }
-  }
-export {Game};
+  constructor(canvasId) {}
+  init() {}
+  resizeCanvas() {}
+  keyPressed(e) {}
+  keyReleased(e) {}
+  update(elapsed) {}
+  run() {}
+}
+export { Game };
 ```
 
 _illustration 4 - The Game class, where all begin._
@@ -297,7 +289,7 @@ constructor(canvasId) {
   this.scene  = this.scenes[0]
   this.debug  = 0
   this.pause = false
-      
+
   this.stageConfig = {
     width: window.innerWidth,
     height: window.innerHeight,
@@ -315,7 +307,7 @@ constructor(canvasId) {
 _illustration 5 - The constructor to rule them all._
 
 First, we retrieve the canvas in the index.html page by its tag identifier.
-Then, we link some JavaScript events to our code: `keydown`, `keyup` and `resize`. These events are, by apparition order, keyboard keys events, `keyup` and `keydown`,  and the window resize event.
+Then, we link some JavaScript events to our code: `keydown`, `keyup` and `resize`. These events are, by apparition order, keyboard keys events, `keyup` and `keydown`, and the window resize event.
 
 And then, initialize some class internal attributes, we will go deeper in those attributes later, and we set the canvas size.
 
@@ -351,16 +343,16 @@ We will find the init, update and some specific event listeners to react on `key
 The file scene.mjs contains the following code:
 
 ```javascript
-class Scene{
-    constructor(g){}
-    add(o){}
-    init(){}
-    keyPressed(e){}
-    keyReleased(e){}
-    update(elapsed){}
-    draw(render,elapsed,startTime){}
+class Scene {
+  constructor(g) {}
+  add(o) {}
+  init() {}
+  keyPressed(e) {}
+  keyReleased(e) {}
+  update(elapsed) {}
+  draw(render, elapsed, startTime) {}
 }
-export {Scene};
+export { Scene };
 ```
 
 _illustration 7 - The Scene class, to add some game screen._
@@ -437,75 +429,80 @@ But let’s analyze this class, see the `gameobject.mjs`:
 
 ```javascript
 class GameObject {
-  constructor(name,p,v,s) {
-    this.name=name
-    this.position = p
-    this.size = s
-    this.velocity = v
-    this.acceleration = {x:0,y:0}
-    this.color='red'
-    this.isConstrainedToWindow = true
-    this.layer=1
-    this.priority=1
+  constructor(name, p, v, s) {
+    this.name = name;
+    this.position = p;
+    this.size = s;
+    this.velocity = v;
+    this.acceleration = { x: 0, y: 0 };
+    this.color = "red";
+    this.isConstrainedToWindow = true;
+    this.layer = 1;
+    this.priority = 1;
 
     this.properties = {
       elasticity: 1.0,
       rugosity: 1.0,
-      mass:1.0
-    }
-    this.contact=false;
+      mass: 1.0,
+    };
+    this.contact = false;
   }
   draw(c) {
-    c.save()
-    c.beginPath()
-    c.arc(this.position.x, this.position.y, 
-      this.size.width, 0, Math.PI * 2, false)
-    c.fillStyle = this.color
-    c.fill()
-    c.closePath()
-    c.restore()
+    c.save();
+    c.beginPath();
+    c.arc(
+      this.position.x,
+      this.position.y,
+      this.size.width,
+      0,
+      Math.PI * 2,
+      false
+    );
+    c.fillStyle = this.color;
+    c.fill();
+    c.closePath();
+    c.restore();
   }
-  update(elapsed) {
-  }
+  update(elapsed) {}
 }
-export {GameObject};
+export { GameObject };
 ```
 
 _illustration 13 - The GameObject, the heart of our game._
 
 In the `constructor(name, p, v, s)` all the `GameObject` attributes are initialized with method parameters values or with default values.
 
-A traditional `name`, a key to find an object in the rendering pipeline or in the scene, `p` is a 2D vector position, `v` is a 2D vector for velocity, and `s` is a 2D vector  to define the `GameObject` size.
+A traditional `name`, a key to find an object in the rendering pipeline or in the scene, `p` is a 2D vector position, `v` is a 2D vector for velocity, and `s` is a 2D vector to define the `GameObject` size.
 
 the other attributes are speakitself:
 
 ```javascript
-    this.color='red'
+this.color = "red";
 ```
 
 The next ones are for rendering pipeline in the `Render` class:
 
 ```javascript
-    this.layer=1
-    this.priority=1
+this.layer = 1;
+this.priority = 1;
 ```
 
 The properties are the physic engine’s attributes for the `GameObject`, the `acceleration`, and some special characteristics about the `elasticity`, `rugosity` and `mass`.
 
 ```javascript
-    this.acceleration = {x:0,y:0}
-    this.properties = {
-      elasticity: 1.0,
-      rugosity: 1.0,
-      mass:1.0
-    }
+this.acceleration = { x: 0, y: 0 };
+this.properties = {
+  elasticity: 1.0,
+  rugosity: 1.0,
+  mass: 1.0,
+};
 ```
 
 The last ones are for collision management.
 
 ```javascript
-    this.contact=false;
-    this.isConstrainedToWindow = true
+this.contact = false;
+this.isConstrainedToWindow = true;
 ```
 
 These attributes will be also used for `PhysicsEngine` mechanics computation and collision reaction.
@@ -516,24 +513,24 @@ The draw of the `objects` is delegated to the `Render` class. Let's have a look 
 
 ```javascript
 class Render {
-    constructor(game, canvas) {
-        this.game    = game
-        this.canvas  = canvas
-        this.ctx     = canvas.getContext("2d")
-        this.objects = []
-        this.layers  = []
-        this.layersMap = new Map()
-    }
-    add(object) { }
-    remove(object) { }
-    removeAll(){ }
-    clear(){ }
-    draw(elapsed,startTime) { }
-    drawDebugLineInfo(elapsed,startTime){ }
-    drawPause(){ }
-    resize(stageConfig){ }
+  constructor(game, canvas) {
+    this.game = game;
+    this.canvas = canvas;
+    this.ctx = canvas.getContext("2d");
+    this.objects = [];
+    this.layers = [];
+    this.layersMap = new Map();
+  }
+  add(object) {}
+  remove(object) {}
+  removeAll() {}
+  clear() {}
+  draw(elapsed, startTime) {}
+  drawDebugLineInfo(elapsed, startTime) {}
+  drawPause() {}
+  resize(stageConfig) {}
 }
-export {Render}
+export { Render };
 ```
 
 _illustration 14 - The Render class_
@@ -541,15 +538,15 @@ _illustration 14 - The Render class_
 First, as for any other class, we have a constructor initializing numerous attributes. one is very important, it is the canvas context, the API needed to draw anything on the canvas. As we are building a 2D game, we will play with the 2D version of the API.
 
 ```javascript
-this.ctx     = canvas.getContext("2d")
+this.ctx = canvas.getContext("2d");
 ```
 
 Three others attributes are mandatory:
 
 ```javascript
-this.objects = []
-this.layers  = []
-this.layersMap = new Map()
+this.objects = [];
+this.layers = [];
+this.layersMap = new Map();
 ```
 
 `objects`, `layers` and layersMap are the rendering object pipeline.
@@ -564,25 +561,26 @@ The class Layer is a useful piece of POJO (where POJO=Plain Old Javascript Objec
 
 ```javascript
 class Layer {
-    constructor(index) {
-        this.index = index
-        this.objects = []
-    }
-    sort() {
-        this.objects.sort((o1, o2) => {
-            return (o1.priority > o2.priority ? 1 : -1)
-        })
-    }
+  constructor(index) {
+    this.index = index;
+    this.objects = [];
+  }
+  sort() {
+    this.objects.sort((o1, o2) => {
+      return o1.priority > o2.priority ? 1 : -1;
+    });
+  }
 }
 ```
-As described just before, this class has 2 attributes, a index, a number in the rendering pipeline and an identifier used into all GameObject (see layer attribute) to be displayed on the same plane, and the resulting  object list.
+
+As described just before, this class has 2 attributes, a index, a number in the rendering pipeline and an identifier used into all GameObject (see layer attribute) to be displayed on the same plane, and the resulting object list.
 
 ### Managing objects
 
-The Render class propose some helpers to add or remove objects into/frol the pipeline. 
+The Render class propose some helpers to add or remove objects into/frol the pipeline.
 
 - `add(GameObject)` will add a gameobject to the objects list and into the right Layer. Is no layer with the requestinindex exists, it will be created and added to the layer map and the layer list.
-- `remove(GameObject)` will remove the corresponding object from the objects list, and from the layer.  If the corresponding layer is empty, it will be destroyed.
+- `remove(GameObject)` will remove the corresponding object from the objects list, and from the layer. If the corresponding layer is empty, it will be destroyed.
 - `removeAll()` will remove all objects from the rendering pipeline by reseting objects and layer list and renewing the layer map.
 
 ![The Render model](https://www.planttext.com/api/plantuml/svg/SoWkIImgAStDKGXApKj9BLBmpKz9pU62SfGCbHHqTHMKj9GKt1DpK_sJibAJIwpomLGn5aK-YPMfHLOv818k3PJoJIo02W9PN0v0SQ250000)
@@ -639,42 +637,49 @@ A simple formula to produce the required effect: the position of the camera if f
     x += ((target.x + target.width - viewport.width * 0.5f) - x) * tween * elapsed;
     y += ((target.y + target.height - viewport.height * 0.5f) - y) * tween * elapsed;
 ```
+
 _illustration 17 - The secret computation of camera position_
 
 The Camera object will be very simple with draw and update overloaded :
 
 ```javascript
-class Camera extends GameObject{
-    constructor(name, tween, target, viewport){
-        super(name)
-        this.tween = tween
-        this.target = target
-        this.viewport = viewport
-        this.size = viewport
-    }
+class Camera extends GameObject {
+  constructor(name, tween, target, viewport) {
+    super(name);
+    this.tween = tween;
+    this.target = target;
+    this.viewport = viewport;
+    this.size = viewport;
+  }
 
-    update(elapsed){
-        this.position.x += 
-          ((target.position.x + target.size.width - this.viewport.width * 0.5) 
-          - this.position.x) * this.tween * elapsed;
-        this.position.y += 
-          ((target.position.y + target.size.height - this.viewport.height * 0.5) 
-          - this.position.y) * this.tween * elapsed;
-    }
+  update(elapsed) {
+    this.position.x +=
+      (target.position.x +
+        target.size.width -
+        this.viewport.width * 0.5 -
+        this.position.x) *
+      this.tween *
+      elapsed;
+    this.position.y +=
+      (target.position.y +
+        target.size.height -
+        this.viewport.height * 0.5 -
+        this.position.y) *
+      this.tween *
+      elapsed;
+  }
 
-    draw(c){
-        c.strokeColor = 'yellow'
-        c.rect(
-          this.position.x,
-          this.position.y,
-          this.size.width,
-          this.size.height)
-    }
+  draw(c) {
+    c.strokeColor = "yellow";
+    c.rect(this.position.x, this.position.y, this.size.width, this.size.height);
+  }
 }
 ```
+
 _illustration 18 - `Camera` object inheriting from `GameObject`_
 
 Without any surprise, the `update()` method compute the camera position according to the target position and the size of the viewport, while the `draw()` method will draw a simple rectangle according to the camera size property.
+
 ### Scene
 
 OK, that we know having a camera, maybe we need to integrate it into our Scene class to make it work fine, but beyond all, draw scene from the camera point of view.
@@ -688,6 +693,7 @@ class Scene {
     }
     ...
 ```
+
 _illustration xx - Make Scene know camera_
 
 and then let develop make adding camera:
@@ -752,9 +758,9 @@ In a second step, let's take it in account at draw time.
 So first, we move the point of view to the camera position, corresponding to move the scene at the opposite vector of the camera position:
 
 ```javascript
-  if (this.camera !== undefined) {
-      this.ctx.translate(-this.camera.position.x, -this.camera.position.y)
-  }
+if (this.camera !== undefined) {
+  this.ctx.translate(-this.camera.position.x, -this.camera.position.y);
+}
 ```
 
 and then draw all objects:
@@ -773,9 +779,9 @@ and then draw all objects:
 and finaly, move back to initial position.
 
 ```javascript
-  if (this.camera !== undefined) {
-      this.ctx.translate(this.camera.position.x, this.camera.position.y)
-  }
+if (this.camera !== undefined) {
+  this.ctx.translate(this.camera.position.x, this.camera.position.y);
+}
 ```
 
 Let's operate the magic !
@@ -791,7 +797,7 @@ One of the best known ways to produce visual effects in video games (and before 
 A Particle is the minimum animated graphical element in a system composed of numerous (but limited) other of this basic element.
 Let's dive into an example.
 
-You want to simulate rain in your game. particles are the exact artifact to use to produce such effect. A drop is the particle. Each separate drop has the same visual rendering, but have separate animation needs, obeying to its own physics. 
+You want to simulate rain in your game. particles are the exact artifact to use to produce such effect. A drop is the particle. Each separate drop has the same visual rendering, but have separate animation needs, obeying to its own physics.
 
 The graphic part is shared between all the drops, and also the algorithm animating those drops, even if each drop has its own visual behavior, it is computed through the same animation logic.
 
@@ -806,7 +812,6 @@ But not only weather, you can also create great fire effects, burning torches, e
 _A ParticleSystem and its own articles_
 
 If you want to define a ParticleSystem, like a GameObject, you will need to set a position for this object, an optional object speed, for the particle system move, and a number of particles for this system, and a common update process for this bunch of particles.
-
 
 Start the `Particle`'s adventure with the rain effect.
 
@@ -870,6 +875,7 @@ In this constructor, you can notice that an Array initialization with a defined 
 #### Create and update
 
 To create the drops and animate them, we need to define 2 more methods:
+
 - `createParticle()` will define how to create the particle at array initialization,
 - `updateParticle()` wil define how to update a particle on a normal game loop.
 
@@ -1003,7 +1009,6 @@ If you restart your browser with this updated piece of code, you will seen such 
 
 <img src="images/ufo-particles-rainps-screenshot.png" alt="Rain Particle Effect" title="the Rain particle effect results of the RainPS class" />
 
-
 ## Annexes
 
 ### Gamepad API integration
@@ -1016,30 +1021,27 @@ First, detecting connected Gamepads, Second listen to events and call correspond
 
 _illusration XX - The W3C Gamepad API buttons and sticks standard mapping proposal [^2]_
 
-
-
 #### Detect devices
 
-To use the gamepads to our game, we need to make our code aware of there connection: 
+To use the gamepads to our game, we need to make our code aware of there connection:
 
-*TODO*
+_TODO_
 
 #### Detect button events
 
-*TODO*
+_TODO_
 
 #### Identify `UserPlayer`
 
-*TODO*
+_TODO_
 
 #### Connect `Game`
 
-*TODO*
+_TODO_
 
 #### Connect `Scene`
 
-*TODO*
+_TODO_
 
-[^1]: see mozilla bugtracker[https://bugzilla.mozilla.org/show_bug.cgi?id=527386](https://bugzilla.mozilla.org/show_bug.cgi?id=527386) for details 
-
+[^1]: see mozilla bugtracker[https://bugzilla.mozilla.org/show_bug.cgi?id=527386](https://bugzilla.mozilla.org/show_bug.cgi?id=527386) for details
 [^2]: W3C illustration from the official W3C spec [https://www.w3.org/TR/gamepad/](https://www.w3.org/TR/gamepad/)

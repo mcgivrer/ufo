@@ -1,7 +1,7 @@
 {
   "name": "ufo",
-  "version": "1.0.0",
-  "description": "a small 2d game with javascript classes and modules",
+  "version": "0.0.4",
+  "description": "This project is a tutorial on how to develop javascript game with minimalistic and useful framework.",
   "main": "index.html",
   "repository": {
     "type": "git",
@@ -16,7 +16,6 @@
   "author": "Frederic Delorme",
   "license": "MIT",
   "dependencies": {
-    "entity": "^0.0.0",
     "parcel": "^1.12.4",
     "yarn": "^1.22.10"
   },
