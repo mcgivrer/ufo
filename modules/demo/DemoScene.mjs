@@ -1,8 +1,14 @@
-import { Scene } from "/modules/core/scene.mjs";
-import { GO_NODURATION } from "/modules/core/gameobject.mjs";
-import { Ball } from "/modules/scene/entity/ball.mjs";
-import { Player } from "/modules/scene/entity/player.mjs";
-import { Camera } from "/modules/core/camera.mjs";
+import { Scene } from "/modules/core/Scene.mjs";
+import { GO_NODURATION } from "/modules/core/GameObject.mjs";
+
+import { RainPS } from "/modules/core/particles/effects/RainPS.mjs";
+import { SnowPS } from "/modules/core/particles/effects/SnowPS.mjs";
+import { FogPS } from "/modules/core/particles/effects/FogPS.mjs";
+
+import { Camera } from "/modules/core/Camera.mjs";
+
+import { Ball } from "/modules/demo/entity/Ball.mjs";
+import { Player } from "/modules/demo/entity/Player.mjs";
 
 const zeroPad = (num, places) => String(num).padStart(places, "0");
 
@@ -11,6 +17,7 @@ class DemoScene extends Scene {
     super(g);
     this.numberObjects = 20;
     this.index = 0;
+    this.viewport = { width: 2000, height: 1000 };
 
     this.properties = {
       score: 0,
@@ -20,24 +27,41 @@ class DemoScene extends Scene {
       mushrooms: 2,
     };
     this.player = {};
+    this.camera = {};
+
+    this.snow = {};
+    this.rain = {};
+    this.fog = {};
+
+    this.currentWeather = 0;
+    this.weatherConditions = new Map();
   }
 
   init(game) {
     this.objects = [];
     this.game.render.clearAllObjects();
-    this.generateBatch(game, "enemy_", 20, true);
     this.player = new Player(
       "player",
       game.stageConfig.width / 2,
       game.stageConfig.height / 2
     );
     this.add(this.player);
-    this.addCamera(
-      new Camera("cam01", 
-        0.002, 
-        this.player, 
-        { width: 2000, height: 1000 })
-    );
+
+    this.rain = new RainPS(game, "rain", 300);
+    this.rain.active = false;
+    this.add(this.rain);
+    this.weatherConditions.set(this.rain.name, this.rain);
+
+    this.snow = new SnowPS(game, "snow", 300);
+    this.snow.active = false;
+    this.add(this.snow);
+    this.weatherConditions.set(this.snow.name, this.snow);
+
+    this.generateBatch(game, "enemy_", 20, true);
+
+    this.camera = new Camera("cam01", 0.002, this.player, this.viewport);
+    this.addCamera(this.camera);
+
     this.setCamera("cam01");
   }
 
@@ -102,15 +126,44 @@ class DemoScene extends Scene {
       case 34:
         this.removeGameObject(10, "player");
         break;
+
       case 33:
         this.generateBatch(this.game, "enemy_", 10);
         break;
+
       case 8:
         this.clearGameObjects("player");
         break;
+
+      case 77:
+        this.changeEffect();
+        break;
+
       case 71:
         this.game.physic.properties.gravity.y = -this.game.physic.properties
           .gravity.y;
+    }
+  }
+
+  /**
+   * Switch between all Weather condition
+   */
+  changeEffect() {
+    this.currentWeather =
+      this.currentWeather + 1 < this.weatherConditions.size
+        ? this.currentWeather + 1
+        : -1;
+
+    this.weatherConditions.forEach((v, k) => {
+      v.active = false;
+    });
+    if (this.currentWeather != -1) {
+      var keys = Array.from(this.weatherConditions.keys());
+      var k = this.weatherConditions.get(keys[this.currentWeather]);
+      this.game.attributes.weatherKey = keys[this.currentWeather];
+      this.weatherConditions.get(keys[this.currentWeather]).active = true;
+    } else {
+      this.game.attributes.weatherKey = "none";
     }
   }
 
@@ -152,6 +205,19 @@ class DemoScene extends Scene {
   input() {
     super.input();
     var acc = this.player.properties.dacc;
+    /*if (this.game.gamepadAPI && this.game.gamepadAPI.gamepads[0]) {
+      //console.log(this.game.gamepadAPI.getAxes(0));
+      if (
+        this.game.gamepadAPI.getAxes(0, 0) != 0 ||
+        this.game.gamepadAPI.getAxes(0, 1) != 0
+      ) {
+        this.player.forces.push({
+          x: this.game.gamepadAPI.getAxes(0, 0),
+          y: this.game.gamepadAPI.getAxes(0, 1),
+        });
+      }
+    }*/
+
     if (this.keys.left) {
       this.player.forces.push({
         x: -acc.x,

@@ -1,4 +1,4 @@
-import {GameObject,GO_NODURATION,GO_TYPE_RECTANGLE} from '/modules/core/gameobject.mjs'
+import {GameObject,GO_NODURATION,GO_TYPE_RECTANGLE} from '/modules/core/GameObject.mjs'
 class Player extends GameObject{
     constructor(name,x,y){
         super(
@@ -14,6 +14,7 @@ class Player extends GameObject{
         this.debug=2
         
         this.properties = {
+            physicType:'DYNAMIC',
             elasticity:0.98,
             mass:2.0,
             friction:0.6,

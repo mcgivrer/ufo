@@ -1,43 +1,20 @@
-import { Render } from "./render.mjs";
-import { PhysicEngine } from "./physicengine.mjs";
-import { Collider } from "./collider.mjs";
+import { Render } from "/modules/core/Render.mjs";
+import { PhysicEngine } from "/modules/core/math/PhysicEngine.mjs";
+import { Collider } from "/modules/core/Collider.mjs";
+import {GamepadAPI} from '/modules/core/input/GamepadAPI.mjs'
 
 class Game {
   constructor(canvasId) {
     this.canvas = document.getElementById(canvasId);
     this.gamepads = {};
+    this.attributes = {
+      weatherKey:"none"
+    };
 
     window.addEventListener("keydown", this.keyPressed.bind(this), false);
     window.addEventListener("keyup", this.keyReleased.bind(this), false);
     window.addEventListener("resize", this.resizeCanvas.bind(this), false);
-
-    // experimental
-    window.addEventListener(
-      "gamepadconnected",
-      function (e) {
-        console.log(
-          "Contrôleur n°%d connecté : %s. %d boutons, %d axes.",
-          e.gamepad.index,
-          e.gamepad.id,
-          e.gamepad.buttons.length,
-          e.gamepad.axes.length
-        );
-        gamepadHandler(e, true);
-      },
-      false
-    );
-    window.addEventListener(
-      "gamepaddisconnected",
-      function (e) {
-        console.log(
-          "Contrôleur n°%d déconnecté : %s",
-          e.gamepad.index,
-          e.gamepad.id
-        );
-        gamepadHandler(e, false);
-      },
-      false
-    );
+    this.gamepadAPI = new GamepadAPI(this);
 
     this.scenes = [];
     this.scene = null;
@@ -55,18 +32,6 @@ class Game {
     this.physic = new PhysicEngine(this);
     this.collider = new Collider(this);
     this.lastTime = 0;
-  }
-
-  gamepadHandler(event, connecting) {
-    var gamepad = event.gamepad;
-    // Note :
-    // gamepad === navigator.getGamepads()[gamepad.index]
-
-    if (connecting) {
-      this.gamepads[gamepad.index] = gamepad;
-    } else {
-      delete this.gamepads[gamepad.index];
-    }
   }
 
   init() {
@@ -109,6 +74,12 @@ class Game {
     }
     this.scene.keyReleased(e);
   }
+  gamepadPressed(b){
+    console.log(b)
+  }
+  gamepadReleased(b){
+    console.log(b)
+  }
 
   update(elapsed) {
     this.frameTime = elapsed - this.lastTime;
@@ -116,8 +87,10 @@ class Game {
     if (this.scene) {
       // Update Objects from the scene.
       if (!this.pause) {
+        this.gamepadAPI.handleGamepads(this)
         this.scene.input();
         this.physic.update(this.scene, this.frameTime);
+        this.scene.update(elapsed);
       }
       // Draw all objects of the scene.
       this.scene.draw(this.render, this.frameTime, elapsed);
