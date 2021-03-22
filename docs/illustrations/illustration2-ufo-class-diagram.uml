@@ -1,0 +1,46 @@
+@startuml
+class Game{
+    +title:String
+}
+class GameObject{
+    +position:vec2d
+    +velocity:vec2d
+    +acceleration:vec2d
+    +layer:int
+    +priority:int
+}
+class BoundingBox{
+    +x:double
+    +y:double
+    +w:double
+    +h:double
+    +layer:int
+}
+class Asteroid extends GameObject{
+    +energy:int
+}
+class Ship extends GameObject{
+    +energy:int
+    +lifes:int
+    +fuel:int
+}
+class Scene{
+    +name:String
+    +game:Game
+}
+class DemoScene extends Scene
+class Render{
+    +game:Game
+}
+class PhysicEngine{
+    +game:Game
+}
+Game *-- Render:render
+Game *-- PhysicEngine:physic
+Game "1" -- "*" Scene:scenes
+Game "1" -- "1" Scene:scene
+Scene "1" -- "n" GameObject:objects
+Render "1" -- "n" GameObject:objects
+GameObject "1" -- "n" GameObject:child
+GameObject "1" -- "1" BoundingBox:bbox
+@enduml

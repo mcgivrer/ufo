@@ -1,13 +1,16 @@
-html body {
-    background-color:#000000;
-    padding:0px;
-    margin:0px;
+html > * {
+  background-color: #000000;
+  padding: 0px;
+  margin: 0px;
 }
-
+body {
+  overflow-y: hidden; /* Hide vertical scrollbar */
+  overflow-x: hidden; /* Hide horizontal scrollbar */
+}
 canvas {
-    width:600px;
-    height:600px;
-    padding:0px;
-    margin:0px;
-    border:1px solid #333;
+  padding: 0px;
+  margin: 0px;
+  border: 0px solid #333;
+  width: 100%;
+  height: auto;
 }

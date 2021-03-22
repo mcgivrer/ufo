@@ -1,0 +1,30 @@
+{
+  "name": "ufo",
+  "version": "0.0.4",
+  "description": "This project is a tutorial on how to develop javascript game with minimalistic and useful framework.",
+  "main": "index.html",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:mcgivrer/ufo.git"
+  },
+  "keywords": [
+    "gamedev",
+    "javascript",
+    "modules",
+    "classes"
+  ],
+  "author": "Frederic Delorme",
+  "license": "MIT",
+  "dependencies": {
+    "parcel": "^1.12.4",
+    "yarn": "^1.22.10"
+  },
+  "devDependencies": {
+    "parcel-bundler": "^1.12.4"
+  },
+  "scripts": {
+    "dev": "parcel index.html",
+    "build": "parcel build ./index.html",
+    "start": "parcel serve ./index.html"
+  }
+}
